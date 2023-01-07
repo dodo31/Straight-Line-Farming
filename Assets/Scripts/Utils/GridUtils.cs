@@ -2,25 +2,17 @@ using UnityEngine;
 
 public class GridUtils
 {
-    public enum Direction
-    {
-        DOWN,
-        UP,
-        LEFT_DOWN,
-        LEFT_UP,
-        RIGHT_DOWN,
-        RIGHT_UP
-    }
-    public const float HOR_SPACE_SCREEN_POS = 0;
-    public const float VER_SPACE_SCREEN_POS = 0;
-    public static Vector2Int GetGridPosInDirection(Vector2Int gridPosFrom, Direction dir)
+    public const float HOR_SPACING = 1;
+    public const float VER_SPACING = 1;
+
+    public static Vector2Int GetGridPosInDirection(Vector2Int gridPosFrom, Directions dir)
     {
         Vector2Int gridPosTo = new();
-        if (dir == Direction.LEFT_DOWN || dir == Direction.LEFT_UP)
+        if (dir == Directions.LEFT_DOWN || dir == Directions.LEFT_UP)
         {
             gridPosTo.x = gridPosFrom.x - 1;
         }
-        else if (dir == Direction.RIGHT_DOWN || dir == Direction.RIGHT_UP)
+        else if (dir == Directions.RIGHT_DOWN || dir == Directions.RIGHT_UP)
         {
             gridPosTo.x = gridPosFrom.x + 1;
         }
@@ -29,11 +21,11 @@ public class GridUtils
             gridPosTo.x = gridPosFrom.x;
         }
 
-        if (gridPosFrom.x % 2 == 0 && (dir == Direction.LEFT_UP || dir == Direction.RIGHT_UP))
+        if (gridPosFrom.x % 2 == 0 && (dir == Directions.LEFT_UP || dir == Directions.RIGHT_UP))
         {
             gridPosTo.y = gridPosFrom.y - 1;
         }
-        else if (gridPosFrom.x % 2 == 1 && (dir == Direction.LEFT_DOWN || dir == Direction.RIGHT_DOWN))
+        else if (gridPosFrom.x % 2 == 1 && (dir == Directions.LEFT_DOWN || dir == Directions.RIGHT_DOWN))
         {
             gridPosTo.y = gridPosFrom.y + 1;
         }
@@ -41,7 +33,7 @@ public class GridUtils
         return gridPosTo;
     }
 
-    public static Direction GetDirectionFromGridPos(Vector2Int fromGridPos, Vector2Int toGridPos)
+    public static Directions GetDirectionFromGridPos(Vector2Int fromGridPos, Vector2Int toGridPos)
     {
         int distX = toGridPos.x - fromGridPos.x;
         float distY = toGridPos.y - fromGridPos.y + (1 - toGridPos.x % 2) / 2f - (1 - toGridPos.x % 2) / 2f;
@@ -51,22 +43,22 @@ public class GridUtils
             {
                 if (distY > 0)
                 {
-                    return Direction.RIGHT_UP;
+                    return Directions.RIGHT_UP;
                 }
                 else
                 {
-                    return Direction.RIGHT_DOWN;
+                    return Directions.RIGHT_DOWN;
                 }
             }
             else
             {
                 if (distY > 0)
                 {
-                    return Direction.LEFT_UP;
+                    return Directions.LEFT_UP;
                 }
                 else
                 {
-                    return Direction.LEFT_DOWN;
+                    return Directions.LEFT_DOWN;
                 }
             }
         }
@@ -74,17 +66,21 @@ public class GridUtils
         {
             if (distY > 0)
             {
-                return Direction.UP;
+                return Directions.UP;
             }
             else
             {
-                return Direction.DOWN;
+                return Directions.DOWN;
             }
         }
     }
 
     public static Vector2 GetScreenPosFromGridPos(Vector2Int gridPos)
     {
-        return new Vector2(HOR_SPACE_SCREEN_POS * gridPos.x, VER_SPACE_SCREEN_POS * (gridPos.y + (1 - gridPos.x % 2) / 2f));
+        return new Vector2
+        {
+            x = HOR_SPACING * gridPos.x,
+            y = VER_SPACING * (gridPos.y + (1 - gridPos.x % 2) / 2f)
+        };
     }
 }
