@@ -49,7 +49,7 @@ public class GridUtils
         int deltaX = endCoord.x - startCoord.x;
         float deltaY = endCoord.y - startCoord.y + (1 - endCoord.x % 2) / 2f - (1 - endCoord.x % 2) / 2f;
         
-        if (Mathf.Abs(deltaX) >= Mathf.Abs(deltaY))
+        if (Mathf.Abs(deltaX)*1.45f >= Mathf.Abs(deltaY))
         {
             if (deltaX > 0)
             {
