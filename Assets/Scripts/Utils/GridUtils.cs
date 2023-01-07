@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GridUtils
 {
-    public const float HOR_SPACING = 1;
-    public const float VER_SPACING = 1;
+    public const float HOR_SPACING = 1.0f;
+    public const float VER_SPACING = 0.85f;
 
     public static Vector2Int GetGridPosInDirection(Vector2Int gridPosFrom, Directions dir)
     {
