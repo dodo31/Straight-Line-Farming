@@ -3,21 +3,44 @@ using UnityEngine;
 
 public class FarmTileController : TileController
 {
+    private bool isHovered;
+
     protected new void Awake()
     {
         base.Awake();
+
+        isHovered = false;
+
         SetInactive();
     }
 
     private void OnMouseEnter()
     {
-        Debug.Log("OK");
         SetHovered();
+        isHovered = true;
+    }
+
+    private void OnMouseDown()
+    {
+        SetActive();
+    }
+
+    private void OnMouseUp()
+    {
+        if (isHovered)
+        {
+            SetHovered();
+        }
+        else
+        {
+            SetInactive();
+        }
     }
 
     private void OnMouseExit()
     {
         SetInactive();
+        isHovered = false;
     }
 
     public void SetHovered()
