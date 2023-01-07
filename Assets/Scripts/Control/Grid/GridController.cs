@@ -9,6 +9,9 @@ public class GridController : MonoBehaviour
     [SerializeField]
     private TileController FarmTilePrefab;
 
+    [SerializeField]
+    private GridSizes gridSizes;
+
     private Grid grid;
 
     protected void Start()
@@ -35,9 +38,9 @@ public class GridController : MonoBehaviour
                 Tile tile = column[rowIndex];
                 TileController newTile = null;
 
-                float centerDistance = Vector2.Distance(centerCoord, tile.Coord + new Vector2(0.5f, 0.25f));
+                //float centerDistance = Vector2.Distance(centerCoord, tile.Coord + new Vector2(0.5f, 0.25f));
 
-                if (centerDistance <= 2.5f)
+                if (gridSizes.gridSizes[columnIndex][rowIndex] == 'B')
                 {
                     newTile = Instantiate(FarmTilePrefab);
                 }
