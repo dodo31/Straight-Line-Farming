@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class TileController : MonoBehaviour
@@ -6,6 +7,10 @@ public abstract class TileController : MonoBehaviour
 
     [SerializeField]
     protected SpriteRenderer overlayRenderer;
+
+    public event Action<TileController, Vector2> OnDragStart;
+    public event Action<TileController> OnDragUpdate;
+    public event Action<TileController> OnDragEnd;
 
     protected void Awake()
     {

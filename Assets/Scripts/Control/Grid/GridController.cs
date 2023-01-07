@@ -1,20 +1,63 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
     [SerializeField]
-    private TileController BorderTilePrefab;
+    private TileController borderTilePrefab;
 
     [SerializeField]
-    private TileController FarmTilePrefab;
+    private TileController farmTilePrefab;
+
+    [SerializeField]
+    private Transform tilesContainer;
+
+    [SerializeField]
+    private LineSelectionController lineSelection;
 
     private Grid grid;
+
+    private bool isDraggingTile;
 
     protected void Start()
     {
         grid = new Grid();
+
+        isDraggingTile = false;
+
         GenerateGrid();
+    }
+
+    protected void Update()
+    {
+        if (!isDraggingTile)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
+
+                if (hit.collider != null && hit.transform.TryGetComponent<TileController>(out TileController tileController))
+                {
+                    lineSelection.StartSelection();
+                    isDraggingTile = true;
+                    
+                    Debug.Log(isDraggingTile);
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                lineSelection.EndSelection();
+                isDraggingTile = false;
+            }
+            else
+            {
+                lineSelection.UpdateSelection();
+            }
+        }
     }
 
     private void GenerateGrid()
@@ -37,14 +80,14 @@ public class GridController : MonoBehaviour
 
                 if (centerDistance <= 2.5f)
                 {
-                    newTileController = Instantiate(FarmTilePrefab);
+                    newTileController = Instantiate(farmTilePrefab);
                 }
                 else
                 {
-                    newTileController = Instantiate(BorderTilePrefab);
+                    newTileController = Instantiate(borderTilePrefab);
                 }
 
-                newTileController.transform.SetParent(transform);
+                newTileController.transform.SetParent(tilesContainer);
 
                 Vector2 tilePosition = GridUtils.GetScreenPosFromGridPos(tile.Coord);
                 newTileController.transform.localPosition = tilePosition;
@@ -63,7 +106,7 @@ public class GridController : MonoBehaviour
             }
         }
 
-        transform.position = transform.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
+        tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
 
     private TileController[] GetTiles()

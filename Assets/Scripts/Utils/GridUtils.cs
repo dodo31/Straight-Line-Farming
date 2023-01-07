@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GridUtils
 {
-    public const float TILES_WIDTH = 0.5f;
-    public const float TILES_HEIGHT = 0.5f;
+    public const float TILES_WIDTH = 1f;
+    public const float TILES_HEIGHT = 1f;
 
     public static Vector2Int GetGridPosInDirection(Vector2Int gridPosFrom, Directions dir)
     {
