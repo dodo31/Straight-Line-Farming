@@ -22,15 +22,24 @@ public class GridUtils
             gridPosTo.x = startCoord.x;
         }
 
-        if (startCoord.x % 2 == 0 && (direction == Directions.LEFT_UP || direction == Directions.RIGHT_UP))
-        {
-            gridPosTo.y = startCoord.y - 1;
-        }
-        else if (startCoord.x % 2 == 1 && (direction == Directions.LEFT_DOWN || direction == Directions.RIGHT_DOWN))
+        if (direction == Directions.UP)
         {
             gridPosTo.y = startCoord.y + 1;
         }
+        else if (direction == Directions.DOWN)
+        {
+            gridPosTo.y = startCoord.y - 1;
+        }
+        else if (startCoord.x % 2 == 0 && (direction == Directions.LEFT_UP || direction == Directions.RIGHT_UP))
+        {
+            gridPosTo.y = startCoord.y + 1;
+        }
+        else if (startCoord.x % 2 == 1 && (direction == Directions.LEFT_DOWN || direction == Directions.RIGHT_DOWN))
+        {
+            gridPosTo.y = startCoord.y - 1;
+        }
         else gridPosTo.y = startCoord.y;
+        //Debug.Log("(" + startCoord.x + ";" + startCoord.y + ") -> (" + gridPosTo.x + ";" + gridPosTo.y + ") (" + direction.ToString()+")" );
 
         return gridPosTo;
     }

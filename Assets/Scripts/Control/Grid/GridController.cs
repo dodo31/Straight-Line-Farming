@@ -53,13 +53,15 @@ public class GridController : MonoBehaviour
 
                 //float centerDistance = Vector2.Distance(centerCoord, tile.Coord + new Vector2(0.5f, 0.25f));
 
-                if (gridSizes.gridSizes[columnIndex][rowIndex] == 'B')
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B')
                 {
                     newTileController = Instantiate(farmTilePrefab);
+                    tile.Type = TileTypes.Farm;
                 }
                 else
                 {
                     newTileController = Instantiate(borderTilePrefab);
+                    tile.Type = TileTypes.Border;
                 }
 
                 newTileController.transform.SetParent(tilesContainer);
@@ -121,39 +123,47 @@ public class GridController : MonoBehaviour
     {
         Vector2Int startCoord = dragStartTile.Tile.Coord;
         Vector2Int endCoord = endTile.Tile.Coord;
+        Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+        Tile currentTile = dragStartTile.Tile;
 
-        if (!startCoord.Equals(endCoord))
+        if (currentTile.Type != TileTypes.Empty)
         {
-            Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
 
-            Tile currentTile = dragStartTile.Tile;
 
             List<Vector2Int> coords = new List<Vector2Int>();
 
             int safeCount = 0;
 
-            Debug.Log("======================");
+            //Debug.Log("======================");
 
             Debug.Log("FROM: " + startCoord);
             Debug.Log("TO: " + endCoord);
             Debug.Log("DIRECTION : " + selectionDirection);
-
-            while (currentTile != null && safeCount < 10)
+            bool wentOnFarm = currentTile.Type == TileTypes.Farm;
+            do
             {
+                //Debug.Log(currentTile.Type);
                 Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, selectionDirection);
                 currentTile = grid.GetTile(currentCoord);
 
                 coords.Add(currentCoord);
-                Debug.Log(currentCoord);
+                //Debug.Log(currentCoord);
+                wentOnFarm |= currentTile.Type == TileTypes.Farm;
 
                 safeCount++;
-            }
+            } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
+
+
+
 
             TileController realdEndTile = GetTileController(currentTile);
 
-            if (realdEndTile)
+            if (realdEndTile && wentOnFarm)
             {
                 lineSelection.UpdateRowLine(dragStartTile.transform.position, realdEndTile.transform.position);
+            } else
+            {
+                lineSelection.EndSelection();
             }
         }
     }
