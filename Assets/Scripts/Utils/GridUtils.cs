@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GridUtils
 {
-    public const float HOR_SPACING = 1;
-    public const float VER_SPACING = 1;
+    public const float TILES_WIDTH = 0.5f;
+    public const float TILES_HEIGHT = 0.5f;
 
     public static Vector2Int GetGridPosInDirection(Vector2Int gridPosFrom, Directions dir)
     {
@@ -79,8 +79,8 @@ public class GridUtils
     {
         return new Vector2
         {
-            x = HOR_SPACING * gridPos.x,
-            y = VER_SPACING * (gridPos.y + (1 - gridPos.x % 2) / 2f)
+            x = TILES_WIDTH * gridPos.x,
+            y = TILES_HEIGHT * (gridPos.y + (1 - gridPos.x % 2) / 2f)
         };
     }
 }

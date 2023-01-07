@@ -7,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 705363758048732153, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Size.x
+      value: 2.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 705363758048732153, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Size.y
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 705363758048732153, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c185baa2545fd364ab0c878c0c2bbc00, type: 3}
+    - target: {fileID: 705363758048732153, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4043437180351773100, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
       propertyPath: m_Name
       value: Farm Tile
@@ -55,8 +71,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Size.x
+      value: 2.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Size.y
+      value: 2.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b061dc4fa7d631943b3f8fcc3140c3de, type: 3}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Color.r
+      value: 0.017205596
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043437180351773106, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+--- !u!212 &5490668290179644773 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 705363758048732153, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+  m_PrefabInstance: {fileID: 5042678229270617756}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9071971006284572464 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4043437180351773100, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
@@ -74,3 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa3aa3795c6fb44083696eb0c7a4514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overlayRenderer: {fileID: 5490668290179644773}

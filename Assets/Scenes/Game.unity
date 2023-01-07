@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11f8f13ad71ebf41abfa9afec1cf6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BorderTilePrefab: {fileID: 5224365841691637258, guid: 74e4ce3dcc7a9b94988a6ded0ee4d821, type: 3}
+  BorderTilePrefab: {fileID: -2290271807699257245, guid: 0487a7c67d268374183452210231af5d, type: 3}
   FarmTilePrefab: {fileID: -5586102709607090521, guid: e54226f6b9115a84e8749f59d3ee2d20, type: 3}
 --- !u!1 &852351348
 GameObject:
