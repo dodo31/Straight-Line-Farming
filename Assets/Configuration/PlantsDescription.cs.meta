@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/GameController.cs.meta
-guid: 8424ef7c248f9e147bb4f446066ad081
-========
-guid: 4692fa78c99818940a7db17604cb700b
->>>>>>>> dev:Assets/Configuration/PlantDescription.cs.meta
+guid: b91e7f02a1b767849944da403025ccf2
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
