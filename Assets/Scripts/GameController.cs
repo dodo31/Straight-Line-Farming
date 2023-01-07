@@ -2,5 +2,11 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GridController gridController;
+    [SerializeField]
+    private GridController gridController;
+
+    protected void Start()
+    {
+        
+    }
 }
