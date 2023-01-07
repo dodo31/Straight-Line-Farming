@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class Grid
 {
-    private const int SIZE = 11;
+    private const int SIZE = 9;
 
     private List<List<Tile>> tiles;
 
