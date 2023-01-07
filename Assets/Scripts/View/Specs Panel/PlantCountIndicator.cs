@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlantCountIndicator : MonoBehaviour
+public class PlantCounIndicator : MonoBehaviour
 {
     [SerializeField]
     private Image plantImage;

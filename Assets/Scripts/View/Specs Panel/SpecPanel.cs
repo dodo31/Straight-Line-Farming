@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpecPanel : MonoBehaviour
 {
+
     [SerializeField]
     private Text clientText;
 
@@ -25,20 +25,22 @@ public class SpecPanel : MonoBehaviour
 
     [SerializeField]
     private Text gainUnitText;
-    
-    public void AddClientName(string clientName)
+
+    public void SetClientName(string clientName)
     {
         clientText.name = clientName;
     }
-    
-    public void AddClientIcon(Sprite clientIcon)
+
+    public void SetClientIcon(Sprite clientIcon)
     {
         clientImage.sprite = clientIcon;
     }
 
-    public void AddRequiredPlantCount(PlantCounIndicator countIndicator)
+    public void AddRequiredPlantCount(PlantDescription plantDescription, PlantCounIndicator plantCounIndicator, int plantCount)
     {
-        throw new Exception("TODO !");
+        plantCounIndicator.SetPlantType(plantDescription.Type);
+        plantCounIndicator.SetPlantIcon(plantDescription.Sprite);
+        plantCounIndicator.SetPlantCount(plantCount);
     }
 
     public void SetDeadline(int deadline)
