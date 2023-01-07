@@ -219,9 +219,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3635251649866834655, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
       propertyPath: m_Name
-      value: User LIne
+      value: User Line
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
@@ -708,9 +728,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3635251649866834655, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
       propertyPath: m_Name
-      value: Row LIne
+      value: Row Line
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}

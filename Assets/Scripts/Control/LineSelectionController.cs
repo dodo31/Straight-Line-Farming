@@ -22,7 +22,7 @@ public class LineSelectionController : MonoBehaviour
         userLine.enabled = true;
     }
 
-    public void UpdateSelection()
+    public void UpdateSelectionLine()
     {
         Vector2 screenEndPosition = Input.mousePosition;
 
@@ -33,8 +33,16 @@ public class LineSelectionController : MonoBehaviour
         userLine.SetPosition(1, endPositionCamera);
     }
 
+    public void UpdateRowLine(Vector2 startTilePosition, Vector2 endTilePosition)
+    {
+        rowLine.enabled = !startTilePosition.Equals(endTilePosition);
+        rowLine.SetPosition(0, startTilePosition);
+        rowLine.SetPosition(1, endTilePosition);
+    }
+
     public void EndSelection()
     {
         userLine.enabled = false;
+        rowLine.enabled = false;
     }
 }

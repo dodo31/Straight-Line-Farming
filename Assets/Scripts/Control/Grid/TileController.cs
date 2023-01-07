@@ -26,4 +26,6 @@ public abstract class TileController : MonoBehaviour
     {
         this.tile = tile;
     }
+    
+    public Tile Tile { get => tile; }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
@@ -18,46 +19,17 @@ public class GridController : MonoBehaviour
 
     private Grid grid;
 
-    private bool isDraggingTile;
+    private bool isDraggingFromTile;
+    private TileController dragStartTile;
 
     protected void Start()
     {
         grid = new Grid();
 
-        isDraggingTile = false;
+        isDraggingFromTile = false;
+        dragStartTile = null;
 
         GenerateGrid();
-    }
-
-    protected void Update()
-    {
-        if (!isDraggingTile)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), -Vector2.up);
-
-                if (hit.collider != null && hit.transform.TryGetComponent<TileController>(out TileController tileController))
-                {
-                    lineSelection.StartSelection();
-                    isDraggingTile = true;
-                    
-                    Debug.Log(isDraggingTile);
-                }
-            }
-        }
-        else
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                lineSelection.EndSelection();
-                isDraggingTile = false;
-            }
-            else
-            {
-                lineSelection.UpdateSelection();
-            }
-        }
     }
 
     private void GenerateGrid()
@@ -89,7 +61,7 @@ public class GridController : MonoBehaviour
 
                 newTileController.transform.SetParent(tilesContainer);
 
-                Vector2 tilePosition = GridUtils.GetScreenPosFromGridPos(tile.Coord);
+                Vector2 tilePosition = GridUtils.CoordToScreenPosition(tile.Coord);
                 newTileController.transform.localPosition = tilePosition;
 
                 newTileController.SetTile(tile);
@@ -109,7 +81,108 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
 
-    private TileController[] GetTiles()
+    protected void Update()
+    {
+        if (!isDraggingFromTile)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (TrySelectTile(out TileController startTile))
+                {
+                    lineSelection.StartSelection();
+                    dragStartTile = startTile;
+                    isDraggingFromTile = true;
+                }
+            }
+        }
+        else
+        {
+            if (TrySelectTile(out TileController endTile))
+            {
+                RefreshRowSelection(endTile);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                lineSelection.EndSelection();
+                isDraggingFromTile = false;
+            }
+            else
+            {
+                lineSelection.UpdateSelectionLine();
+            }
+        }
+    }
+
+    private void RefreshRowSelection(TileController endTile)
+    {
+        Vector2Int startCoord = dragStartTile.Tile.Coord;
+        Vector2Int endCoord = endTile.Tile.Coord;
+
+        if (!startCoord.Equals(endCoord))
+        {
+            Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+
+            Tile currentTile = dragStartTile.Tile;
+
+            List<Vector2Int> coords = new List<Vector2Int>();
+
+            int safeCount = 0;
+
+            Debug.Log("======================");
+
+            Debug.Log("FROM: " + startCoord);
+            Debug.Log("TO: " + endCoord);
+            Debug.Log("DIRECTION : " + selectionDirection);
+
+            while (currentTile != null && safeCount < 10)
+            {
+                Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, selectionDirection);
+                currentTile = grid.GetTile(currentCoord);
+
+                coords.Add(currentCoord);
+                Debug.Log(currentCoord);
+
+                safeCount++;
+            }
+
+            TileController realdEndTile = GetTileController(currentTile);
+
+            if (realdEndTile)
+            {
+                lineSelection.UpdateRowLine(dragStartTile.transform.position, realdEndTile.transform.position);
+            }
+        }
+    }
+
+    private bool TrySelectTile(out TileController tile)
+    {
+        Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return TrySelectTile(selectedPosition, out tile);
+    }
+
+    private bool TrySelectTile(Vector2 position, out TileController tile)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(position, -Vector2.up);
+
+        if (hit.collider != null)
+        {
+            return hit.transform.TryGetComponent<TileController>(out tile);
+        }
+        else
+        {
+            tile = null;
+            return false;
+        }
+    }
+
+    private TileController GetTileController(Tile tile)
+    {
+        TileController[] tileControllers = GetTileControllers();
+        return tileControllers.FirstOrDefault(tileController => tileController.Tile == tile);
+    }
+
+    private TileController[] GetTileControllers()
     {
         return GetComponentsInChildren<TileController>();
     }

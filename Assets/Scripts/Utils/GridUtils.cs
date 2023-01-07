@@ -5,43 +5,46 @@ public class GridUtils
     public const float TILES_WIDTH = 1f;
     public const float TILES_HEIGHT = 1f;
 
-    public static Vector2Int GetGridPosInDirection(Vector2Int gridPosFrom, Directions dir)
+    public static Vector2Int CoordDirectionToCoordDelta(Vector2Int startCoord, Directions direction)
     {
         Vector2Int gridPosTo = new();
-        if (dir == Directions.LEFT_DOWN || dir == Directions.LEFT_UP)
+        
+        if (direction == Directions.LEFT_DOWN || direction == Directions.LEFT_UP)
         {
-            gridPosTo.x = gridPosFrom.x - 1;
+            gridPosTo.x = startCoord.x - 1;
         }
-        else if (dir == Directions.RIGHT_DOWN || dir == Directions.RIGHT_UP)
+        else if (direction == Directions.RIGHT_DOWN || direction == Directions.RIGHT_UP)
         {
-            gridPosTo.x = gridPosFrom.x + 1;
+            gridPosTo.x = startCoord.x + 1;
         }
         else
         {
-            gridPosTo.x = gridPosFrom.x;
+            gridPosTo.x = startCoord.x;
         }
 
-        if (gridPosFrom.x % 2 == 0 && (dir == Directions.LEFT_UP || dir == Directions.RIGHT_UP))
+        if (startCoord.x % 2 == 0 && (direction == Directions.LEFT_UP || direction == Directions.RIGHT_UP))
         {
-            gridPosTo.y = gridPosFrom.y - 1;
+            gridPosTo.y = startCoord.y - 1;
         }
-        else if (gridPosFrom.x % 2 == 1 && (dir == Directions.LEFT_DOWN || dir == Directions.RIGHT_DOWN))
+        else if (startCoord.x % 2 == 1 && (direction == Directions.LEFT_DOWN || direction == Directions.RIGHT_DOWN))
         {
-            gridPosTo.y = gridPosFrom.y + 1;
+            gridPosTo.y = startCoord.y + 1;
         }
+        else gridPosTo.y = startCoord.y;
 
         return gridPosTo;
     }
 
-    public static Directions GetDirectionFromGridPos(Vector2Int fromGridPos, Vector2Int toGridPos)
+    public static Directions CoordDeltaToDirection(Vector2Int startCoord, Vector2Int endCoord)
     {
-        int distX = toGridPos.x - fromGridPos.x;
-        float distY = toGridPos.y - fromGridPos.y + (1 - toGridPos.x % 2) / 2f - (1 - toGridPos.x % 2) / 2f;
-        if (Mathf.Abs(distX) >= Mathf.Abs(distY))
+        int deltaX = endCoord.x - startCoord.x;
+        float deltaY = endCoord.y - startCoord.y + (1 - endCoord.x % 2) / 2f - (1 - endCoord.x % 2) / 2f;
+        
+        if (Mathf.Abs(deltaX) >= Mathf.Abs(deltaY))
         {
-            if (distX > 0)
+            if (deltaX > 0)
             {
-                if (distY > 0)
+                if (deltaY > 0)
                 {
                     return Directions.RIGHT_UP;
                 }
@@ -52,7 +55,7 @@ public class GridUtils
             }
             else
             {
-                if (distY > 0)
+                if (deltaY > 0)
                 {
                     return Directions.LEFT_UP;
                 }
@@ -64,7 +67,7 @@ public class GridUtils
         }
         else
         {
-            if (distY > 0)
+            if (deltaY > 0)
             {
                 return Directions.UP;
             }
@@ -75,12 +78,12 @@ public class GridUtils
         }
     }
 
-    public static Vector2 GetScreenPosFromGridPos(Vector2Int gridPos)
+    public static Vector2 CoordToScreenPosition(Vector2Int coord)
     {
         return new Vector2
         {
-            x = TILES_WIDTH * gridPos.x,
-            y = TILES_HEIGHT * (gridPos.y + (1 - gridPos.x % 2) / 2f)
+            x = TILES_WIDTH * coord.x,
+            y = TILES_HEIGHT * (coord.y + (1 - coord.x % 2) / 2f)
         };
     }
 }
