@@ -1,4 +1,6 @@
-public abstract class TileController
+using UnityEngine;
+
+public abstract class TileController : MonoBehaviour
 {
-    private Tile tile;
+    protected Tile tile;
 }
