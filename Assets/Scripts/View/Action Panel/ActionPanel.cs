@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ActionPanel : MonoBehaviour
 {
-    public PlantSpawnButton SpawnButtonPrefab;
+    public ActionItem ActionItemPrefab;
     public PlantsDescription PlantsDescription;
 
     protected void Start()
@@ -16,12 +16,13 @@ public class ActionPanel : MonoBehaviour
         {
             PlantDescription plantDescription = PlantsDescription.Descriptions[i];
 
-            PlantSpawnButton spawnButton = Instantiate(SpawnButtonPrefab);
-            spawnButton.name = $"{plantDescription.Name} Spawn Button";
-            spawnButton.Image.sprite = plantDescription.Sprite;
+            ActionItem plantSpawnItem = Instantiate(ActionItemPrefab);
+            plantSpawnItem.name = $"{plantDescription.Name} Spawn Item";
+            plantSpawnItem.SetTile(plantDescription.Name);
+            plantSpawnItem.SetIcon(plantDescription.Sprite);
 
-            spawnButton.transform.SetParent(transform);
-            spawnButton.transform.SetSiblingIndex(i);
+            plantSpawnItem.transform.SetParent(transform);
+            plantSpawnItem.transform.SetSiblingIndex(i);
         }
     }
 }
