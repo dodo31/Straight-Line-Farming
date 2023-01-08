@@ -115,7 +115,6 @@ public class GridController : MonoBehaviour
             }
             else
             {
-                Debug.Log("OK");
                 lineSelection.UpdateSelectionLine();
             }
         }
