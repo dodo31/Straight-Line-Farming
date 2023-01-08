@@ -119,52 +119,67 @@ public class GridController : MonoBehaviour
         }
     }
 
+    private List<Vector2Int> GetTotalTruckPath(Vector2Int startCoord, Vector2Int endCoord, bool onlyOneDirection = false)
+    {
+        Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+        Tile currentTile = dragStartTile.Tile;
+        if (currentTile.Type == TileTypes.Empty || startCoord == endCoord)
+        {
+            return new List<Vector2Int>();
+        }
+
+        List<Vector2Int> truckPath = new List<Vector2Int>();
+
+        int safeCount = 0;
+        if (!onlyOneDirection && currentTile.Type != TileTypes.Border)
+        {
+            Directions oppositeDirection = GridUtils.GetOppositeDirection(selectionDirection);
+            do
+            {
+                Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, oppositeDirection);
+                currentTile = grid.GetTile(currentCoord);
+                safeCount++;
+            } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
+
+            if (currentTile == null) return new List<Vector2Int>();
+            safeCount = 0;
+        }
+        //Debug.Log("======================");
+
+        //Debug.Log("FROM: " + startCoord);
+        //Debug.Log("TO: " + endCoord);
+        //Debug.Log("DIRECTION : " + selectionDirection);
+        bool wentOnFarm = currentTile.Type == TileTypes.Farm;
+        do
+        {
+            Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, selectionDirection);
+            currentTile = grid.GetTile(currentCoord);
+
+            if (currentTile.Type == TileTypes.Farm)
+                truckPath.Add(currentCoord);
+            wentOnFarm |= currentTile.Type == TileTypes.Farm;
+
+            safeCount++;
+        } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
+
+        return truckPath;
+    }
     private void RefreshRowSelection(TileController endTile)
     {
         Vector2Int startCoord = dragStartTile.Tile.Coord;
         Vector2Int endCoord = endTile.Tile.Coord;
-        Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
-        Tile currentTile = dragStartTile.Tile;
 
-        if (currentTile.Type != TileTypes.Empty)
+        List<Vector2Int> coords = GetTotalTruckPath(startCoord, endCoord, false);
+
+
+        if (coords.Count > 0)
         {
-
-
-            List<Vector2Int> coords = new List<Vector2Int>();
-
-            int safeCount = 0;
-
-            //Debug.Log("======================");
-
-            Debug.Log("FROM: " + startCoord);
-            Debug.Log("TO: " + endCoord);
-            Debug.Log("DIRECTION : " + selectionDirection);
-            bool wentOnFarm = currentTile.Type == TileTypes.Farm;
-            do
-            {
-                //Debug.Log(currentTile.Type);
-                Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, selectionDirection);
-                currentTile = grid.GetTile(currentCoord);
-
-                coords.Add(currentCoord);
-                //Debug.Log(currentCoord);
-                wentOnFarm |= currentTile.Type == TileTypes.Farm;
-
-                safeCount++;
-            } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
-
-
-
-
-            TileController realdEndTile = GetTileController(currentTile);
-
-            if (realdEndTile && wentOnFarm)
-            {
-                lineSelection.UpdateRowLine(dragStartTile.transform.position, realdEndTile.transform.position);
-            } else
-            {
-                lineSelection.EndSelection();
-            }
+            TileController startTruckPath = GetTileController(grid.GetTile(coords[0]));
+            TileController endTruckPath = GetTileController(grid.GetTile(coords[^1]));
+            lineSelection.UpdateRowLine(startTruckPath.transform.position, endTruckPath.transform.position);
+        } else
+        {
+            lineSelection.EndSelection();
         }
     }
 
