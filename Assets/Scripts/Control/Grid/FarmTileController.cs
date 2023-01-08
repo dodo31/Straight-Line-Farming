@@ -17,11 +17,14 @@ public class FarmTileController : TileController
 
     public void SowPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
     {
-        DestroyExistingPlant();
+        PlantController currentPlant = GetCurrentPlant();
 
-        plant.transform.SetParent(transform, false);
-        plant.SetPlantType(plantType);
-        plant.SetPlantSprite(plantSprite);
+        if (currentPlant == null)
+        {
+            plant.transform.SetParent(transform, false);
+            plant.SetPlantType(plantType);
+            plant.SetPlantSprite(plantSprite);
+        }
     }
 
     public void CollectPlant()
@@ -31,12 +34,19 @@ public class FarmTileController : TileController
 
     private void DestroyExistingPlant()
     {
-        PlantController currentPlant = this.GetComponentInChildren<PlantController>();
+        PlantController currentPlant = GetCurrentPlant();
 
         if (currentPlant != null)
         {
             DestroyImmediate(currentPlant.gameObject);
         }
+
+        currentPlant = null;
+    }
+
+    public PlantController GetCurrentPlant()
+    {
+        return GetComponentInChildren<PlantController>();
     }
 
     public void SetHovered()
