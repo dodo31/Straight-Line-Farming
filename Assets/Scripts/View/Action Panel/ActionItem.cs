@@ -1,4 +1,4 @@
-using System.Net.Mime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +9,7 @@ public class ActionItem : MonoBehaviour
     private Image iconImage;
 
     [SerializeField]
-    private Text titleText;
+    private TMP_Text titleText;
 
     [SerializeField]
     private Image backgroundImage;

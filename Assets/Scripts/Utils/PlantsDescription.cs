@@ -7,4 +7,9 @@ using UnityEngine;
 public class PlantsDescription : ScriptableObject
 {
     public List<PlantDescription> Descriptions;
+
+    public PlantDescription GetDescription(PlantTypes plantType)
+    {
+        return Descriptions.Find((description) => description.Type == plantType);
+    }
 }
