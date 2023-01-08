@@ -18,7 +18,13 @@ public class ActionItem : MonoBehaviour
     private Image backgroundImage;
 
     [SerializeField]
+    private Image selectionBackgroundImage;
+
+    [SerializeField]
     private UserAction targetAction;
+
+    [SerializeField]
+    private bool isAvailable;
 
     private bool isSelected;
 
@@ -26,7 +32,11 @@ public class ActionItem : MonoBehaviour
 
     protected void Awake()
     {
+        isAvailable = false;
         isSelected = false;
+
+        ToggleAvailability(isAvailable);
+        ToggleSelection(isSelected);
     }
 
     protected void Start()
@@ -37,14 +47,56 @@ public class ActionItem : MonoBehaviour
         });
     }
 
-    public void Select()
+    private void ToggleAvailability(bool setAvailable)
     {
-        isSelected = true;
+        if (!setAvailable)
+        {
+            Unselect();
+        }
+        else
+        {
+            Select();
+        }
+    }
+
+    public void SetUnavailable()
+    {
+        itemButton.interactable = false;
+        titleText.color = new Color(1, 1, 1, 0.5f);
+        iconImage.color = new Color(1, 1, 1, 0.5f);
+        isAvailable = false;
+    }
+
+    public void SetAvailable()
+    {
+        itemButton.interactable = true;
+        titleText.color = Color.white;
+        iconImage.color = Color.white;
+        isAvailable = true;
+    }
+
+    private void ToggleSelection(bool setSelected)
+    {
+        if (!setSelected)
+        {
+            Unselect();
+        }
+        else
+        {
+            Select();
+        }
     }
 
     public void Unselect()
     {
+        selectionBackgroundImage.enabled = false;
         isSelected = false;
+    }
+
+    public void Select()
+    {
+        selectionBackgroundImage.enabled = true;
+        isSelected = true;
     }
 
     public void SetIcon(Sprite icon)
