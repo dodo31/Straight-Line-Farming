@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Grid
 {
@@ -21,6 +22,27 @@ public class Grid
             }
 
             tiles.Add(tileColumn);
+        }
+    }
+
+    public Tile GetTile(Vector2Int coord)
+    {
+        if (coord.x >= 0 && coord.x < tiles.Count)
+        {
+            List<Tile> matchingColumn = tiles[coord.x];
+
+            if (coord.y >= 0 && coord.y < matchingColumn.Count)
+            {
+                return matchingColumn[coord.y];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
         }
     }
 

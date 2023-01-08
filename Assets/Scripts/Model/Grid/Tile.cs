@@ -7,7 +7,7 @@ public class Tile
 
     private TileTypes type;
 
-    public Tile(int row, int column)
+    public Tile(int column, int row)
     {
         this.row = row;
         this.column = column;
