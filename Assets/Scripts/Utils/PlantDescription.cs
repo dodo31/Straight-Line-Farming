@@ -10,6 +10,4 @@ public class PlantDescription
     public Sprite GridSprite;
     public Sprite UiSprite;
     public int price;
-    public Sprite GridSprite;
-    public Sprite UiSprite;
 }

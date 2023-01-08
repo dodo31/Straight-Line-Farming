@@ -13,6 +13,11 @@ public class PlantController : MonoBehaviour
         this.plantType = plantType;
     }
 
+    public PlantTypes GetPlantType()
+    {
+        return plantType;
+    }
+
     public void SetPlantSprite(Sprite plantSprite)
     {
         plantRenderer.sprite = plantSprite;

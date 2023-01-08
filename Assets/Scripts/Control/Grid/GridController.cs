@@ -137,8 +137,66 @@ public class GridController : MonoBehaviour
                 lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
             }
         }
-
         lineSelection.UpdateSelectionLine();
+    }
+
+    public PlantCount[] PlantCountsFromPath(List<Vector2Int> truckPath)
+    {
+        int[] amounts = new int[4];
+        for(int i = 0; i < truckPath.Count; i++)
+        {
+            TileController tileCon = GetTileController(grid.GetTile(truckPath[i]));
+            if(tileCon is FarmTileController)
+            {
+                PlantController plant = ((FarmTileController)tileCon).GetCurrentPlant();
+                amounts[(int)plant.GetPlantType()]++;
+            }
+        }
+        List<PlantCount> plantCounts = new();
+        for (int i = 0; i < amounts.Length; i++)
+        {
+            if (amounts[i] > 0)
+            {
+                PlantCount plantCount = new PlantCount((PlantTypes)i, amounts[i]);
+                plantCounts.Add(plantCount);
+            }
+        }
+        return plantCounts.ToArray();
+    }
+
+    public static bool IsPlantCountArrayEnough(PlantCount[] harvested, PlantCount[] spec, out PlantCount[] remainder)
+    {
+        List<PlantCount> remainderList = new();
+        for(int i = 0; i<spec.Length; i++)
+        {
+            bool found = false;
+            for(int j = 0; j < harvested.Length; j++)
+            {
+                if (spec[i].Type == harvested[j].Type)
+                {
+                    if (spec[i].Count > harvested[j].Count)
+                    {
+                        remainder = null;
+                        return false;
+                    } else
+                    {
+                        found = true;
+                        if (spec[i].Count < harvested[j].Count)
+                        {
+                            remainderList.Add(new PlantCount(spec[i].Type, harvested[j].Count - spec[i].Count));
+                        }
+                    }
+                }
+            }
+            if (!found)
+            {
+                remainder = null;
+                return false;
+            }
+        }
+        remainder = remainderList.ToArray();
+        return true;
+
     }
 
     public void EndRowSelection(UserAction currentAction)
