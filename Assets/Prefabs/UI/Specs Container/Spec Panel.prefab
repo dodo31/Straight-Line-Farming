@@ -498,7 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientText: {fileID: 4286657453065592157}
   clientImage: {fileID: 1378027179973884732}
-  requiredPlantIndicators: []
+  plantCountIndicatorContainer: {fileID: 1378027179903781009}
   deadlineValueText: {fileID: 526784303193612771}
   deadlineUnitText: {fileID: 5193589359863091275}
   gainValueText: {fileID: 8992510862906729215}

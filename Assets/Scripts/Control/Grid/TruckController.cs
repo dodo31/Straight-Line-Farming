@@ -94,6 +94,7 @@ public class TruckController : MonoBehaviour
 
     private void StartTravelRow(Vector2 startPosition, Vector2 endPosition)
     {
+        Economy.GetInstance().UseMoney(100);
         truckRenderer.enabled = true;
 
         Vector2 direction = (endPosition - startPosition).normalized;

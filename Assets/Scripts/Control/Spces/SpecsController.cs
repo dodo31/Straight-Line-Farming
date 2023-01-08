@@ -4,13 +4,22 @@ public class SpecsController : MonoBehaviour
 {
     [SerializeField]
     private SpecPanelsContainer specPanelsContainer;
+    
     [SerializeField]
     private SpecGenerator specGenerator;
     private SpecBase specBase;
 
+    private static SpecsController instance;
+    public static SpecsController GetInstance()
+    {
+        return instance;
+    }
+
     protected void Awake()
     {
+        instance = this;
         specBase = SpecBase.GetInstance();
+        
         for(int specID = 0; specID < 2000; specID++)
         {
             specBase.PutSpec(specGenerator.GenerateSpec(specID));
