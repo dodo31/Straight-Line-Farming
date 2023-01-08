@@ -25,6 +25,9 @@ public class SpecCard : MonoBehaviour
     [SerializeField]
     private TMP_Text gainUnitText;
 
+    [SerializeField]
+    private Image backgroundImage;
+
     private Spec spec;
 
     public void SetSpec(Spec spec)
@@ -37,11 +40,20 @@ public class SpecCard : MonoBehaviour
         SetGain(spec.Gain);
     }
 
+    public void SetAsNormal()
+    {
+        backgroundImage.color = Color.white;
+    }
+
+    public void SetAsPreview()
+    {
+        backgroundImage.color = Color.yellow;
+    }
+
     public void Validate()
     {
-        Economy.GetInstance().GainMoney(spec.Gain);
         Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
-        Destroy(this.gameObject);
+        DestroyImmediate(gameObject);
     }
 
     public void SetClientName(string clientName)

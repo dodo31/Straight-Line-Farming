@@ -29,9 +29,9 @@ public class SpecCardsContainer : MonoBehaviour
         PlantCountIndicator plantCounIndicator = Instantiate(plantCountIndicatorPrefab);
         card.AddRequiredPlantCount(plantDescription, plantCounIndicator, plantCount);
     }
+    
     public SpecCard[] GetSpecCards()
     {
         return GetComponentsInChildren<SpecCard>();
     }
-
 }

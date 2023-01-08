@@ -3,8 +3,8 @@ using UnityEngine;
 public class SpecsController : MonoBehaviour
 {
     [SerializeField]
-    private SpecCardsContainer specPanelsContainer;
-    
+    private SpecCardsContainer specCardsContainer;
+
     [SerializeField]
     private SpecGenerator specGenerator;
     private SpecBase specBase;
@@ -16,22 +16,22 @@ public class SpecsController : MonoBehaviour
     }
     public SpecCardsContainer GetContainer()
     {
-        return specPanelsContainer;
+        return specCardsContainer;
     }
 
     protected void Awake()
     {
         instance = this;
         specBase = SpecBase.GetInstance();
-        
-        for(int specID = 0; specID < 2000; specID++)
+
+        for (int specID = 0; specID < 2000; specID++)
         {
             specBase.PutSpec(specGenerator.GenerateSpec(specID));
         }
     }
     public void Update()
     {
-        if(Time.frameCount % 1000 == 0)
+        if (Time.frameCount % 1000 == 0)
         {
             SpawnNextSpec();
         }
@@ -42,7 +42,12 @@ public class SpecsController : MonoBehaviour
 
         if (spec != null)
         {
-            specPanelsContainer.AddSpecCard(spec);
+            specCardsContainer.AddSpecCard(spec);
         }
+    }
+
+    public SpecCard[] GetSpecCards()
+    {
+        return specCardsContainer.GetSpecCards();
     }
 }
