@@ -21,6 +21,10 @@ public class GameController : MonoBehaviour
         gridController.OnTruckOverTile += Handle_OnTruckOverTile;
     }
 
+    protected void Start()
+    {
+        Economy.GetInstance().GainMoney(1000);
+    }
     protected void Update()
     {
         if (!isDraggingFromTile)
