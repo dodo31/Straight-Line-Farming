@@ -237,7 +237,7 @@ public class GridController : MonoBehaviour
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
 
         PlantController newPlant = Instantiate(plantPrefab);
-        targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
+        targetTile.SowPlant(newPlant, plantType, plantDescription.GridSprite);
     }
 
     public void CollectPlant(FarmTileController targetTile)
