@@ -4,7 +4,7 @@ using UnityEngine;
 public class FarmTileController : TileController
 {
     private bool isHovered;
-    
+
     protected new void Awake()
     {
         base.Awake();
@@ -14,34 +14,17 @@ public class FarmTileController : TileController
         SetInactive();
     }
 
-    // private void OnMouseEnter()
-    // {
-    //     SetHovered();
-    //     isHovered = true;
-    // }
+    public void SowPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
+    {
+        plant.transform.SetParent(transform, false);
+        plant.SetPlantType(plantType);
+        plant.SetPlantSprite(plantSprite);
+    }
 
-    // private void OnMouseDown()
-    // {
-    //     SetActive();
-    // }
+    public void CollectPlant()
+    {
 
-    // private void OnMouseUp()
-    // {
-    //     if (isHovered)
-    //     {
-    //         SetHovered();
-    //     }
-    //     else
-    //     {
-    //         SetInactive();
-    //     }
-    // }
-
-    // private void OnMouseExit()
-    // {
-    //     SetInactive();
-    //     isHovered = false;
-    // }
+    }
 
     public void SetHovered()
     {
