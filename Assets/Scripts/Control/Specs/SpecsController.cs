@@ -9,6 +9,9 @@ public class SpecsController : MonoBehaviour
     private SpecGenerator specGenerator;
     private SpecBase specBase;
 
+    [SerializeField]
+    public int visibleSpecAmount = 3;
+
     private static SpecsController instance;
     public static SpecsController GetInstance()
     {
@@ -31,7 +34,7 @@ public class SpecsController : MonoBehaviour
     }
     public void Update()
     {
-        if(Time.frameCount % 1000 == 0)
+        if (GetContainer().GetSpecCards().Length < visibleSpecAmount)
         {
             SpawnNextSpec();
         }

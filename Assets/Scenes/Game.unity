@@ -248,6 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specPanelsContainer: {fileID: 2082553995}
   specGenerator: {fileID: 11400000, guid: 2f8fa9768ef0b01478a131e0334cd292, type: 2}
+  visibleSpecAmount: 3
 --- !u!114 &154875908
 MonoBehaviour:
   m_ObjectHideFlags: 0
