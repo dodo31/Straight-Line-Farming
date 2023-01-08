@@ -23,8 +23,11 @@ public class ActionPanel : MonoBehaviour
 
         if (actionItems.Length > 0)
         {
-            SelectItem(actionItems.First());
-            actionItems.Last().SetTargetAction(new UserCollectAction());
+            ActionItem firstItem = actionItems.First();
+            ActionItem lastItem = actionItems.Last();
+            
+            SelectItem(firstItem);
+            lastItem.SetTargetAction(new UserCollectAction());
         }
     }
 

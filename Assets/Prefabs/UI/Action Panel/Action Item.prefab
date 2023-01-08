@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7677791158530834092}
   - component: {fileID: 5620835505467395088}
   m_Layer: 5
-  m_Name: Action Title
+  m_Name: Action Cost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WEATH
+  m_text: 999$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -420,5 +420,3 @@ MonoBehaviour:
   iconImage: {fileID: 1300335542966519825}
   titleText: {fileID: 7677791158530834092}
   backgroundImage: {fileID: 8645953261973711432}
-  targetAction:
-    actionType: 0

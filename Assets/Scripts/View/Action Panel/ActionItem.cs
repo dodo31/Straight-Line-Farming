@@ -20,13 +20,20 @@ public class ActionItem : MonoBehaviour
     [SerializeField]
     private UserAction targetAction;
 
+    [SerializeField]
+    private bool isAvailable;
+
     private bool isSelected;
 
     public event Action<ActionItem> OnClicked;
 
     protected void Awake()
     {
+        isAvailable = false;
         isSelected = false;
+        
+        ToggleAvailability(isAvailable);
+        ToggleSelection(isSelected);
     }
 
     protected void Start()
@@ -35,6 +42,23 @@ public class ActionItem : MonoBehaviour
         {
             OnClicked?.Invoke(this);
         });
+    }
+
+    public void ToggleAvailability(bool setAvailable)
+    {
+        isAvailable = setAvailable;
+    }
+
+    private void ToggleSelection(bool setSelected)
+    {
+        if (setSelected)
+        {
+            Select();
+        }
+        else
+        {
+            Unselect();
+        }
     }
 
     public void Select()
