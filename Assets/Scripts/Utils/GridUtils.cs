@@ -8,7 +8,7 @@ public class GridUtils
     public static Vector2Int CoordDirectionToCoordDelta(Vector2Int startCoord, Directions direction)
     {
         Vector2Int gridPosTo = new();
-        
+
         if (direction == Directions.LEFT_DOWN || direction == Directions.LEFT_UP)
         {
             gridPosTo.x = startCoord.x - 1;
@@ -38,8 +38,10 @@ public class GridUtils
         {
             gridPosTo.y = startCoord.y - 1;
         }
-        else gridPosTo.y = startCoord.y;
-        //Debug.Log("(" + startCoord.x + ";" + startCoord.y + ") -> (" + gridPosTo.x + ";" + gridPosTo.y + ") (" + direction.ToString()+")" );
+        else
+        {
+            gridPosTo.y = startCoord.y;
+        }
 
         return gridPosTo;
     }
@@ -59,7 +61,7 @@ public class GridUtils
     {
         int deltaX = endCoord.x - startCoord.x;
         float deltaY = endCoord.y - startCoord.y + (1 - endCoord.x % 2) / 2f - (1 - startCoord.x % 2) / 2f;
-        Debug.Log(endCoord + " <- " + startCoord);
+
         if (Mathf.Abs(deltaX) * 1.45f >= Mathf.Abs(deltaY))
         {
             if (deltaX > 0)

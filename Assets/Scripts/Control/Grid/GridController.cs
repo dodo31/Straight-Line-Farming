@@ -23,19 +23,32 @@ public class GridController : MonoBehaviour
     private LineSelectionController lineSelection;
 
     [SerializeField]
+    private TruckController truck;
+
+    [SerializeField]
     private GridSizes gridSizes;
 
     private Grid grid;
 
+    private GridStates gridState;
+
     private bool isDraggingFromTile;
     private TileController dragStartTile;
 
-    protected void Start()
+    protected void Awake()
     {
         grid = new Grid();
 
+        gridState = GridStates.IDLE;
+
         isDraggingFromTile = false;
         dragStartTile = null;
+    }
+
+    protected void Start()
+    {
+        truck.OnTravelUpdated += Handle_OnTruckTravelUpdated;
+        truck.OnTravelCompleted += Handle_OnTruckTravelCompleted;
 
         GenerateGrid();
     }
@@ -89,6 +102,16 @@ public class GridController : MonoBehaviour
 
     protected void Update()
     {
+        switch (gridState)
+        {
+            case GridStates.IDLE:
+                ManageRowSelection();
+                break;
+        }
+    }
+
+    private void ManageRowSelection()
+    {
         if (!isDraggingFromTile)
         {
             if (Input.GetMouseButtonDown(0))
@@ -103,35 +126,39 @@ public class GridController : MonoBehaviour
         }
         else
         {
+            TileController startTruckTile = null;
+            TileController endTruckTile = null;
+
             if (TrySelectTile(out TileController endTile))
             {
-                RefreshRowSelection(endTile);
+                Vector2Int startCoord = dragStartTile.Tile.Coord;
+                Vector2Int endCoord = endTile.Tile.Coord;
+                List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
+
+                if (truckPath.Count > 0)
+                {
+                    startTruckTile = GetTileController(grid.GetTile(truckPath[0]));
+                    endTruckTile = GetTileController(grid.GetTile(truckPath[^1]));
+                    lineSelection.UpdateRowLine(startTruckTile.transform.position, endTruckTile.transform.position);
+                }
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 lineSelection.EndSelection();
+
+                if (startTruckTile != null && endTruckTile != null)
+                {
+                    truck.SowRow(startTruckTile.transform.position, endTruckTile.transform.position);
+                    gridState = GridStates.SOWING;
+                }
+
                 isDraggingFromTile = false;
             }
             else
             {
                 lineSelection.UpdateSelectionLine();
             }
-        }
-    }
-
-    private void RefreshRowSelection(TileController endTile)
-    {
-        Vector2Int startCoord = dragStartTile.Tile.Coord;
-        Vector2Int endCoord = endTile.Tile.Coord;
-
-        List<Vector2Int> coords = GetTotalTruckPath(startCoord, endCoord, false);
-
-        if (coords.Count > 0)
-        {
-            TileController startTruckPath = GetTileController(grid.GetTile(coords[0]));
-            TileController endTruckPath = GetTileController(grid.GetTile(coords[^1]));
-            lineSelection.UpdateRowLine(startTruckPath.transform.position, endTruckPath.transform.position);
         }
     }
 
@@ -185,12 +212,12 @@ public class GridController : MonoBehaviour
         return truckPath;
     }
 
-    private void PlantPlant(PlantTypes plantType, FarmTileController targetTile)
+    private void SowPlant(PlantTypes plantType, FarmTileController targetTile)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
 
         PlantController newPlant = Instantiate(plantPrefab);
-        targetTile.PlantPlant(newPlant, plantType, plantDescription.Sprite);
+        targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
     }
 
     private bool TrySelectTile(out TileController tile)
@@ -223,5 +250,20 @@ public class GridController : MonoBehaviour
     private TileController[] GetTileControllers()
     {
         return GetComponentsInChildren<TileController>();
+    }
+
+    private void Handle_OnTruckTravelUpdated()
+    {
+        switch (gridState)
+        {
+            case GridStates.SOWING:
+                break;
+        }
+    }
+    
+    private void Handle_OnTruckTravelCompleted()
+    {
+        Debug.Log("OK");
+        gridState = GridStates.IDLE;
     }
 }

@@ -14,7 +14,7 @@ public class FarmTileController : TileController
         SetInactive();
     }
 
-    public void PlantPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
+    public void SowPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
     {
         plant.transform.SetParent(transform);
         plant.SetPlantType(plantType);
