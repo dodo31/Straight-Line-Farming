@@ -34,7 +34,6 @@ public class GridController : MonoBehaviour
 
     private TileController[] tiles;
 
-    private bool isDraggingFromTile;
     private TileController dragStartTile;
     private List<TileController> currentTileLine;
 
@@ -45,7 +44,6 @@ public class GridController : MonoBehaviour
 
         tiles = new TileController[0];
 
-        isDraggingFromTile = false;
         dragStartTile = null;
         currentTileLine = new List<TileController>();
     }
@@ -106,63 +104,50 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
 
-    public void ManageRowSelection()
+    public void StartRowSelection(TileController startTile)
     {
-        if (!isDraggingFromTile)
+        lineSelection.StartSelection();
+        dragStartTile = startTile;
+    }
+
+    public void UpdateRowSelection()
+    {
+        if (TrySelectTile(out TileController endTile))
         {
-            if (Input.GetMouseButtonDown(0))
+            Vector2Int startCoord = dragStartTile.Tile.Coord;
+            Vector2Int endCoord = endTile.Tile.Coord;
+            List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
+
+            currentTileLine.Clear();
+
+            if (truckPath.Count >= 2)
             {
-                if (TrySelectTile(out TileController startTile))
+                foreach (Vector2Int tileCoord in truckPath)
                 {
-                    lineSelection.StartSelection();
-                    dragStartTile = startTile;
-                    isDraggingFromTile = true;
+                    TileController tile = GetTileController(grid.GetTile(tileCoord));
+                    currentTileLine.Add(tile);
                 }
+
+                Vector2 startTilePosition = currentTileLine.First().transform.position;
+                Vector2 endTilePosition = currentTileLine.Last().transform.position;
+                lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
             }
         }
-        else
+        
+        lineSelection.UpdateSelectionLine();
+    }
+
+    public void EndRowSelection()
+    {
+        lineSelection.EndSelection();
+
+        if (currentTileLine.Count > 0)
         {
-            Vector2 startTilePosition = Vector2.zero;
-            Vector2 endTilePosition = Vector2.zero;
+            Vector2 startTilePosition = currentTileLine.First().transform.position;
+            Vector2 endTilePosition = currentTileLine.Last().transform.position;
 
-            if (TrySelectTile(out TileController endTile))
-            {
-                Vector2Int startCoord = dragStartTile.Tile.Coord;
-                Vector2Int endCoord = endTile.Tile.Coord;
-                List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
-
-                currentTileLine.Clear();
-                
-                if (truckPath.Count >= 2)
-                {
-                    foreach (Vector2Int tileCoord in truckPath)
-                    {
-                        TileController tile = GetTileController(grid.GetTile(tileCoord));
-                        currentTileLine.Add(tile);
-                    }
-
-                    startTilePosition = currentTileLine.First().transform.position;
-                    endTilePosition = currentTileLine.Last().transform.position;
-                    lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
-                }
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                lineSelection.EndSelection();
-
-                if (currentTileLine.Count > 0)
-                {
-                    truck.SowRow(startTilePosition, endTilePosition);
-                    gridState = GridStates.SOWING;
-                }
-
-                isDraggingFromTile = false;
-            }
-            else
-            {
-                lineSelection.UpdateSelectionLine();
-            }
+            truck.SowRow(startTilePosition, endTilePosition);
+            gridState = GridStates.SOWING;
         }
     }
 
@@ -249,7 +234,7 @@ public class GridController : MonoBehaviour
         targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
     }
 
-    private bool TrySelectTile(out TileController tile)
+    public bool TrySelectTile(out TileController tile)
     {
         Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return TrySelectTile(selectedPosition, out tile);
@@ -284,6 +269,6 @@ public class GridController : MonoBehaviour
     {
         gridState = GridStates.IDLE;
     }
-    
+
     public GridStates GridState { get => gridState; }
 }
