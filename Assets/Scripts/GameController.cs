@@ -9,11 +9,14 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private ActionPanel actionPanel;
 
+    [SerializeField]
+    private CompostArea compostArea;
+
     private bool isDraggingFromTile;
-    
+
     [SerializeField]
     private GraphicRaycaster graphicRaycaster;
-    
+
     protected void Awake()
     {
         isDraggingFromTile = false;

@@ -7,13 +7,20 @@ public class CompostBin : MonoBehaviour
 
     public void Open()
     {
-        binAnimator.SetTrigger("OPEN");
         binAnimator.ResetTrigger("CLOSE");
+        binAnimator.SetTrigger("OPEN");
     }
 
     public void Close()
     {
-        binAnimator.SetTrigger("CLOSE");
         binAnimator.ResetTrigger("OPEN");
+        binAnimator.SetTrigger("CLOSE");
+    }
+    
+    public void ReceiveWastes()
+    {
+        binAnimator.ResetTrigger("OPEN");
+        binAnimator.ResetTrigger("CLOSE");
+        binAnimator.SetTrigger("RECEIVE_WASTES");
     }
 }
