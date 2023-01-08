@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specPanelsContainer: {fileID: 2082553995}
+  specGenerator: {fileID: 11400000, guid: 2f8fa9768ef0b01478a131e0334cd292, type: 2}
 --- !u!224 &292039475 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1378027179096100125, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
