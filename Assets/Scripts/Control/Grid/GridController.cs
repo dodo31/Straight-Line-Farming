@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,10 +5,16 @@ using UnityEngine;
 public class GridController : MonoBehaviour
 {
     [SerializeField]
+    private PlantController plantPrefab;
+
+    [SerializeField]
     private TileController borderTilePrefab;
 
     [SerializeField]
     private TileController farmTilePrefab;
+
+    [SerializeField]
+    private PlantsDescription plantsDescription;
 
     [SerializeField]
     private Transform tilesContainer;
@@ -40,8 +45,6 @@ public class GridController : MonoBehaviour
         float totalWidth = 0;
         float totalHeight = 0;
 
-        Vector2 centerCoord = new Vector2Int(grid.RowCount / 2, grid.ColumnCount / 2) + new Vector2(0.5f, 0.5f);
-
         for (int columnIndex = 0; columnIndex < grid.Tiles.Count; columnIndex++)
         {
             List<Tile> column = grid.Tiles[columnIndex];
@@ -50,8 +53,6 @@ public class GridController : MonoBehaviour
             {
                 Tile tile = column[rowIndex];
                 TileController newTileController = null;
-
-                //float centerDistance = Vector2.Distance(centerCoord, tile.Coord + new Vector2(0.5f, 0.25f));
 
                 if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B')
                 {
@@ -123,6 +124,7 @@ public class GridController : MonoBehaviour
     {
         Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
         Tile currentTile = dragStartTile.Tile;
+
         if (currentTile.Type == TileTypes.Empty || startCoord == endCoord)
         {
             return new List<Vector2Int>();
@@ -141,14 +143,14 @@ public class GridController : MonoBehaviour
                 safeCount++;
             } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
 
-            if (currentTile == null) return new List<Vector2Int>();
+            if (currentTile == null)
+            {
+                return new List<Vector2Int>();
+            }
+
             safeCount = 0;
         }
-        //Debug.Log("======================");
 
-        //Debug.Log("FROM: " + startCoord);
-        //Debug.Log("TO: " + endCoord);
-        //Debug.Log("DIRECTION : " + selectionDirection);
         bool wentOnFarm = currentTile.Type == TileTypes.Farm;
         do
         {
@@ -156,12 +158,15 @@ public class GridController : MonoBehaviour
             currentTile = grid.GetTile(currentCoord);
 
             if (currentTile.Type == TileTypes.Farm)
+            {
                 truckPath.Add(currentCoord);
+            }
+
             wentOnFarm |= currentTile.Type == TileTypes.Farm;
 
             safeCount++;
         } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
-
+        
         return truckPath;
     }
     private void RefreshRowSelection(TileController endTile)
@@ -171,16 +176,24 @@ public class GridController : MonoBehaviour
 
         List<Vector2Int> coords = GetTotalTruckPath(startCoord, endCoord, false);
 
-
         if (coords.Count > 0)
         {
             TileController startTruckPath = GetTileController(grid.GetTile(coords[0]));
             TileController endTruckPath = GetTileController(grid.GetTile(coords[^1]));
             lineSelection.UpdateRowLine(startTruckPath.transform.position, endTruckPath.transform.position);
-        } else
+        }
+        else
         {
             lineSelection.EndSelection();
         }
+    }
+
+    private void PlantPlant(PlantTypes plantType, FarmTileController targetTile)
+    {
+        PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
+        
+        PlantController newPlant = Instantiate(plantPrefab);
+        targetTile.PlantPlant(newPlant, plantType, plantDescription.Sprite);
     }
 
     private bool TrySelectTile(out TileController tile)
