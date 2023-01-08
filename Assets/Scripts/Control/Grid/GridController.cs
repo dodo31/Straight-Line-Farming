@@ -1,7 +1,9 @@
-using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GridController : MonoBehaviour
 {
@@ -34,9 +36,10 @@ public class GridController : MonoBehaviour
 
     private TileController[] tiles;
 
-    private bool isDraggingFromTile;
     private TileController dragStartTile;
     private List<TileController> currentTileLine;
+
+    public event Action<FarmTileController> OnTruckOverTile;
 
     protected void Awake()
     {
@@ -45,7 +48,6 @@ public class GridController : MonoBehaviour
 
         tiles = new TileController[0];
 
-        isDraggingFromTile = false;
         dragStartTile = null;
         currentTileLine = new List<TileController>();
     }
@@ -106,73 +108,50 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
 
-    protected void Update()
+    public void StartRowSelection(TileController startTile)
     {
-        switch (gridState)
-        {
-            case GridStates.IDLE:
-                ManageRowSelection();
-                break;
-        }
+        lineSelection.StartSelection();
+        dragStartTile = startTile;
     }
 
-    private void ManageRowSelection()
+    public void UpdateRowSelection(GraphicRaycaster raycaster, UserAction currentAction)
     {
-        if (!isDraggingFromTile)
+        if (TrySelectTile(raycaster, out TileController endTile))
         {
-            if (Input.GetMouseButtonDown(0))
+            Vector2Int startCoord = dragStartTile.Tile.Coord;
+            Vector2Int endCoord = endTile.Tile.Coord;
+            List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
+
+            currentTileLine.Clear();
+
+            if (truckPath.Count >= 2)
             {
-                if (TrySelectTile(out TileController startTile))
+                foreach (Vector2Int tileCoord in truckPath)
                 {
-                    lineSelection.StartSelection();
-                    dragStartTile = startTile;
-                    isDraggingFromTile = true;
+                    TileController tile = GetTileController(grid.GetTile(tileCoord));
+                    currentTileLine.Add(tile);
                 }
+
+                Vector2 startTilePosition = currentTileLine.First().transform.position;
+                Vector2 endTilePosition = currentTileLine.Last().transform.position;
+                lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
             }
         }
-        else
+
+        lineSelection.UpdateSelectionLine();
+    }
+
+    public void EndRowSelection(UserAction currentAction)
+    {
+        lineSelection.EndSelection();
+
+        if (currentTileLine.Count > 0)
         {
-            Vector2 startTilePosition = Vector2.zero;
-            Vector2 endTilePosition = Vector2.zero;
+            Vector2 startTilePosition = currentTileLine.First().transform.position;
+            Vector2 endTilePosition = currentTileLine.Last().transform.position;
 
-            if (TrySelectTile(out TileController endTile))
-            {
-                Vector2Int startCoord = dragStartTile.Tile.Coord;
-                Vector2Int endCoord = endTile.Tile.Coord;
-                List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
-
-                currentTileLine.Clear();
-                
-                if (truckPath.Count >= 2)
-                {
-                    foreach (Vector2Int tileCoord in truckPath)
-                    {
-                        TileController tile = GetTileController(grid.GetTile(tileCoord));
-                        currentTileLine.Add(tile);
-                    }
-
-                    startTilePosition = currentTileLine.First().transform.position;
-                    endTilePosition = currentTileLine.Last().transform.position;
-                    lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
-                }
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                lineSelection.EndSelection();
-
-                if (currentTileLine.Count > 0)
-                {
-                    truck.SowRow(startTilePosition, endTilePosition);
-                    gridState = GridStates.SOWING;
-                }
-
-                isDraggingFromTile = false;
-            }
-            else
-            {
-                lineSelection.UpdateSelectionLine();
-            }
+            truck.SowRow(startTilePosition, endTilePosition);
+            gridState = GridStates.FARMING;
         }
     }
 
@@ -230,49 +209,63 @@ public class GridController : MonoBehaviour
     {
         switch (gridState)
         {
-            case GridStates.SOWING:
+            case GridStates.FARMING:
                 Vector2 truckStartPosition = truck.CurrentStartPosition;
-                Vector2 truckDirection = truck.TravelDirection;
+                FarmTileController truckedTile = TindTruckedTile(truckStartPosition);
 
-                float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
-                float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
-
-                foreach (FarmTileController lineTile in currentTileLine)
+                if (truckedTile != null)
                 {
-                    float tileDistance = Vector2.Distance(truckStartPosition, lineTile.transform.position);
-
-                    if (tileDistance >= truckPreviousDistance && tileDistance < truckCurrentDistance)
-                    {
-                        SowPlant(PlantTypes.Wheat, lineTile);
-                    }
+                    OnTruckOverTile?.Invoke(truckedTile);
                 }
-
                 break;
         }
     }
 
-    private void SowPlant(PlantTypes plantType, FarmTileController targetTile)
+    private FarmTileController TindTruckedTile(Vector2 truckStartPosition)
+    {
+        float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
+        float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
+
+        return currentTileLine.FirstOrDefault(lineTile =>
+        {
+            float tileDistance = Vector2.Distance(truckStartPosition, lineTile.transform.position);
+            return tileDistance >= truckPreviousDistance && tileDistance < truckCurrentDistance;
+        }) as FarmTileController;
+    }
+
+    public void SowPlant(PlantTypes plantType, FarmTileController targetTile)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
 
         Economy.GetInstance().UseMoney(plantDescription.price);
         PlantController newPlant = Instantiate(plantPrefab);
-        targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
+        targetTile.SowPlant(newPlant, plantType, plantDescription.GridSprite);
     }
 
-    private bool TrySelectTile(out TileController tile)
+    public void CollectPlant(FarmTileController targetTile)
+    {
+        targetTile.CollectPlant();
+    }
+
+    public bool TrySelectTile(GraphicRaycaster graphicRaycaster, out TileController tile)
     {
         Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return TrySelectTile(selectedPosition, out tile);
+        return TrySelectTile(graphicRaycaster, selectedPosition, out tile);
     }
 
-    private bool TrySelectTile(Vector2 position, out TileController tile)
+    private bool TrySelectTile(GraphicRaycaster graphicRaycaster, Vector2 position, out TileController tile)
     {
-        RaycastHit2D hit = Physics2D.Raycast(position, -Vector2.up);
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
 
-        if (hit.collider != null)
+        List<RaycastResult> hitsUi = new List<RaycastResult>();
+        graphicRaycaster.Raycast(pointerEventData, hitsUi);
+
+        RaycastHit2D hit2d = Physics2D.Raycast(position, -Vector2.up);
+
+        if (hitsUi.Count == 0 && hit2d.collider != null)
         {
-            return hit.transform.TryGetComponent<TileController>(out tile);
+            return hit2d.transform.TryGetComponent<TileController>(out tile);
         }
         else
         {
@@ -295,4 +288,22 @@ public class GridController : MonoBehaviour
     {
         gridState = GridStates.IDLE;
     }
+
+    public bool IsIdle
+    {
+        get
+        {
+            return gridState == GridStates.IDLE;
+        }
+    }
+
+    public bool IsFarming
+    {
+        get
+        {
+            return gridState == GridStates.FARMING;
+        }
+    }
+
+    public GridStates GridState { get => gridState; }
 }

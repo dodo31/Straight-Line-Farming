@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class FarmTileController : TileController
@@ -16,14 +17,36 @@ public class FarmTileController : TileController
 
     public void SowPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
     {
-        plant.transform.SetParent(transform, false);
-        plant.SetPlantType(plantType);
-        plant.SetPlantSprite(plantSprite);
+        PlantController currentPlant = GetCurrentPlant();
+
+        if (currentPlant == null)
+        {
+            plant.transform.SetParent(transform, false);
+            plant.SetPlantType(plantType);
+            plant.SetPlantSprite(plantSprite);
+        }
     }
 
     public void CollectPlant()
     {
+        DestroyExistingPlant();
+    }
 
+    private void DestroyExistingPlant()
+    {
+        PlantController currentPlant = GetCurrentPlant();
+
+        if (currentPlant != null)
+        {
+            DestroyImmediate(currentPlant.gameObject);
+        }
+
+        currentPlant = null;
+    }
+
+    public PlantController GetCurrentPlant()
+    {
+        return GetComponentInChildren<PlantController>();
     }
 
     public void SetHovered()
