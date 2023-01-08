@@ -1,9 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ActionItem : MonoBehaviour
 {
+    [SerializeField]
+    private Button itemButton;
 
     [SerializeField]
     private Image iconImage;
@@ -14,9 +17,34 @@ public class ActionItem : MonoBehaviour
     [SerializeField]
     private Image backgroundImage;
 
+    [SerializeField]
+    private UserAction targetAction;
+
+    private bool isSelected;
+
+    public event Action<ActionItem> OnClicked;
+
     protected void Awake()
     {
+        isSelected = false;
+    }
 
+    protected void Start()
+    {
+        itemButton.onClick.AddListener(() =>
+        {
+            OnClicked?.Invoke(this);
+        });
+    }
+
+    public void Select()
+    {
+        isSelected = true;
+    }
+
+    public void Unselect()
+    {
+        isSelected = false;
     }
 
     public void SetIcon(Sprite icon)
@@ -33,4 +61,12 @@ public class ActionItem : MonoBehaviour
     {
         backgroundImage.color = color;
     }
+
+    public void SetTargetAction(UserAction action)
+    {
+        targetAction = action;
+    }
+
+    public UserAction TargetAction { get => targetAction; }
+    public bool IsSelected { get => isSelected; }
 }
