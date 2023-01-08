@@ -14,6 +14,8 @@ public class TruckController : MonoBehaviour
 
     private TruckStates truckState;
 
+    private Vector2 previousTravelPosition;
+
     private Vector2 currentStartPosition;
     private Vector2 currentEndPosition;
 
@@ -23,6 +25,9 @@ public class TruckController : MonoBehaviour
     protected void Awake()
     {
         truckState = TruckStates.HIDDEN;
+
+        previousTravelPosition = Vector2.zero;
+
         currentStartPosition = Vector2.zero;
         currentEndPosition = Vector2.zero;
     }
@@ -43,8 +48,6 @@ public class TruckController : MonoBehaviour
                 }
                 break;
             case TruckStates.TRAVELING:
-                OnTravelUpdated?.Invoke();
-
                 UpdateTravelPosition();
 
                 float totalTravelDistance = Vector2.Distance(currentStartPosition, currentEndPosition);
@@ -61,7 +64,6 @@ public class TruckController : MonoBehaviour
 
                 if (animatorStateInfo.IsName("IDLE"))
                 {
-                    OnTravelCompleted?.Invoke();
                     EndTravelRow();
                 }
                 break;
@@ -70,12 +72,14 @@ public class TruckController : MonoBehaviour
 
     private void UpdateTravelPosition()
     {
-        Vector2 travelDirection = currentEndPosition - currentStartPosition;
+        previousTravelPosition = transform.position;
 
         Vector2 currentPosition = transform.position;
-        Vector2 newPosition = currentPosition + travelDirection * speed;
+        Vector2 newPosition = currentPosition + TravelDirection * speed;
 
         transform.position = newPosition;
+
+        OnTravelUpdated?.Invoke();
     }
 
     public void SowRow(Vector2 startPosition, Vector2 endPosition)
@@ -92,9 +96,11 @@ public class TruckController : MonoBehaviour
     {
         truckRenderer.enabled = true;
 
-        transform.position = startPosition;
+        Vector2 direction = (endPosition - startPosition).normalized;
 
-        currentStartPosition = startPosition;
+        transform.position = startPosition - direction * 0.5f;
+
+        currentStartPosition = transform.position;
         currentEndPosition = endPosition;
 
         truckAnimator.SetTrigger("SPAWN");
@@ -105,5 +111,19 @@ public class TruckController : MonoBehaviour
     {
         truckRenderer.enabled = false;
         truckState = TruckStates.HIDDEN;
+        OnTravelCompleted?.Invoke();
     }
+
+    public Vector2 TravelDirection
+    {
+        get
+        {
+            return (currentEndPosition - currentStartPosition).normalized;
+        }
+    }
+
+    public Vector2 CurrentTravelPosition { get => transform.position; }
+    public Vector2 PreviousTravelPosition { get => previousTravelPosition; }
+
+    public Vector2 CurrentStartPosition { get => currentStartPosition; }
 }

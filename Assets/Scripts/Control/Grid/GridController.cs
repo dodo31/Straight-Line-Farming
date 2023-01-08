@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,20 +30,24 @@ public class GridController : MonoBehaviour
     private GridSizes gridSizes;
 
     private Grid grid;
-
     private GridStates gridState;
+
+    private TileController[] tiles;
 
     private bool isDraggingFromTile;
     private TileController dragStartTile;
+    private List<TileController> currentTileLine;
 
     protected void Awake()
     {
         grid = new Grid();
-
         gridState = GridStates.IDLE;
+
+        tiles = new TileController[0];
 
         isDraggingFromTile = false;
         dragStartTile = null;
+        currentTileLine = new List<TileController>();
     }
 
     protected void Start()
@@ -51,6 +56,7 @@ public class GridController : MonoBehaviour
         truck.OnTravelCompleted += Handle_OnTruckTravelCompleted;
 
         GenerateGrid();
+        tiles = GetComponentsInChildren<TileController>();
     }
 
     private void GenerateGrid()
@@ -126,8 +132,8 @@ public class GridController : MonoBehaviour
         }
         else
         {
-            TileController startTruckTile = null;
-            TileController endTruckTile = null;
+            Vector2 startTilePosition = Vector2.zero;
+            Vector2 endTilePosition = Vector2.zero;
 
             if (TrySelectTile(out TileController endTile))
             {
@@ -137,9 +143,17 @@ public class GridController : MonoBehaviour
 
                 if (truckPath.Count > 0)
                 {
-                    startTruckTile = GetTileController(grid.GetTile(truckPath[0]));
-                    endTruckTile = GetTileController(grid.GetTile(truckPath[^1]));
-                    lineSelection.UpdateRowLine(startTruckTile.transform.position, endTruckTile.transform.position);
+                    currentTileLine.Clear();
+
+                    foreach (Vector2Int tileCoord in truckPath)
+                    {
+                        TileController tile = GetTileController(grid.GetTile(tileCoord));
+                        currentTileLine.Add(tile);
+                    }
+
+                    startTilePosition = currentTileLine.First().transform.position;
+                    endTilePosition = currentTileLine.Last().transform.position;
+                    lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
                 }
             }
 
@@ -147,9 +161,9 @@ public class GridController : MonoBehaviour
             {
                 lineSelection.EndSelection();
 
-                if (startTruckTile != null && endTruckTile != null)
+                if (currentTileLine.Count > 0)
                 {
-                    truck.SowRow(startTruckTile.transform.position, endTruckTile.transform.position);
+                    truck.SowRow(startTilePosition, endTilePosition);
                     gridState = GridStates.SOWING;
                 }
 
@@ -212,6 +226,31 @@ public class GridController : MonoBehaviour
         return truckPath;
     }
 
+    private void RefreshLineFarming()
+    {
+        switch (gridState)
+        {
+            case GridStates.SOWING:
+                Vector2 truckStartPosition = truck.CurrentStartPosition;
+                Vector2 truckDirection = truck.TravelDirection;
+
+                float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
+                float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
+
+                foreach (TileController lineTile in currentTileLine)
+                {
+                    float tileDistance = Vector2.Distance(truckStartPosition, lineTile.transform.position);
+
+                    if (tileDistance >= truckPreviousDistance && tileDistance < truckCurrentDistance)
+                    {
+                        // TODO
+                    }
+                }
+
+                break;
+        }
+    }
+
     private void SowPlant(PlantTypes plantType, FarmTileController targetTile)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
@@ -241,29 +280,18 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private TileController GetTileController(Tile tile)
+    public TileController GetTileController(Tile tile)
     {
-        TileController[] tileControllers = GetTileControllers();
-        return tileControllers.FirstOrDefault(tileController => tileController.Tile == tile);
-    }
-
-    private TileController[] GetTileControllers()
-    {
-        return GetComponentsInChildren<TileController>();
+        return tiles.FirstOrDefault(tileController => tileController.Tile == tile);
     }
 
     private void Handle_OnTruckTravelUpdated()
     {
-        switch (gridState)
-        {
-            case GridStates.SOWING:
-                break;
-        }
+        RefreshLineFarming();
     }
-    
+
     private void Handle_OnTruckTravelCompleted()
     {
-        Debug.Log("OK");
         gridState = GridStates.IDLE;
     }
 }
