@@ -150,7 +150,7 @@ public class GridController : MonoBehaviour
             Vector2 endTilePosition = currentTileLine.Last().transform.position;
 
             truck.SowRow(startTilePosition, endTilePosition);
-            gridState = GridStates.SOWING;
+            gridState = GridStates.FARMING;
         }
     }
 
@@ -206,15 +206,17 @@ public class GridController : MonoBehaviour
 
     private void RefreshLineFarming()
     {
-        if (gridState == GridStates.SOWING || gridState == GridStates.COLLECTING)
+        switch (gridState)
         {
-            Vector2 truckStartPosition = truck.CurrentStartPosition;
-            FarmTileController truckedTile = TindTruckedTile(truckStartPosition);
+            case GridStates.FARMING:
+                Vector2 truckStartPosition = truck.CurrentStartPosition;
+                FarmTileController truckedTile = TindTruckedTile(truckStartPosition);
 
-            if (truckedTile != null)
-            {
-                OnTruckOverTile?.Invoke(truckedTile);
-            }
+                if (truckedTile != null)
+                {
+                    OnTruckOverTile?.Invoke(truckedTile);
+                }
+                break;
         }
     }
 
@@ -238,9 +240,9 @@ public class GridController : MonoBehaviour
         targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
     }
 
-    public void ConnectPlant(FarmTileController targetTile)
+    public void CollectPlant(FarmTileController targetTile)
     {
-        // TODO
+        targetTile.CollectPlant();
     }
 
     public bool TrySelectTile(out TileController tile)

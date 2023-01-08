@@ -50,22 +50,14 @@ public class GameController : MonoBehaviour
 
         switch (gridController.GridState)
         {
-            case GridStates.SOWING:
-                UserSowAction sowAction = actionPanel.GetSelectedAction() as UserSowAction;
-
-                if (sowAction != null)
+            case GridStates.FARMING:
+                if (selectedAction is UserSowAction sowAction)
                 {
                     gridController.SowPlant(sowAction.PlantType, tile);
                 }
-                break;
-            case GridStates.COLLECTING:
-                UserCollectAction collectAction = actionPanel.GetSelectedAction() as UserCollectAction;
-
-                Debug.Log(collectAction.GetType());
-
-                if (collectAction != null)
+                else if (selectedAction is UserCollectAction collectAction)
                 {
-                    gridController.ConnectPlant(tile);
+                    gridController.CollectPlant(tile);
                 }
                 break;
         }

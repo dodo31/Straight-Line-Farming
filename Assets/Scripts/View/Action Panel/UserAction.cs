@@ -2,15 +2,15 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class UserAction
+public abstract class UserAction
 {
     [SerializeField]
-    private UserActionTypes actionType;
+    protected UserActionTypes actionType;
 
     public UserAction(UserActionTypes actionType)
     {
         this.actionType = actionType;
     }
 
-    protected UserActionTypes ActionType { get => actionType; }
+    public UserActionTypes ActionType { get => actionType; }
 }

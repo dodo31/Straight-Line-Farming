@@ -24,6 +24,7 @@ public class ActionPanel : MonoBehaviour
         if (actionItems.Length > 0)
         {
             SelectItem(actionItems.First());
+            actionItems.Last().SetTargetAction(new UserCollectAction());
         }
     }
 
