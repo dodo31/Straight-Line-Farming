@@ -769,6 +769,31 @@ LineRenderer:
   m_CorrespondingSourceObject: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
   m_PrefabInstance: {fileID: 1117754438}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1285446928 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1378027179973884734, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+  m_PrefabInstance: {fileID: 1378027178841826862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1285446932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285446928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 60
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1330908363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,14 +1041,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hearvest Item
       objectReference: {fileID: 0}
-    - target: {fileID: 8645953261973711436, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8645953261973711438, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8645953261973711439, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1107,10 +1124,6 @@ PrefabInstance:
     - target: {fileID: 8645953261973711439, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8856416557931458191, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
-      propertyPath: m_ChildForceExpandHeight
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
@@ -1348,6 +1361,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1378027179761454156, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378027179761454156, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
@@ -1440,6 +1457,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1378027179973884735, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378027179973884735, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
@@ -1449,6 +1470,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1378027179973884735, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378027180147117246, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378027180147117246, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+      propertyPath: m_ChildForceExpandWidth
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1378027180512041828, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
@@ -1498,6 +1527,10 @@ PrefabInstance:
     - target: {fileID: 1378027180713235836, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4286657453065592157, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
