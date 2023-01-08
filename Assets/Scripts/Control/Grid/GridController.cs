@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -249,31 +248,23 @@ public class GridController : MonoBehaviour
 
     public bool TrySelectTile(GraphicRaycaster graphicRaycaster, out TileController tile)
     {
+        Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return TrySelectTile(graphicRaycaster, selectedPosition, out tile);
+    }
+
+    private bool TrySelectTile(GraphicRaycaster graphicRaycaster, Vector2 position, out TileController tile)
+    {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
 
-        List<RaycastResult> results = new List<RaycastResult>();
-        graphicRaycaster.Raycast(pointerEventData, results);
+        List<RaycastResult> hitsUi = new List<RaycastResult>();
+        graphicRaycaster.Raycast(pointerEventData, hitsUi);
 
-        if (results.Count == 0)
-        {
-            Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            return TrySelectTile(selectedPosition, out tile);
-        }
-        else
-        {
-            tile = null;
-            return false;
-        }
-    }
+        RaycastHit2D hit2d = Physics2D.Raycast(position, -Vector2.up);
 
-    private bool TrySelectTile(Vector2 position, out TileController tile)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(position, -Vector2.up);
-
-        if (hit.collider != null)
+        if (hitsUi.Count == 0 && hit2d.collider != null)
         {
-            return hit.transform.TryGetComponent<TileController>(out tile);
+            return hit2d.transform.TryGetComponent<TileController>(out tile);
         }
         else
         {
