@@ -281,5 +281,21 @@ public class GridController : MonoBehaviour
         gridState = GridStates.IDLE;
     }
 
+    public bool IsIdle
+    {
+        get
+        {
+            return gridState == GridStates.IDLE;
+        }
+    }
+
+    public bool IsFarming
+    {
+        get
+        {
+            return gridState == GridStates.FARMING;
+        }
+    }
+
     public GridStates GridState { get => gridState; }
 }
