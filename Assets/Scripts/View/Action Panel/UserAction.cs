@@ -1,5 +1,10 @@
-public abstract class UserAction
+using System;
+using UnityEngine;
+
+[Serializable]
+public class UserAction
 {
+    [SerializeField]
     private UserActionTypes actionType;
 
     public UserAction(UserActionTypes actionType)

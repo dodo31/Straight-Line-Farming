@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridController: {fileID: 673113590}
+  actionPanel: {fileID: 1330908368}
 --- !u!114 &154875907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,6 +994,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1330908364}
     m_Modifications:
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: targetAction.actionType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1043,7 +1048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8645953261973711436, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_Name
-      value: Hearvest Item
+      value: Collect Item
       objectReference: {fileID: 0}
     - target: {fileID: 8645953261973711439, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_Pivot.x

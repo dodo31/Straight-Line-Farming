@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public class GridController : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class GridController : MonoBehaviour
 
     private TileController dragStartTile;
     private List<TileController> currentTileLine;
+
+    public event Action<FarmTileController> OnTruckOverTile;
 
     protected void Awake()
     {
@@ -110,7 +113,7 @@ public class GridController : MonoBehaviour
         dragStartTile = startTile;
     }
 
-    public void UpdateRowSelection()
+    public void UpdateRowSelection(UserAction currentAction)
     {
         if (TrySelectTile(out TileController endTile))
         {
@@ -133,11 +136,11 @@ public class GridController : MonoBehaviour
                 lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
             }
         }
-        
+
         lineSelection.UpdateSelectionLine();
     }
 
-    public void EndRowSelection()
+    public void EndRowSelection(UserAction currentAction)
     {
         lineSelection.EndSelection();
 
@@ -203,35 +206,41 @@ public class GridController : MonoBehaviour
 
     private void RefreshLineFarming()
     {
-        switch (gridState)
+        if (gridState == GridStates.SOWING || gridState == GridStates.COLLECTING)
         {
-            case GridStates.SOWING:
-                Vector2 truckStartPosition = truck.CurrentStartPosition;
-                Vector2 truckDirection = truck.TravelDirection;
+            Vector2 truckStartPosition = truck.CurrentStartPosition;
+            FarmTileController truckedTile = TindTruckedTile(truckStartPosition);
 
-                float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
-                float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
-
-                foreach (FarmTileController lineTile in currentTileLine)
-                {
-                    float tileDistance = Vector2.Distance(truckStartPosition, lineTile.transform.position);
-
-                    if (tileDistance >= truckPreviousDistance && tileDistance < truckCurrentDistance)
-                    {
-                        SowPlant(PlantTypes.Wheat, lineTile);
-                    }
-                }
-
-                break;
+            if (truckedTile != null)
+            {
+                OnTruckOverTile?.Invoke(truckedTile);
+            }
         }
     }
 
-    private void SowPlant(PlantTypes plantType, FarmTileController targetTile)
+    private FarmTileController TindTruckedTile(Vector2 truckStartPosition)
+    {
+        float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
+        float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
+
+        return currentTileLine.FirstOrDefault(lineTile =>
+        {
+            float tileDistance = Vector2.Distance(truckStartPosition, lineTile.transform.position);
+            return tileDistance >= truckPreviousDistance && tileDistance < truckCurrentDistance;
+        }) as FarmTileController;
+    }
+
+    public void SowPlant(PlantTypes plantType, FarmTileController targetTile)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
 
         PlantController newPlant = Instantiate(plantPrefab);
         targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
+    }
+
+    public void ConnectPlant(FarmTileController targetTile)
+    {
+        // TODO
     }
 
     public bool TrySelectTile(out TileController tile)
