@@ -16,7 +16,7 @@ public class FarmTileController : TileController
 
     public void SowPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
     {
-        plant.transform.SetParent(transform);
+        plant.transform.SetParent(transform, false);
         plant.SetPlantType(plantType);
         plant.SetPlantSprite(plantSprite);
     }

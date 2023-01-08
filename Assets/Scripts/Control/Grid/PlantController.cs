@@ -16,5 +16,7 @@ public class PlantController : MonoBehaviour
     public void SetPlantSprite(Sprite plantSprite)
     {
         plantRenderer.sprite = plantSprite;
+        
+        Debug.Log(plantSprite);
     }
 }

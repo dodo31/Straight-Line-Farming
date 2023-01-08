@@ -18,6 +18,9 @@ public class GridController : MonoBehaviour
     private PlantsDescription plantsDescription;
 
     [SerializeField]
+    private GridSizes gridSizes;
+
+    [SerializeField]
     private Transform tilesContainer;
 
     [SerializeField]
@@ -25,9 +28,6 @@ public class GridController : MonoBehaviour
 
     [SerializeField]
     private TruckController truck;
-
-    [SerializeField]
-    private GridSizes gridSizes;
 
     private Grid grid;
     private GridStates gridState;
@@ -141,10 +141,10 @@ public class GridController : MonoBehaviour
                 Vector2Int endCoord = endTile.Tile.Coord;
                 List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
 
-                if (truckPath.Count > 0)
+                currentTileLine.Clear();
+                
+                if (truckPath.Count >= 2)
                 {
-                    currentTileLine.Clear();
-
                     foreach (Vector2Int tileCoord in truckPath)
                     {
                         TileController tile = GetTileController(grid.GetTile(tileCoord));
@@ -237,13 +237,13 @@ public class GridController : MonoBehaviour
                 float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
                 float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
 
-                foreach (TileController lineTile in currentTileLine)
+                foreach (FarmTileController lineTile in currentTileLine)
                 {
                     float tileDistance = Vector2.Distance(truckStartPosition, lineTile.transform.position);
 
                     if (tileDistance >= truckPreviousDistance && tileDistance < truckCurrentDistance)
                     {
-                        // TODO
+                        SowPlant(PlantTypes.Wheat, lineTile);
                     }
                 }
 

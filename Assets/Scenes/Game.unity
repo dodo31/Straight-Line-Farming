@@ -539,14 +539,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11f8f13ad71ebf41abfa9afec1cf6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 0}
+  plantPrefab: {fileID: 7380731905300747263, guid: 230b7f9985792984f987c937506dd910, type: 3}
   borderTilePrefab: {fileID: -2290271807699257245, guid: 0487a7c67d268374183452210231af5d, type: 3}
   farmTilePrefab: {fileID: -5586102709607090521, guid: e54226f6b9115a84e8749f59d3ee2d20, type: 3}
-  plantsDescription: {fileID: 0}
+  plantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
+  gridSizes: {fileID: 11400000, guid: 991c4bb5dd5525b478594bed6dcbabad, type: 2}
   tilesContainer: {fileID: 871287553}
   lineSelection: {fileID: 893373685}
   truck: {fileID: 716122505227993795}
-  gridSizes: {fileID: 11400000, guid: 991c4bb5dd5525b478594bed6dcbabad, type: 2}
 --- !u!1 &852351348
 GameObject:
   m_ObjectHideFlags: 0
