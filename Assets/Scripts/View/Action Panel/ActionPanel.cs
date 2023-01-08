@@ -27,7 +27,11 @@ public class ActionPanel : MonoBehaviour
             ActionItem lastItem = actionItems.Last();
             
             SelectItem(firstItem);
+            firstItem.SetAvailable();
+            
             lastItem.SetTargetAction(new UserCollectAction());
+            lastItem.SetAvailable();
+            lastItem.Unselect();
         }
     }
 
@@ -47,6 +51,7 @@ public class ActionPanel : MonoBehaviour
 
             UserSowAction sowAction = new UserSowAction(plantDescription.Type);
             plantSowItem.SetTargetAction(sowAction);
+            plantSowItem.SetUnavailable();
         }
     }
 
