@@ -170,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridController: {fileID: 673113590}
   actionPanel: {fileID: 1330908368}
+  graphicRaycaster: {fileID: 515386284}
 --- !u!114 &154875907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,10 +486,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_BlockingObjects: 3
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
 --- !u!114 &515386285
 MonoBehaviour:
   m_ObjectHideFlags: 0

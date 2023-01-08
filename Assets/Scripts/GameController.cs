@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class GameController : MonoBehaviour
     private ActionPanel actionPanel;
 
     private bool isDraggingFromTile;
-
+    
+    [SerializeField]
+    private GraphicRaycaster graphicRaycaster;
+    
     protected void Awake()
     {
         isDraggingFromTile = false;
@@ -23,7 +27,7 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (gridController.IsIdle && gridController.TrySelectTile(out TileController startTile))
+                if (gridController.IsIdle && gridController.TrySelectTile(graphicRaycaster, out TileController startTile))
                 {
                     gridController.StartRowSelection(startTile);
                     isDraggingFromTile = true;
@@ -34,7 +38,7 @@ public class GameController : MonoBehaviour
         {
             UserAction selectedAction = actionPanel.GetSelectedAction();
 
-            gridController.UpdateRowSelection(selectedAction);
+            gridController.UpdateRowSelection(graphicRaycaster, selectedAction);
 
             if (Input.GetMouseButtonUp(0))
             {

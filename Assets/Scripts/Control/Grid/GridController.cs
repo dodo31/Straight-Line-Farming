@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GridController : MonoBehaviour
 {
@@ -113,9 +115,9 @@ public class GridController : MonoBehaviour
         dragStartTile = startTile;
     }
 
-    public void UpdateRowSelection(UserAction currentAction)
+    public void UpdateRowSelection(GraphicRaycaster raycaster, UserAction currentAction)
     {
-        if (TrySelectTile(out TileController endTile))
+        if (TrySelectTile(raycaster, out TileController endTile))
         {
             Vector2Int startCoord = dragStartTile.Tile.Coord;
             Vector2Int endCoord = endTile.Tile.Coord;
@@ -245,10 +247,24 @@ public class GridController : MonoBehaviour
         targetTile.CollectPlant();
     }
 
-    public bool TrySelectTile(out TileController tile)
+    public bool TrySelectTile(GraphicRaycaster graphicRaycaster, out TileController tile)
     {
-        Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return TrySelectTile(selectedPosition, out tile);
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        graphicRaycaster.Raycast(pointerEventData, results);
+
+        if (results.Count == 0)
+        {
+            Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return TrySelectTile(selectedPosition, out tile);
+        }
+        else
+        {
+            tile = null;
+            return false;
+        }
     }
 
     private bool TrySelectTile(Vector2 position, out TileController tile)
