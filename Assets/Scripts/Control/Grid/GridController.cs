@@ -115,8 +115,24 @@ public class GridController : MonoBehaviour
             }
             else
             {
+                Debug.Log("OK");
                 lineSelection.UpdateSelectionLine();
             }
+        }
+    }
+
+    private void RefreshRowSelection(TileController endTile)
+    {
+        Vector2Int startCoord = dragStartTile.Tile.Coord;
+        Vector2Int endCoord = endTile.Tile.Coord;
+
+        List<Vector2Int> coords = GetTotalTruckPath(startCoord, endCoord, false);
+
+        if (coords.Count > 0)
+        {
+            TileController startTruckPath = GetTileController(grid.GetTile(coords[0]));
+            TileController endTruckPath = GetTileController(grid.GetTile(coords[^1]));
+            lineSelection.UpdateRowLine(startTruckPath.transform.position, endTruckPath.transform.position);
         }
     }
 
@@ -166,32 +182,14 @@ public class GridController : MonoBehaviour
 
             safeCount++;
         } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
-        
+
         return truckPath;
-    }
-    private void RefreshRowSelection(TileController endTile)
-    {
-        Vector2Int startCoord = dragStartTile.Tile.Coord;
-        Vector2Int endCoord = endTile.Tile.Coord;
-
-        List<Vector2Int> coords = GetTotalTruckPath(startCoord, endCoord, false);
-
-        if (coords.Count > 0)
-        {
-            TileController startTruckPath = GetTileController(grid.GetTile(coords[0]));
-            TileController endTruckPath = GetTileController(grid.GetTile(coords[^1]));
-            lineSelection.UpdateRowLine(startTruckPath.transform.position, endTruckPath.transform.position);
-        }
-        else
-        {
-            lineSelection.EndSelection();
-        }
     }
 
     private void PlantPlant(PlantTypes plantType, FarmTileController targetTile)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
-        
+
         PlantController newPlant = Instantiate(plantPrefab);
         targetTile.PlantPlant(newPlant, plantType, plantDescription.Sprite);
     }
