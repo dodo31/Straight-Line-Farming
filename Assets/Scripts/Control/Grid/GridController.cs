@@ -53,13 +53,15 @@ public class GridController : MonoBehaviour
 
                 //float centerDistance = Vector2.Distance(centerCoord, tile.Coord + new Vector2(0.5f, 0.25f));
 
-                if (gridSizes.gridSizes[columnIndex][rowIndex] == 'B')
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B')
                 {
                     newTileController = Instantiate(farmTilePrefab);
+                    tile.Type = TileTypes.Farm;
                 }
                 else
                 {
                     newTileController = Instantiate(borderTilePrefab);
+                    tile.Type = TileTypes.Border;
                 }
 
                 newTileController.transform.SetParent(tilesContainer);
@@ -117,44 +119,67 @@ public class GridController : MonoBehaviour
         }
     }
 
+    private List<Vector2Int> GetTotalTruckPath(Vector2Int startCoord, Vector2Int endCoord, bool onlyOneDirection = false)
+    {
+        Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+        Tile currentTile = dragStartTile.Tile;
+        if (currentTile.Type == TileTypes.Empty || startCoord == endCoord)
+        {
+            return new List<Vector2Int>();
+        }
+
+        List<Vector2Int> truckPath = new List<Vector2Int>();
+
+        int safeCount = 0;
+        if (!onlyOneDirection && currentTile.Type != TileTypes.Border)
+        {
+            Directions oppositeDirection = GridUtils.GetOppositeDirection(selectionDirection);
+            do
+            {
+                Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, oppositeDirection);
+                currentTile = grid.GetTile(currentCoord);
+                safeCount++;
+            } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
+
+            if (currentTile == null) return new List<Vector2Int>();
+            safeCount = 0;
+        }
+        //Debug.Log("======================");
+
+        //Debug.Log("FROM: " + startCoord);
+        //Debug.Log("TO: " + endCoord);
+        //Debug.Log("DIRECTION : " + selectionDirection);
+        bool wentOnFarm = currentTile.Type == TileTypes.Farm;
+        do
+        {
+            Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, selectionDirection);
+            currentTile = grid.GetTile(currentCoord);
+
+            if (currentTile.Type == TileTypes.Farm)
+                truckPath.Add(currentCoord);
+            wentOnFarm |= currentTile.Type == TileTypes.Farm;
+
+            safeCount++;
+        } while (currentTile != null && currentTile.Type == TileTypes.Farm && safeCount < 30);
+
+        return truckPath;
+    }
     private void RefreshRowSelection(TileController endTile)
     {
         Vector2Int startCoord = dragStartTile.Tile.Coord;
         Vector2Int endCoord = endTile.Tile.Coord;
 
-        if (!startCoord.Equals(endCoord))
+        List<Vector2Int> coords = GetTotalTruckPath(startCoord, endCoord, false);
+
+
+        if (coords.Count > 0)
         {
-            Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
-
-            Tile currentTile = dragStartTile.Tile;
-
-            List<Vector2Int> coords = new List<Vector2Int>();
-
-            int safeCount = 0;
-
-            Debug.Log("======================");
-
-            Debug.Log("FROM: " + startCoord);
-            Debug.Log("TO: " + endCoord);
-            Debug.Log("DIRECTION : " + selectionDirection);
-
-            while (currentTile != null && safeCount < 10)
-            {
-                Vector2Int currentCoord = GridUtils.CoordDirectionToCoordDelta(currentTile.Coord, selectionDirection);
-                currentTile = grid.GetTile(currentCoord);
-
-                coords.Add(currentCoord);
-                Debug.Log(currentCoord);
-
-                safeCount++;
-            }
-
-            TileController realdEndTile = GetTileController(currentTile);
-
-            if (realdEndTile)
-            {
-                lineSelection.UpdateRowLine(dragStartTile.transform.position, realdEndTile.transform.position);
-            }
+            TileController startTruckPath = GetTileController(grid.GetTile(coords[0]));
+            TileController endTruckPath = GetTileController(grid.GetTile(coords[^1]));
+            lineSelection.UpdateRowLine(startTruckPath.transform.position, endTruckPath.transform.position);
+        } else
+        {
+            lineSelection.EndSelection();
         }
     }
 
