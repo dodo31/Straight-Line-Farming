@@ -255,6 +255,7 @@ public class GridController : MonoBehaviour
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
 
+        Economy.GetInstance().UseMoney(plantDescription.price);
         PlantController newPlant = Instantiate(plantPrefab);
         targetTile.SowPlant(newPlant, plantType, plantDescription.Sprite);
     }
