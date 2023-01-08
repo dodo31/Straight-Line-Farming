@@ -9,16 +9,20 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private ActionPanel actionPanel;
 
-    private bool isDraggingFromTile;
-    
+    [SerializeField]
+    private CompostArea compostArea;
+
     [SerializeField]
     private GraphicRaycaster graphicRaycaster;
     
+    private bool isDraggingFromTile;
+
     protected void Awake()
     {
         isDraggingFromTile = false;
 
         gridController.OnTruckOverTile += Handle_OnTruckOverTile;
+        compostArea.OnWasteReceivingComplete += Handle_OnWasteReceivingComplete;
     }
 
     protected void Start()
@@ -69,5 +73,10 @@ public class GameController : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void Handle_OnWasteReceivingComplete()
+    {
+        Debug.Log("OK");
     }
 }

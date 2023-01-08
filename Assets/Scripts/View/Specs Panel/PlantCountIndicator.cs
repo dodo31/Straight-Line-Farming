@@ -11,7 +11,7 @@ public class PlantCountIndicator : MonoBehaviour
 
     [SerializeField]
     private TMP_Text countText;
-
+    
     public void SetPlantIcon(Sprite plantIcon)
     {
         plantImage.sprite = plantIcon;
