@@ -26,6 +26,7 @@ public class NameGenerator : ScriptableObject
     }
     public string GenName(int minLength = 4, int maxLength = 9)
     {
+        if (map == null) DoMap();
         string name = "";
         System.Random random = new();
         int tot = 0;
