@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,25 +7,25 @@ public class SpecPanel : MonoBehaviour
 {
 
     [SerializeField]
-    private Text clientText;
+    private TMP_Text clientText;
 
     [SerializeField]
     private Image clientImage;
 
     [SerializeField]
-    private List<PlantCounIndicator> requiredPlantIndicators;
+    private List<PlantCountIndicator> requiredPlantIndicators;
 
     [SerializeField]
-    private Text deadlineValueText;
+    private TMP_Text deadlineValueText;
 
     [SerializeField]
-    private Text deadlineUnitText;
+    private TMP_Text deadlineUnitText;
 
     [SerializeField]
-    private Text gainValueText;
+    private TMP_Text gainValueText;
 
     [SerializeField]
-    private Text gainUnitText;
+    private TMP_Text gainUnitText;
 
     public void SetClientName(string clientName)
     {
@@ -36,7 +37,7 @@ public class SpecPanel : MonoBehaviour
         clientImage.sprite = clientIcon;
     }
 
-    public void AddRequiredPlantCount(PlantDescription plantDescription, PlantCounIndicator plantCounIndicator, int plantCount)
+    public void AddRequiredPlantCount(PlantDescription plantDescription, PlantCountIndicator plantCounIndicator, int plantCount)
     {
         plantCounIndicator.SetPlantType(plantDescription.Type);
         plantCounIndicator.SetPlantIcon(plantDescription.Sprite);

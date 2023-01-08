@@ -9,7 +9,7 @@ public class SpecPanelsContainer : MonoBehaviour
     private SpecPanel specPanelPrefab;
 
     [SerializeField]
-    private PlantCounIndicator plantCountIndicatorPrefab;
+    private PlantCountIndicator plantCountIndicatorPrefab;
 
     public SpecPanel AddSpecPanel(string clientName, Sprite clientIcon, int deadline, float gain)
     {
@@ -25,7 +25,7 @@ public class SpecPanelsContainer : MonoBehaviour
     public void AddCountIndicatorToPanel(SpecPanel panel, PlantTypes plantType, int plantCount)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
-        PlantCounIndicator plantCounIndicator = Instantiate(plantCountIndicatorPrefab);
+        PlantCountIndicator plantCounIndicator = Instantiate(plantCountIndicatorPrefab);
         panel.AddRequiredPlantCount(plantDescription, plantCounIndicator, plantCount);
     }
 }

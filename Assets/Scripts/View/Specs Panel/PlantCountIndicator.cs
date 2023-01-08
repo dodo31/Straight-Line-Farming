@@ -1,16 +1,16 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlantCounIndicator : MonoBehaviour
+public class PlantCountIndicator : MonoBehaviour
 {
     [SerializeField]
     private Image plantImage;
 
-    [SerializeField]
     private PlantTypes type;
 
     [SerializeField]
-    private Text countText;
+    private TMP_Text countText;
 
     public void SetPlantIcon(Sprite plantIcon)
     {
