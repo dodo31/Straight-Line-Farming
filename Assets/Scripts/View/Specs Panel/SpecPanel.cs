@@ -29,7 +29,7 @@ public class SpecPanel : MonoBehaviour
 
     public void SetClientName(string clientName)
     {
-        clientText.name = clientName;
+        clientText.text = clientName;
     }
 
     public void SetClientIcon(Sprite clientIcon)

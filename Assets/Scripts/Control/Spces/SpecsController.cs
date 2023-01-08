@@ -16,7 +16,13 @@ public class SpecsController : MonoBehaviour
             specBase.PutSpec(specGenerator.GenerateSpec(specID));
         }
     }
-
+    public void Update()
+    {
+        if(Time.frameCount % 1000 == 0)
+        {
+            SpawnNextSpec();
+        }
+    }
     public void SpawnNextSpec()
     {
         Spec spec = specBase.TakeSpec();
