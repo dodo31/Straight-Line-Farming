@@ -35,13 +35,11 @@ public class PlantWaste : MonoBehaviour
 
     public void Disappear()
     {
-        Debug.Log("DISAPPEAR");
         wasteAnimator.SetTrigger("DISAPPEAR");
     }
 
     public void Throw()
     {
-        Debug.Log("THROW");
         wasteAnimator.SetTrigger("THROW");
     }
 }
