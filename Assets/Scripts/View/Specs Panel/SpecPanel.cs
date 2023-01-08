@@ -41,7 +41,7 @@ public class SpecPanel : MonoBehaviour
     {
         plantCounIndicator.transform.SetParent(plantCountIndicatorContainer);
         plantCounIndicator.SetPlantType(plantDescription.Type);
-        plantCounIndicator.SetPlantIcon(plantDescription.Sprite);
+        plantCounIndicator.SetPlantIcon(plantDescription.GridSprite);
         plantCounIndicator.SetPlantCount(plantCount);
     }
 
