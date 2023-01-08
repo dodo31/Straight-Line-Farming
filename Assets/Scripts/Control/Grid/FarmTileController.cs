@@ -16,6 +16,13 @@ public class FarmTileController : TileController
 
     public void SowPlant(PlantController plant, PlantTypes plantType, Sprite plantSprite)
     {
+        PlantController currentPlant = this.GetComponentInChildren<PlantController>();
+
+        if (currentPlant != null)
+        {
+            DestroyImmediate(currentPlant.gameObject);
+        }
+
         plant.transform.SetParent(transform, false);
         plant.SetPlantType(plantType);
         plant.SetPlantSprite(plantSprite);

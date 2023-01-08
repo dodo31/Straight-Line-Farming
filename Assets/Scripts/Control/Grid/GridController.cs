@@ -106,17 +106,7 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
 
-    protected void Update()
-    {
-        switch (gridState)
-        {
-            case GridStates.IDLE:
-                ManageRowSelection();
-                break;
-        }
-    }
-
-    private void ManageRowSelection()
+    public void ManageRowSelection()
     {
         if (!isDraggingFromTile)
         {
@@ -294,4 +284,6 @@ public class GridController : MonoBehaviour
     {
         gridState = GridStates.IDLE;
     }
+    
+    public GridStates GridState { get => gridState; }
 }

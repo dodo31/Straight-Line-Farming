@@ -5,8 +5,13 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GridController gridController;
 
-    protected void Start()
+    protected void Update()
     {
-        
+        switch (gridController.GridState)
+        {
+            case GridStates.IDLE:
+                gridController.ManageRowSelection();
+                break;
+        }
     }
 }
