@@ -11,19 +11,23 @@ public class SpecCardsContainer : MonoBehaviour
     [SerializeField]
     private PlantCountIndicator plantCountIndicatorPrefab;
 
-    public SpecCard AddSpecPanel(Spec spec)
+    public void AddSpecCard(Spec spec)
     {
-        SpecCard specPanel = Instantiate(specCardPrefab);
-        specPanel.transform.SetParent(transform);
-        specPanel.SetSpec(spec);
-        return specPanel;
+        SpecCard specCard = Instantiate(specCardPrefab);
+        specCard.transform.SetParent(transform);
+        specCard.SetSpec(spec);
+
+        foreach (PlantCount plantCount in spec.RequiredPlantCounts)
+        {
+            AddCountIndicatorToPanel(specCard, plantCount.Type, plantCount.Count);
+        }
     }
 
-    public void AddCountIndicatorToPanel(SpecCard panel, PlantTypes plantType, int plantCount)
+    private void AddCountIndicatorToPanel(SpecCard card, PlantTypes plantType, int plantCount)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
         PlantCountIndicator plantCounIndicator = Instantiate(plantCountIndicatorPrefab);
-        panel.AddRequiredPlantCount(plantDescription, plantCounIndicator, plantCount);
+        card.AddRequiredPlantCount(plantDescription, plantCounIndicator, plantCount);
     }
     public SpecCard[] GetSpecCards()
     {

@@ -42,12 +42,7 @@ public class SpecsController : MonoBehaviour
 
         if (spec != null)
         {
-            SpecCard newSpecPanel = specPanelsContainer.AddSpecPanel(spec);
-
-            foreach (PlantCount plantCount in spec.RequiredPlantCounts)
-            {
-                specPanelsContainer.AddCountIndicatorToPanel(newSpecPanel, plantCount.Type, plantCount.Count);
-            }
+            specPanelsContainer.AddSpecCard(spec);
         }
     }
 }

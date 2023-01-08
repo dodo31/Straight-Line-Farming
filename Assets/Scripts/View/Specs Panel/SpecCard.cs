@@ -33,8 +33,8 @@ public class SpecCard : MonoBehaviour
 
         SetClientName(spec.ClientName);
         SetClientIcon(Resources.Load<Sprite>(spec.ClientSpritePath));
-        SetClientName(spec.ClientName);
-        SetClientName(spec.ClientName);
+        SetDeadline(spec.Deadline);
+        SetGain(spec.Gain);
     }
 
     public void Validate()
@@ -81,6 +81,6 @@ public class SpecCard : MonoBehaviour
         float gain = Mathf.Round(gainRaw);
         gainValueText.text = gain.ToString();
     }
-    
+
     public Spec Spec { get => spec; }
 }
