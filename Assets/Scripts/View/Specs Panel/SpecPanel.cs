@@ -13,7 +13,7 @@ public class SpecPanel : MonoBehaviour
     private Image clientImage;
 
     [SerializeField]
-    private List<PlantCountIndicator> requiredPlantIndicators;
+    private Transform plantCountIndicatorContainer;
 
     [SerializeField]
     private TMP_Text deadlineValueText;
@@ -39,6 +39,7 @@ public class SpecPanel : MonoBehaviour
 
     public void AddRequiredPlantCount(PlantDescription plantDescription, PlantCountIndicator plantCounIndicator, int plantCount)
     {
+        plantCounIndicator.transform.SetParent(plantCountIndicatorContainer);
         plantCounIndicator.SetPlantType(plantDescription.Type);
         plantCounIndicator.SetPlantIcon(plantDescription.Sprite);
         plantCounIndicator.SetPlantCount(plantCount);
