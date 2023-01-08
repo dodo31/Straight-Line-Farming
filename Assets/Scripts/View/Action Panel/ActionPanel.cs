@@ -23,8 +23,15 @@ public class ActionPanel : MonoBehaviour
 
         if (actionItems.Length > 0)
         {
-            SelectItem(actionItems.First());
-            actionItems.Last().SetTargetAction(new UserCollectAction());
+            ActionItem firstItem = actionItems.First();
+            ActionItem lastItem = actionItems.Last();
+            
+            SelectItem(firstItem);
+            firstItem.SetAvailable();
+            
+            lastItem.SetTargetAction(new UserCollectAction());
+            lastItem.SetAvailable();
+            lastItem.Unselect();
         }
     }
 
@@ -44,6 +51,7 @@ public class ActionPanel : MonoBehaviour
 
             UserSowAction sowAction = new UserSowAction(plantDescription.Type);
             plantSowItem.SetTargetAction(sowAction);
+            plantSowItem.SetUnavailable();
         }
     }
 
