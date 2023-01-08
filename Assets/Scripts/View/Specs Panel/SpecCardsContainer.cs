@@ -1,33 +1,33 @@
 using UnityEngine;
 
-public class SpecPanelsContainer : MonoBehaviour
+public class SpecCardsContainer : MonoBehaviour
 {
     [SerializeField]
     private PlantsDescription plantsDescription;
 
     [SerializeField]
-    private SpecPanel specPanelPrefab;
+    private SpecCard specCardPrefab;
 
     [SerializeField]
     private PlantCountIndicator plantCountIndicatorPrefab;
 
-    public SpecPanel AddSpecPanel(Spec spec)
+    public SpecCard AddSpecPanel(Spec spec)
     {
-        SpecPanel specPanel = Instantiate(specPanelPrefab);
+        SpecCard specPanel = Instantiate(specCardPrefab);
         specPanel.transform.SetParent(transform);
         specPanel.SetSpec(spec);
         return specPanel;
     }
 
-    public void AddCountIndicatorToPanel(SpecPanel panel, PlantTypes plantType, int plantCount)
+    public void AddCountIndicatorToPanel(SpecCard panel, PlantTypes plantType, int plantCount)
     {
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
         PlantCountIndicator plantCounIndicator = Instantiate(plantCountIndicatorPrefab);
         panel.AddRequiredPlantCount(plantDescription, plantCounIndicator, plantCount);
     }
-    public SpecPanel[] GetSpecPanels()
+    public SpecCard[] GetSpecCards()
     {
-        return GetComponentsInChildren<SpecPanel>();
+        return GetComponentsInChildren<SpecCard>();
     }
 
 }

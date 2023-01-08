@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpecPanel : MonoBehaviour
+public class SpecCard : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text clientText;
@@ -45,11 +44,6 @@ public class SpecPanel : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public Spec GetSpec()
-    {
-        return spec;
-    }
-
     public void SetClientName(string clientName)
     {
         clientText.text = clientName;
@@ -87,5 +81,6 @@ public class SpecPanel : MonoBehaviour
         float gain = Mathf.Round(gainRaw);
         gainValueText.text = gain.ToString();
     }
-
+    
+    public Spec Spec { get => spec; }
 }
