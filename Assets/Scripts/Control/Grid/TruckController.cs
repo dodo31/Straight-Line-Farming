@@ -23,7 +23,7 @@ public class TruckController : MonoBehaviour
 
                 break;
             case TruckStates.SPAWNING:
-
+                
                 break;
             case TruckStates.TRAVELING:
 

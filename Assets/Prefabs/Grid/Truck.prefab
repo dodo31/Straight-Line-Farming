@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 7335795413442312899}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e14fb287174746e459f4e3fde4f0c074, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -118,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c0743609fc71049ad0f044d5c8cc99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  truckRenderer: {fileID: 0}
-  truckAnimator: {fileID: 0}
+  truckRenderer: {fileID: 716122505227993797}
+  truckAnimator: {fileID: 716122505227993796}
