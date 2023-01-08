@@ -38,17 +38,13 @@ public class GridController : MonoBehaviour
 
     private TileController dragStartTile;
     private List<TileController> currentTileLine;
-    private static GridController instance;
-    public static GridController GetInstance()
-    {
-        return instance;
-    }
+
+    private PlantCount[] currentPathPlants;
 
     public event Action<FarmTileController> OnTruckOverTile;
 
     protected void Awake()
     {
-        instance = this;
         grid = new Grid();
         gridState = GridStates.IDLE;
 
@@ -143,40 +139,23 @@ public class GridController : MonoBehaviour
         }
         lineSelection.UpdateSelectionLine();
     }
-    public SpecPanel[] PanelsToValidate(List<Vector2Int> truckPath)
-    {
-        var plantCounts = PlantCountsFromPath(truckPath);
-        return PanelsToValidate(plantCounts);
-    }
-    public SpecPanel[] PanelsToValidate(PlantCount[] plantCounts)
-    {
-        List<SpecPanel> panelsToValidate = new();
-        var panels = SpecsController.GetInstance().GetContainer().GetSpecPanels();
-        foreach (var panel in panels)
-        {
-            var panelPlantCount = panel.GetSpec().RequiredPlantCounts;
-            bool enough = IsPlantCountArrayEnough(plantCounts, panelPlantCount, out PlantCount[] remainder);
-            if (enough)
-            {
-                panelsToValidate.Add(panel);
-                plantCounts = remainder;
-            }
-        }
-        return panelsToValidate.ToArray();
-    }
 
     public PlantCount[] PlantCountsFromPath(List<Vector2Int> truckPath)
     {
         int[] amounts = new int[4];
-        for(int i = 0; i < truckPath.Count; i++)
+        for (int i = 0; i < truckPath.Count; i++)
         {
-            TileController tileCon = GetTileController(grid.GetTile(truckPath[i]));
-            if (tileCon is FarmTileController farmTileController)
+            TileController tileController = GetTileController(grid.GetTile(truckPath[i]));
+            if (tileController is FarmTileController farmTileController)
             {
                 PlantController plant = farmTileController.GetCurrentPlant();
+                
                 //Debug.Log(plant);
-                if(plant !=null)
+                
+                if (plant != null)
+                {
                     amounts[(int)plant.GetPlantType()]++;
+                }
             }
         }
         List<PlantCount> plantCounts = new();
@@ -194,10 +173,10 @@ public class GridController : MonoBehaviour
     public static bool IsPlantCountArrayEnough(PlantCount[] harvested, PlantCount[] spec, out PlantCount[] remainder)
     {
         List<PlantCount> remainderList = new();
-        for(int i = 0; i<spec.Length; i++)
+        for (int i = 0; i < spec.Length; i++)
         {
             bool found = false;
-            for(int j = 0; j < harvested.Length; j++)
+            for (int j = 0; j < harvested.Length; j++)
             {
                 if (spec[i].Type == harvested[j].Type)
                 {
@@ -205,7 +184,8 @@ public class GridController : MonoBehaviour
                     {
                         remainder = null;
                         return false;
-                    } else
+                    }
+                    else
                     {
                         found = true;
                         if (spec[i].Count < harvested[j].Count)
@@ -225,7 +205,7 @@ public class GridController : MonoBehaviour
         return true;
 
     }
-    PlantCount[] currentPathPlants;
+
     public void EndRowSelection(UserAction currentAction)
     {
         lineSelection.EndSelection();
@@ -234,8 +214,9 @@ public class GridController : MonoBehaviour
         {
             Vector2 startTilePosition = currentTileLine.First().transform.position;
             Vector2 endTilePosition = currentTileLine.Last().transform.position;
-            List<Vector2Int> truckPath = GridController.GetInstance().GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
+            List<Vector2Int> truckPath = GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
             currentPathPlants = PlantCountsFromPath(truckPath);
+
             truck.SowRow(startTilePosition, endTilePosition);
             gridState = GridStates.FARMING;
         }
@@ -365,6 +346,33 @@ public class GridController : MonoBehaviour
         return tiles.FirstOrDefault(tileController => tileController.Tile == tile);
     }
 
+    public SpecCard[] SpecCardsToValidate(List<Vector2Int> truckPath, out PlantCount[] garbage)
+    {
+        PlantCount[] plantCounts = PlantCountsFromPath(truckPath);
+        return SpecCardsToValidate(plantCounts, out garbage);
+    }
+
+    public SpecCard[] SpecCardsToValidate(PlantCount[] plantCounts, out PlantCount[] garbage)
+    {
+        List<SpecCard> cardsToValidate = new();
+        SpecCard[] specCards = SpecsController.GetInstance().GetContainer().GetSpecCards();
+        garbage = plantCounts;
+
+        foreach (SpecCard specCard in specCards)
+        {
+            PlantCount[] cardPlantCount = specCard.Spec.RequiredPlantCounts;
+            bool enough = IsPlantCountArrayEnough(plantCounts, cardPlantCount, out PlantCount[] remainder);
+
+            if (enough)
+            {
+                cardsToValidate.Add(specCard);
+                plantCounts = remainder;
+                garbage = plantCounts;
+            }
+        }
+        return cardsToValidate.ToArray();
+    }
+
     private void Handle_OnTruckTravelUpdated()
     {
         RefreshLineFarming();
@@ -372,12 +380,13 @@ public class GridController : MonoBehaviour
 
     private void Handle_OnTruckTravelCompleted()
     {
-        var panels = PanelsToValidate(currentPathPlants);
-        foreach(SpecPanel panel in panels)
+        SpecCard[] specCards = SpecCardsToValidate(currentPathPlants, out _);
+
+        foreach (SpecCard specCard in specCards)
         {
-            panel.Validate();
+            specCard.Validate();
         }
-        
+
         gridState = GridStates.IDLE;
     }
 

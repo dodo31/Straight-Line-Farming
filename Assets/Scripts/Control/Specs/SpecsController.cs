@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpecsController : MonoBehaviour
 {
     [SerializeField]
-    private SpecPanelsContainer specPanelsContainer;
+    private SpecCardsContainer specPanelsContainer;
     
     [SerializeField]
     private SpecGenerator specGenerator;
@@ -14,7 +14,7 @@ public class SpecsController : MonoBehaviour
     {
         return instance;
     }
-    public SpecPanelsContainer GetContainer()
+    public SpecCardsContainer GetContainer()
     {
         return specPanelsContainer;
     }
@@ -42,12 +42,7 @@ public class SpecsController : MonoBehaviour
 
         if (spec != null)
         {
-            SpecPanel newSpecPanel = specPanelsContainer.AddSpecPanel(spec);
-
-            foreach (PlantCount plantCount in spec.RequiredPlantCounts)
-            {
-                specPanelsContainer.AddCountIndicatorToPanel(newSpecPanel, plantCount.Type, plantCount.Count);
-            }
+            specPanelsContainer.AddSpecCard(spec);
         }
     }
 }

@@ -2555,7 +2555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
-  specPanelPrefab: {fileID: 1378027179096100120, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
+  specCardPrefab: {fileID: 1378027179096100120, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
   plantCountIndicatorPrefab: {fileID: 4786305017035806045, guid: 19bc049759e9a674791bfeba2ce1c9dc, type: 3}
 --- !u!114 &2082553996
 MonoBehaviour:

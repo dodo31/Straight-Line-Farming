@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpecPanel : MonoBehaviour
+public class SpecCard : MonoBehaviour
 {
     [SerializeField]
     private TMP_Text clientText;
@@ -34,8 +33,8 @@ public class SpecPanel : MonoBehaviour
 
         SetClientName(spec.ClientName);
         SetClientIcon(Resources.Load<Sprite>(spec.ClientSpritePath));
-        SetClientName(spec.ClientName);
-        SetClientName(spec.ClientName);
+        SetDeadline(spec.Deadline);
+        SetGain(spec.Gain);
     }
 
     public void Validate()
@@ -43,11 +42,6 @@ public class SpecPanel : MonoBehaviour
         Economy.GetInstance().GainMoney(spec.Gain);
         Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
         Destroy(this.gameObject);
-    }
-
-    public Spec GetSpec()
-    {
-        return spec;
     }
 
     public void SetClientName(string clientName)
@@ -88,4 +82,5 @@ public class SpecPanel : MonoBehaviour
         gainValueText.text = gain.ToString();
     }
 
+    public Spec Spec { get => spec; }
 }
