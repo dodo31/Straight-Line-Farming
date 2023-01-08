@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (gridController.TrySelectTile(out TileController startTile))
+                if (gridController.IsIdle && gridController.TrySelectTile(out TileController startTile))
                 {
                     gridController.StartRowSelection(startTile);
                     isDraggingFromTile = true;
