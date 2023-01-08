@@ -21,6 +21,7 @@ public class TruckController : MonoBehaviour
 
     public event Action OnTravelUpdated;
     public event Action OnTravelCompleted;
+    public PlantCount[] plantsHarvested;
 
     protected void Awake()
     {
@@ -95,6 +96,7 @@ public class TruckController : MonoBehaviour
     private void StartTravelRow(Vector2 startPosition, Vector2 endPosition)
     {
         Economy.GetInstance().UseMoney(100);
+
         truckRenderer.enabled = true;
 
         Vector2 direction = (endPosition - startPosition).normalized;
@@ -113,6 +115,7 @@ public class TruckController : MonoBehaviour
         truckRenderer.enabled = false;
         truckState = TruckStates.HIDDEN;
         OnTravelCompleted?.Invoke();
+       
     }
 
     public Vector2 TravelDirection

@@ -38,11 +38,17 @@ public class GridController : MonoBehaviour
 
     private TileController dragStartTile;
     private List<TileController> currentTileLine;
+    private static GridController instance;
+    public static GridController GetInstance()
+    {
+        return instance;
+    }
 
     public event Action<FarmTileController> OnTruckOverTile;
 
     protected void Awake()
     {
+        instance = this;
         grid = new Grid();
         gridState = GridStates.IDLE;
 
@@ -121,9 +127,7 @@ public class GridController : MonoBehaviour
             Vector2Int startCoord = dragStartTile.Tile.Coord;
             Vector2Int endCoord = endTile.Tile.Coord;
             List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
-
             currentTileLine.Clear();
-
             if (truckPath.Count >= 2)
             {
                 foreach (Vector2Int tileCoord in truckPath)
@@ -139,6 +143,27 @@ public class GridController : MonoBehaviour
         }
         lineSelection.UpdateSelectionLine();
     }
+    public SpecPanel[] PanelsToValidate(List<Vector2Int> truckPath)
+    {
+        var plantCounts = PlantCountsFromPath(truckPath);
+        return PanelsToValidate(plantCounts);
+    }
+    public SpecPanel[] PanelsToValidate(PlantCount[] plantCounts)
+    {
+        List<SpecPanel> panelsToValidate = new();
+        var panels = SpecsController.GetInstance().GetContainer().GetSpecPanels();
+        foreach (var panel in panels)
+        {
+            var panelPlantCount = panel.GetSpec().RequiredPlantCounts;
+            bool enough = IsPlantCountArrayEnough(plantCounts, panelPlantCount, out PlantCount[] remainder);
+            if (enough)
+            {
+                panelsToValidate.Add(panel);
+                plantCounts = remainder;
+            }
+        }
+        return panelsToValidate.ToArray();
+    }
 
     public PlantCount[] PlantCountsFromPath(List<Vector2Int> truckPath)
     {
@@ -146,10 +171,12 @@ public class GridController : MonoBehaviour
         for(int i = 0; i < truckPath.Count; i++)
         {
             TileController tileCon = GetTileController(grid.GetTile(truckPath[i]));
-            if(tileCon is FarmTileController)
+            if (tileCon is FarmTileController farmTileController)
             {
-                PlantController plant = ((FarmTileController)tileCon).GetCurrentPlant();
-                amounts[(int)plant.GetPlantType()]++;
+                PlantController plant = farmTileController.GetCurrentPlant();
+                //Debug.Log(plant);
+                if(plant !=null)
+                    amounts[(int)plant.GetPlantType()]++;
             }
         }
         List<PlantCount> plantCounts = new();
@@ -198,7 +225,7 @@ public class GridController : MonoBehaviour
         return true;
 
     }
-
+    PlantCount[] currentPathPlants;
     public void EndRowSelection(UserAction currentAction)
     {
         lineSelection.EndSelection();
@@ -207,13 +234,14 @@ public class GridController : MonoBehaviour
         {
             Vector2 startTilePosition = currentTileLine.First().transform.position;
             Vector2 endTilePosition = currentTileLine.Last().transform.position;
-
+            List<Vector2Int> truckPath = GridController.GetInstance().GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
+            currentPathPlants = PlantCountsFromPath(truckPath);
             truck.SowRow(startTilePosition, endTilePosition);
             gridState = GridStates.FARMING;
         }
     }
 
-    private List<Vector2Int> GetTotalTruckPath(Vector2Int startCoord, Vector2Int endCoord, bool onlyOneDirection = false)
+    public List<Vector2Int> GetTotalTruckPath(Vector2Int startCoord, Vector2Int endCoord, bool onlyOneDirection = false)
     {
         Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
         Tile currentTile = dragStartTile.Tile;
@@ -344,6 +372,12 @@ public class GridController : MonoBehaviour
 
     private void Handle_OnTruckTravelCompleted()
     {
+        var panels = PanelsToValidate(currentPathPlants);
+        foreach(SpecPanel panel in panels)
+        {
+            panel.Validate();
+        }
+        
         gridState = GridStates.IDLE;
     }
 

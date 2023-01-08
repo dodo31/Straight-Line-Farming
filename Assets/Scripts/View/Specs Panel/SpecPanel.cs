@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SpecPanel : MonoBehaviour
 {
-
     [SerializeField]
     private TMP_Text clientText;
 
@@ -26,6 +25,30 @@ public class SpecPanel : MonoBehaviour
 
     [SerializeField]
     private TMP_Text gainUnitText;
+
+    private Spec spec;
+
+    public void SetSpec(Spec spec)
+    {
+        this.spec = spec;
+
+        SetClientName(spec.ClientName);
+        SetClientIcon(Resources.Load<Sprite>(spec.ClientSpritePath));
+        SetClientName(spec.ClientName);
+        SetClientName(spec.ClientName);
+    }
+
+    public void Validate()
+    {
+        Economy.GetInstance().GainMoney(spec.Gain);
+        Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
+        Destroy(this.gameObject);
+    }
+
+    public Spec GetSpec()
+    {
+        return spec;
+    }
 
     public void SetClientName(string clientName)
     {
@@ -64,4 +87,5 @@ public class SpecPanel : MonoBehaviour
         float gain = Mathf.Round(gainRaw);
         gainValueText.text = gain.ToString();
     }
+
 }

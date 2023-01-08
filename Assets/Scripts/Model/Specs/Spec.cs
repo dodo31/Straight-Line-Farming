@@ -8,9 +8,9 @@ public class Spec
     private List<PlantCount> requiredPlantCounts;
 
     private int deadline;
-    private float gain;
+    private int gain;
 
-    public Spec(string clientName, string clientSpritePath, int deadline, float gain)
+    public Spec(string clientName, string clientSpritePath, int deadline, int gain)
     {
         this.clientName = clientName;
         this.clientSpritePath = clientSpritePath;
@@ -38,5 +38,5 @@ public class Spec
     }
 
     public int Deadline { get => deadline; }
-    public float Gain { get => gain; }
+    public int Gain { get => gain; }
 }

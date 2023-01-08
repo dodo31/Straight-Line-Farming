@@ -14,6 +14,10 @@ public class SpecsController : MonoBehaviour
     {
         return instance;
     }
+    public SpecPanelsContainer GetContainer()
+    {
+        return specPanelsContainer;
+    }
 
     protected void Awake()
     {
@@ -38,8 +42,7 @@ public class SpecsController : MonoBehaviour
 
         if (spec != null)
         {
-            Sprite clientSprite = Resources.Load<Sprite>(spec.ClientSpritePath);
-            SpecPanel newSpecPanel = specPanelsContainer.AddSpecPanel(spec.ClientName, clientSprite, spec.Deadline, spec.Gain);
+            SpecPanel newSpecPanel = specPanelsContainer.AddSpecPanel(spec);
 
             foreach (PlantCount plantCount in spec.RequiredPlantCounts)
             {
