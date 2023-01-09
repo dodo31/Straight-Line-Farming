@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShopPanel : MonoBehaviour
 {
@@ -127,10 +128,8 @@ public class ShopPanel : MonoBehaviour
             return;
         economyController.UseMoney(price);
         currentTurn++;
-        Debug.Log("end of the game here!");
-        if (shopTurnPrices.Length > currentTurn)
-            shopTurn.SetPrice(shopTurnPrices[currentTurn]);
-        else Destroy(shopTurn.gameObject);
+        SceneManager.LoadScene("Win");
+
     }
 
 }
