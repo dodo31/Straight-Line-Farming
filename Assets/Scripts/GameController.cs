@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private GraphicRaycaster graphicRaycaster;
-    
+
     private UserAction selectedAction;
 
     private bool isDraggingFromTile;
@@ -44,19 +44,22 @@ public class GameController : MonoBehaviour
     protected void Start()
     {
         selectedAction = actionPanel.GetSelectedAction();
-        
+
         economyController.GainMoney(1000);
     }
     protected void Update()
     {
         if (!isDraggingFromTile)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (gridController.TryHitTile(graphicRaycaster, out TileController tile))
             {
-                if (gridController.IsIdle && gridController.TrySelectTile(graphicRaycaster, out TileController startTile))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    gridController.StartRowSelection(startTile);
-                    isDraggingFromTile = true;
+                    if (gridController.IsIdle)
+                    {
+                        gridController.StartRowSelection(tile);
+                        isDraggingFromTile = true;
+                    }
                 }
             }
         }
@@ -69,7 +72,7 @@ public class GameController : MonoBehaviour
             {
                 if (hasSelectionChanged)
                 {
-					SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out PlantCount[] plantsGarbage);
+                    SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out PlantCount[] plantsGarbage);
 
                     foreach (SpecCard specCard in specsController.GetSpecCards())
                     {
@@ -82,17 +85,19 @@ public class GameController : MonoBehaviour
                             specCard.SetAsNormal();
                         }
                     }
-					compostArea.Refresh(plantsGarbage);
-				}
-			} else {
-				if(hasSelectionChanged)
-				{
-					foreach (SpecCard specCard in specsController.GetSpecCards())
-					{
-						specCard.SetAsNormal();
-					}
-				}
-			}
+                    compostArea.Refresh(plantsGarbage);
+                }
+            }
+            else
+            {
+                if (hasSelectionChanged)
+                {
+                    foreach (SpecCard specCard in specsController.GetSpecCards())
+                    {
+                        specCard.SetAsNormal();
+                    }
+                }
+            }
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -140,7 +145,7 @@ public class GameController : MonoBehaviour
                 specCard.Validate();
             }
         }
-        
+
         compostArea.AcceptWastes();
     }
 

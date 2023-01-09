@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Lives : MonoBehaviour
@@ -16,6 +17,10 @@ public class Lives : MonoBehaviour
             {
                 lives[i].enabled = i < lastLives;
             }
+        }
+        if(lastLives <= 0)
+        {
+            SceneManager.LoadScene("Lose");
         }
     }
 }

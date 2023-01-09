@@ -45,7 +45,6 @@ public class ActionItem : MonoBehaviour
     {
         itemButton.onClick.AddListener(() =>
         {
-            Debug.Log("oh");
             OnClicked?.Invoke(this);
         });
     }
