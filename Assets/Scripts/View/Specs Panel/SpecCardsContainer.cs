@@ -23,6 +23,11 @@ public class SpecCardsContainer : MonoBehaviour
         foreach (SpecCard specCard in GetSpecCards())
         {
             specCard.TargetPosY = CreateCardPosY(specCard);
+
+            if (specCard.HasLeaved)
+            {
+                DestroyImmediate(specCard.gameObject);
+            }
         }
     }
 
@@ -46,11 +51,11 @@ public class SpecCardsContainer : MonoBehaviour
         RectTransform cardTransform = ((RectTransform)specCard.transform);
         Vector2 cardSize = cardTransform.sizeDelta;
 
-        float cardPosX = cardSize.x / 2;
+        float cardPosX = cardSize.x / 2 + 10;
         float cardPosY = CreateCardPosY(specCard);
 
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
-        
+
         specCard.OrderTargetPosX = -cardSize.x / 2;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)

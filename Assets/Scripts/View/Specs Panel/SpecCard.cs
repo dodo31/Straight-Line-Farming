@@ -1,15 +1,14 @@
-using System.Net.Mail;
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpecCard : MonoBehaviour
 {
-    [SerializeField]
-    private const float ANIMATIONS_SPEED = 0.25f;
-    
+    private const float ANIMATIONS_SPEED = 0.1f;
+
+    public const float START_POS_X_MARGIN = 10;
+
     [SerializeField]
     private TMP_Text clientText;
 
@@ -40,11 +39,15 @@ public class SpecCard : MonoBehaviour
     private float targetPosX;
     private float targetPosY;
 
+    private SpecCardStates cardState;
+
     private void Awake()
     {
         rectTransform = (RectTransform)transform;
         targetPosX = 0;
         targetPosY = 0;
+
+        cardState = SpecCardStates.IDLE;
     }
 
     public void SetSpec(Spec spec)
@@ -59,14 +62,20 @@ public class SpecCard : MonoBehaviour
 
     public void SetAsNormal()
     {
-        RectTransform parentTransform = (RectTransform)transform.parent;
-        targetPosX = -rectTransform.sizeDelta.x / 2f;
+        if (!IsLeaving)
+        {
+            RectTransform parentTransform = (RectTransform)transform.parent;
+            targetPosX = -rectTransform.sizeDelta.x / 2f;
+        }
     }
 
     public void SetAsPreview()
     {
-        RectTransform parentTransform = (RectTransform)transform.parent;
-        targetPosX = -rectTransform.sizeDelta.x / 2f - 35;
+        if (!IsLeaving)
+        {
+            RectTransform parentTransform = (RectTransform)transform.parent;
+            targetPosX = -rectTransform.sizeDelta.x / 2f - 35;
+        }
     }
 
     public void UpdatePosX()
@@ -77,6 +86,15 @@ public class SpecCard : MonoBehaviour
         {
             float newPosX = rectTransform.anchoredPosition.x + deltaX * ANIMATIONS_SPEED;
             rectTransform.anchoredPosition = new Vector2(newPosX, rectTransform.anchoredPosition.y);
+        }
+        else
+        {
+            switch (cardState)
+            {
+                case SpecCardStates.LEAVING:
+                    cardState = SpecCardStates.LEAVED;
+                    break;
+            }
         }
     }
 
@@ -95,9 +113,8 @@ public class SpecCard : MonoBehaviour
     {
         Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
 
-        Debug.Log(gameObject);
-
-        DestroyImmediate(gameObject);
+        targetPosX = rectTransform.sizeDelta.x / 2 + SpecCard.START_POS_X_MARGIN;
+        cardState = SpecCardStates.LEAVING;
     }
 
     public void SetClientName(string clientName)
@@ -136,6 +153,22 @@ public class SpecCard : MonoBehaviour
     {
         float gain = Mathf.Round(gainRaw);
         gainValueText.text = gain.ToString();
+    }
+
+    public bool IsLeaving
+    {
+        get
+        {
+            return cardState == SpecCardStates.LEAVING;
+        }
+    }
+
+    public bool HasLeaved
+    {
+        get
+        {
+            return cardState == SpecCardStates.LEAVED;
+        }
     }
 
     public Spec Spec { get => spec; }
