@@ -9,9 +9,6 @@ public class SpecsController : MonoBehaviour
     private SpecGenerator specGenerator;
     private SpecBase specBase;
 
-    [SerializeField]
-    public int visibleSpecAmount = 3;
-
     private static SpecsController instance;
     public static SpecsController GetInstance()
     {
@@ -26,7 +23,9 @@ public class SpecsController : MonoBehaviour
     {
         instance = this;
         specBase = SpecBase.GetInstance();
-
+    }
+    protected void Start()
+    {
         for (int specID = 0; specID < 2000; specID++)
         {
             specBase.PutSpec(specGenerator.GenerateSpec(specID));
@@ -34,7 +33,7 @@ public class SpecsController : MonoBehaviour
     }
     public void Update()
     {
-        if (GetContainer().GetSpecCards().Length < visibleSpecAmount)
+        if (GetContainer().GetSpecCards().Length < ShopVars.GetInstance().visibleSpecAmount)
         {
             SpawnNextSpec();
         }
@@ -48,7 +47,14 @@ public class SpecsController : MonoBehaviour
             specCardsContainer.AddSpecCard(spec);
         }
     }
-
+    public void DecreaseDeadlines()
+    {
+        SpecCard[] specCards = GetSpecCards();
+        foreach(var specs in specCards)
+        {
+            specs.DecreaseDeadline();
+        }
+    }
     public SpecCard[] GetSpecCards()
     {
         return specCardsContainer.GetSpecCards();

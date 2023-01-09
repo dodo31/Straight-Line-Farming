@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class SpecCardsContainer : MonoBehaviour
 {
+    private const float PADDING_TOP = 15;
+    private const float CARD_SPACING = 15;
+    
     [SerializeField]
     private PlantsDescription plantsDescription;
 
@@ -11,23 +14,32 @@ public class SpecCardsContainer : MonoBehaviour
     [SerializeField]
     private PlantCountIndicator plantCountIndicatorPrefab;
 
+    private RectTransform rectTransform;
+
+    private void Awake()
+    {
+        rectTransform = (RectTransform)transform;
+    }
+
     public void Update()
     {
-        SpecCard[] specCards = GetSpecCards();
-
-        float curentPosY = 0;
-
-        for (int i = 0; i < specCards.Length; i++)
+        foreach (SpecCard specCard in GetSpecCards())
         {
-            SpecCard specCard = specCards[0];
+            specCard.TargetPosY = CreateCardPosY(specCard);
 
-            specCard.OrderTargetPosY = curentPosY;
-            // specCard.UpdateOrderPosY();
+            if (specCard.HasLeaved)
+            {
+                DestroyImmediate(specCard.gameObject);
+            }
+        }
+    }
 
-            RectTransform cardTransform = ((RectTransform)specCard.transform);
-            Vector2 cardSize = cardTransform.sizeDelta;
-
-            curentPosY += cardSize.y + 15;
+    private void FixedUpdate()
+    {
+        foreach (SpecCard specCard in GetSpecCards())
+        {
+            specCard.UpdatePosX();
+            specCard.UpdatePosY();
         }
     }
 
@@ -37,20 +49,39 @@ public class SpecCardsContainer : MonoBehaviour
         specCard.transform.SetParent(transform);
         specCard.SetSpec(spec);
 
-        RectTransform anchorTransform = ((RectTransform)transform);
-        Vector2 anchorPosition = anchorTransform.anchoredPosition;
-        
+        Vector2 anchorPosition = rectTransform.anchoredPosition;
+
         RectTransform cardTransform = ((RectTransform)specCard.transform);
         Vector2 cardSize = cardTransform.sizeDelta;
-        
-        float cardPosX = -cardSize.x / 2;
-        float cardPosY = -cardSize.y / 2 - anchorPosition.y - (cardSize.y + 15) * specCard.transform.GetSiblingIndex();
-        
+
+        float cardPosX = cardSize.x / 2 + SpecCard.HIDDEN_POS_X_MARGIN;
+        float cardPosY = CreateCardPosY(specCard);
+
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
+
+        specCard.OrderTargetPosX = -cardSize.x / 2 - SpecCard.IDLE_POS_X_MARGIN;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)
         {
             AddCountIndicatorToPanel(specCard, plantCount.Type, plantCount.Count);
+        }
+    }
+
+    private float CreateCardPosY(SpecCard specCard)
+    {
+        RectTransform cardTransform = ((RectTransform)specCard.transform);
+        Vector2 cardSize = cardTransform.sizeDelta;
+
+        int cardIndex = specCard.transform.GetSiblingIndex();
+
+        if (cardIndex == 0)
+        {
+            return rectTransform.anchoredPosition.y + cardSize.y / 2 - PADDING_TOP;
+        }
+        else
+        {
+            RectTransform previousCardTransform = (RectTransform)transform.GetChild(cardIndex - 1);
+            return previousCardTransform.anchoredPosition.y - previousCardTransform.sizeDelta.y - CARD_SPACING;
         }
     }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class CompostArea : MonoBehaviour
@@ -10,72 +9,38 @@ public class CompostArea : MonoBehaviour
     [SerializeField]
     private WastesContainer wastesContainer;
 
-    private CompostStates compostState;
-
     public event Action OnWasteReceivingComplete;
 
     protected void Start()
     {
         bin.OnWasteReceivingComplete += Handle_OnWasteReceivingComplete;
-
-        StartCoroutine(Test());
     }
 
-    private IEnumerator Test()
+    public void Refresh(PlantCount[] plantsGarbage)
     {
-        yield return new WaitForSeconds(1);
-        // Debug.Log("OK 1");
-
-        OpenBin();
-        AddWaste(0, PlantTypes.Wheat, 6);
-        AddWaste(1, PlantTypes.Corn, 4);
-        AddWaste(2, PlantTypes.Pumpkin, 2);
-        AddWaste(3, PlantTypes.Chilli, 3);
-
-        yield return new WaitForSeconds(3);
-        // Debug.Log("OK 2");
-
-        AcceptWastes();
-        
-        yield return new WaitForSeconds(3);
-        // Debug.Log("OK 3");
-        
-        OpenBin();
-        AddWaste(0, PlantTypes.Wheat, 6);
-        AddWaste(1, PlantTypes.Corn, 4);
-        AddWaste(2, PlantTypes.Pumpkin, 2);
-        AddWaste(3, PlantTypes.Chilli, 3);
-        
-        yield return new WaitForSeconds(3);
-        
-        AcceptWastes();
-    }
-
-    protected void Update()
-    {
-        switch (compostState)
+        if (plantsGarbage.Length > 0)
         {
-            case CompostStates.CLOSED:
+            RejectWastes();
+            OpenBin();
 
-                break;
-            case CompostStates.OPENING:
-
-                break;
-            case CompostStates.OPEN:
-
-                break;
-            case CompostStates.CLOSING:
-
-                break;
+            for (int i = 0; i < plantsGarbage.Length; i++)
+            {
+                PlantCount wasteCount = plantsGarbage[i];
+                AddWaste(i, wasteCount.Type, wasteCount.Count);
+            }
+        }
+        else
+        {
+            RejectWastes();
         }
     }
 
-    public void AddWaste(int slotIndex, PlantTypes plantType, int wasteCount)
+    private void AddWaste(int slotIndex, PlantTypes plantType, int wasteCount)
     {
         wastesContainer.AddWaste(slotIndex, plantType, wasteCount);
     }
 
-    public void RejectWastes()
+    private void RejectWastes()
     {
         wastesContainer.RejectWastes();
         bin.Close();
@@ -87,7 +52,7 @@ public class CompostArea : MonoBehaviour
         bin.ReceiveWastes();
     }
 
-    public void OpenBin()
+    private void OpenBin()
     {
         bin.Open();
     }

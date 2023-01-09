@@ -88,7 +88,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1378027179096100125}
   - component: {fileID: 1378027179096100123}
-  - component: {fileID: 3071822550949329849}
   - component: {fileID: 1378027179096100120}
   m_Layer: 5
   m_Name: Spec Card
@@ -126,26 +125,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1378027179096100124}
   m_CullTransparentMesh: 1
---- !u!95 &3071822550949329849
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1378027179096100124}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ed26ef0f736de56419c08b32c8e1db25, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &1378027179096100120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,8 +145,6 @@ MonoBehaviour:
   gainValueText: {fileID: 8173248641028679127}
   gainUnitText: {fileID: 3842299481884875583}
   backgroundImage: {fileID: 4010376711883329064}
-  cardAnimator: {fileID: 3071822550949329849}
-  previewOffsetX: 35
 --- !u!1 &2399610059816588638
 GameObject:
   m_ObjectHideFlags: 0

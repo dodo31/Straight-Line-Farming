@@ -25,11 +25,14 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private GraphicRaycaster graphicRaycaster;
+    
+    private UserAction selectedAction;
 
     private bool isDraggingFromTile;
 
     protected void Awake()
     {
+        selectedAction = null;
         isDraggingFromTile = false;
 
         gridController.OnTruckOverTile += Handle_OnTruckOverTile;
@@ -40,6 +43,8 @@ public class GameController : MonoBehaviour
 
     protected void Start()
     {
+        selectedAction = actionPanel.GetSelectedAction();
+        
         economyController.GainMoney(1000);
     }
     protected void Update()
@@ -57,30 +62,45 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            UserAction selectedAction = actionPanel.GetSelectedAction();
-
+            selectedAction = actionPanel.GetSelectedAction();
             bool hasSelectionChanged = gridController.UpdateRowSelection(graphicRaycaster, selectedAction);
 
-            if (hasSelectionChanged)
+            if (selectedAction.ActionType == UserActionTypes.COLLECT)
             {
-                SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
-
-                foreach (SpecCard specCard in specsController.GetSpecCards())
+                if (hasSelectionChanged)
                 {
-                    if (specCards.Contains(specCard))
+					SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out PlantCount[] plantsGarbage);
+
+                    foreach (SpecCard specCard in specsController.GetSpecCards())
                     {
-                        specCard.SetAsPreview();
+                        if (specCards.Contains(specCard))
+                        {
+                            specCard.SetAsPreview();
+                        }
+                        else
+                        {
+                            specCard.SetAsNormal();
+                        }
                     }
-                    else
-                    {
-                        specCard.SetAsNormal();
-                    }
-                }
-            }
+					compostArea.Refresh(plantsGarbage);
+				}
+			} else {
+				if(hasSelectionChanged)
+				{
+					foreach (SpecCard specCard in specsController.GetSpecCards())
+					{
+						specCard.SetAsNormal();
+					}
+				}
+			}
 
             if (Input.GetMouseButtonUp(0))
             {
-                economyController.UseMoney(100);
+                if (gridController.currentTileLine.Count >= 2)
+                {
+                    economyController.UseMoney(100);
+                    specsController.DecreaseDeadlines();
+                }
                 gridController.EndRowSelection(selectedAction);
                 isDraggingFromTile = false;
             }
@@ -89,8 +109,6 @@ public class GameController : MonoBehaviour
 
     private void Handle_OnTruckOverTile(FarmTileController tile)
     {
-        UserAction selectedAction = actionPanel.GetSelectedAction();
-
         switch (gridController.GridState)
         {
             case GridStates.FARMING:
@@ -109,25 +127,21 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // private void Handle_LineSelectionChanged()
-    // {
-    //     SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
-
-    //     foreach (SpecCard specCard in specCards)
-    //     {
-    //         specCard.Preview();
-    //     }
-    // }
-
     private void Handle_OnTruckTravelCompleted(List<Vector2Int> truckPath)
     {
-        SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
-
-        foreach (SpecCard specCard in specCards)
+        UserAction action = actionPanel.GetSelectedAction();
+        if (action.ActionType == UserActionTypes.COLLECT)
         {
-            economyController.GainMoney(specCard.Spec.Gain);
-            specCard.Validate();
+            SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
+
+            foreach (SpecCard specCard in specCards)
+            {
+                economyController.GainMoney(specCard.Spec.Gain);
+                specCard.Validate();
+            }
         }
+        
+        compostArea.AcceptWastes();
     }
 
     public SpecCard[] SpecCardsToValidate(List<Vector2Int> truckPath, out PlantCount[] garbage)

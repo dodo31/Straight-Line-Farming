@@ -38,7 +38,7 @@ public class FarmTileController : TileController
 
         if (currentPlant != null)
         {
-            DestroyImmediate(currentPlant.gameObject);
+            currentPlant.EjectAndDestroy();
         }
 
         currentPlant = null;

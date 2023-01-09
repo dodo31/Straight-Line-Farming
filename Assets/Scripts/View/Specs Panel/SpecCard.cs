@@ -1,12 +1,14 @@
-using System.Net.Mail;
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpecCard : MonoBehaviour
 {
+    private const float ANIMATIONS_SPEED = 0.2f;
+    public const float HIDDEN_POS_X_MARGIN = 10;
+    public const float IDLE_POS_X_MARGIN = 15;
+    
     [SerializeField]
     private TMP_Text clientText;
 
@@ -31,34 +33,21 @@ public class SpecCard : MonoBehaviour
     [SerializeField]
     private Image backgroundImage;
 
-    [SerializeField]
-    private Animator cardAnimator;
-
-    private RectTransform rectTransform;
-    private float basePosX;
-
-    [SerializeField]
-    private float previewOffsetX = 35;
-
-    private CardPreviewStates previewState;
-    private Coroutine previewCoroutine;
-
     private Spec spec;
 
+    private RectTransform rectTransform;
+    private float targetPosX;
+    private float targetPosY;
 
-    private float orderTargetPosY;
-    private bool isOrderAnimating;
+    private SpecCardStates cardState;
 
     private void Awake()
     {
         rectTransform = (RectTransform)transform;
-        basePosX = rectTransform.anchoredPosition.x;
+        targetPosX = 0;
+        targetPosY = 0;
 
-        orderTargetPosY = 0;
-        isOrderAnimating = false;
-
-        previewCoroutine = null;
-        previewState = CardPreviewStates.IDLE;
+        cardState = SpecCardStates.IDLE;
     }
 
     public void SetSpec(Spec spec)
@@ -70,77 +59,67 @@ public class SpecCard : MonoBehaviour
         SetDeadline(spec.Deadline);
         SetGain(spec.Gain);
     }
+    public void DecreaseDeadline()
+    {
+        spec.DecreaseDeadline();
+        SetDeadline(spec.Deadline);
+    }
 
     public void SetAsNormal()
     {
-        if (previewState != CardPreviewStates.IDLE && previewState != CardPreviewStates.PREVIEW_TO_IDLE)
+        if (!IsLeaving)
         {
-            if (previewCoroutine != null)
-            {
-                StopCoroutine(previewCoroutine);
-            }
-
-            float currentPosX = rectTransform.anchoredPosition.x;
-            previewCoroutine = StartCoroutine(Translate(new Vector2(currentPosX, basePosX), CardPreviewStates.PREVIEW_TO_IDLE, CardPreviewStates.IDLE));
+            RectTransform parentTransform = (RectTransform)transform.parent;
+            targetPosX = -rectTransform.sizeDelta.x / 2f - IDLE_POS_X_MARGIN;
         }
-
-        // backgroundImage.color = Color.white;
-        // cardAnimator.ResetTrigger("PREVIEW");
-        // cardAnimator.SetTrigger("NORMAL");
     }
 
     public void SetAsPreview()
     {
-        // backgroundImage.color = Color.yellow;
-        // cardAnimator.ResetTrigger("NORMAL");
-        // cardAnimator.SetTrigger("PREVIEW");
-
-        if (previewState != CardPreviewStates.PREVIEW && previewState != CardPreviewStates.IDLE_TO_PREVIEW)
+        if (!IsLeaving)
         {
-            if (previewCoroutine != null)
-            {
-                StopCoroutine(previewCoroutine);
-            }
-
-            float currentPosX = rectTransform.anchoredPosition.x;
-            previewCoroutine = StartCoroutine(Translate(new Vector2(currentPosX, basePosX - previewOffsetX), CardPreviewStates.IDLE_TO_PREVIEW, CardPreviewStates.PREVIEW));
+            RectTransform parentTransform = (RectTransform)transform.parent;
+            targetPosX = -rectTransform.sizeDelta.x / 2f - 35;
         }
     }
 
-    // public void UpdateOrderPosY()
-    // {
-    //     float deltaY = orderTargetPosY - transform.position.y;
-    //     float deltaSign = Math.Sign(deltaY);
-    //     float distance = Math.Abs(deltaY);
-
-    //     if (distance > 0.5f)
-    //     {
-    //         transform.position = new Vector2(transform.position.x, transform.position.y + (deltaSign * distance) * 0.5f);
-    //     }
-    // }
-
-    public IEnumerator Translate(Vector2 interval, CardPreviewStates transitionState, CardPreviewStates endState)
+    public void UpdatePosX()
     {
-        previewState = transitionState;
+        float deltaX = targetPosX - rectTransform.anchoredPosition.x;
 
-        int frameCount = 20;
-
-        for (int i = 0; i < frameCount; i++)
+        if (Math.Abs(deltaX) > 0.5f)
         {
-            float frameRatio = i / (frameCount * 1f);
-            float newPosX = Mathf.Lerp(interval.x, interval.y, frameRatio);
+            float newPosX = rectTransform.anchoredPosition.x + deltaX * ANIMATIONS_SPEED;
             rectTransform.anchoredPosition = new Vector2(newPosX, rectTransform.anchoredPosition.y);
-
-            yield return new WaitForFixedUpdate();
         }
+        else
+        {
+            switch (cardState)
+            {
+                case SpecCardStates.LEAVING:
+                    cardState = SpecCardStates.LEAVED;
+                    break;
+            }
+        }
+    }
 
-        previewState = endState;
+    public void UpdatePosY()
+    {
+        float deltaY = targetPosY - rectTransform.anchoredPosition.y;
+
+        if (Math.Abs(deltaY) > 0.5f)
+        {
+            float newPosY = rectTransform.anchoredPosition.y + deltaY * ANIMATIONS_SPEED;
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newPosY);
+        }
     }
 
     public void Validate()
     {
         Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
-        DestroyImmediate(gameObject);
+
+        targetPosX = rectTransform.sizeDelta.x / 2 + SpecCard.HIDDEN_POS_X_MARGIN;
+        cardState = SpecCardStates.LEAVING;
     }
 
     public void SetClientName(string clientName)
@@ -157,10 +136,9 @@ public class SpecCard : MonoBehaviour
     {
         plantCounIndicator.transform.SetParent(plantCountIndicatorContainer);
         plantCounIndicator.SetPlantType(plantDescription.Type);
-        plantCounIndicator.SetPlantIcon(plantDescription.GridSprite);
+        plantCounIndicator.SetPlantIcon(plantDescription.UiSprite);
         plantCounIndicator.SetPlantCount(plantCount);
     }
-
     public void SetDeadline(int deadline)
     {
         deadlineValueText.text = deadline.ToString();
@@ -181,6 +159,24 @@ public class SpecCard : MonoBehaviour
         gainValueText.text = gain.ToString();
     }
 
+    public bool IsLeaving
+    {
+        get
+        {
+            return cardState == SpecCardStates.LEAVING;
+        }
+    }
+
+    public bool HasLeaved
+    {
+        get
+        {
+            return cardState == SpecCardStates.LEAVED;
+        }
+    }
+
     public Spec Spec { get => spec; }
-    public float OrderTargetPosY { set => orderTargetPosY = value; }
+
+    public float OrderTargetPosX { set => targetPosX = value; }
+    public float TargetPosY { set => targetPosY = value; }
 }

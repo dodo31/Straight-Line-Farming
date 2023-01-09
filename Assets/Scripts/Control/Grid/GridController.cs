@@ -37,7 +37,7 @@ public class GridController : MonoBehaviour
     private TileController[] tiles;
 
     private TileController dragStartTile;
-    private List<TileController> currentTileLine;
+    public List<TileController> currentTileLine;
 
     private PlantCount[] currentPathPlants;
 
@@ -62,6 +62,7 @@ public class GridController : MonoBehaviour
 
         GenerateGrid();
         tiles = GetComponentsInChildren<TileController>();
+        PlantStartingWheat();
     }
 
     private void GenerateGrid()
@@ -78,7 +79,7 @@ public class GridController : MonoBehaviour
                 Tile tile = column[rowIndex];
                 TileController newTileController = null;
 
-                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B')
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' || gridSizes.gridSizes[rowIndex][columnIndex] == '-')
                 {
                     newTileController = Instantiate(farmTilePrefab);
                     tile.Type = TileTypes.Farm;
@@ -116,9 +117,78 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
     
-    protected void Update()
+    private void PlantStartingWheat()
     {
-        
+        for (int columnIndex = 0; columnIndex < grid.Tiles.Count; columnIndex++)
+        {
+            List<Tile> column = grid.Tiles[columnIndex];
+
+            for (int rowIndex = 0; rowIndex < grid.Tiles.Count; rowIndex++)
+            {
+                Tile tile = column[rowIndex];
+
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == '-')
+                {
+                    PlantDescription plantDescription = plantsDescription.GetDescription(PlantTypes.Wheat);
+
+                    SowPlant(PlantTypes.Wheat, plantDescription.GridSprite, (FarmTileController) GetTileController(tile));
+
+                }
+
+            }
+        }
+    }
+
+    public void GridSizeUpdate()
+    {
+        currentTileLine.Clear();
+        int newGridSize = ShopVars.GetInstance().gridSize;
+
+        for (int columnIndex = 0; columnIndex < grid.Tiles.Count; columnIndex++)
+        {
+            List<Tile> column = grid.Tiles[columnIndex];
+
+            for (int rowIndex = 0; rowIndex < grid.Tiles.Count; rowIndex++)
+            {
+                Tile tile = column[rowIndex];
+                TileController newTileController = null;
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' + newGridSize)
+                {
+                    var tileCon = GetTileController(tile);
+                    
+                    Destroy(tileCon);
+                    newTileController = Instantiate(farmTilePrefab);
+                    tile.Type = TileTypes.Farm;
+
+                    newTileController.transform.SetParent(tilesContainer);
+
+                    Vector2 tilePosition = GridUtils.CoordToScreenPosition(tile.Coord);
+                    newTileController.transform.localPosition = tilePosition;
+
+                    newTileController.SetTile(tile);
+
+                    var spriteRChilds = newTileController.gameObject.GetComponentsInChildren<SpriteRenderer>();
+                    foreach (SpriteRenderer spriteR in spriteRChilds)
+                    {
+                        spriteR.sortingOrder = -(int)(tilePosition.y * 10);
+                    }
+                }
+            }
+        }
+    }
+
+    private int oldGridSize;
+    public void Update()
+    {
+        if(tiles.Any(tile => tile == null))
+        {
+            tiles = GetComponentsInChildren<TileController>();
+        }
+        if (ShopVars.GetInstance().gridSize > oldGridSize)
+        {
+            oldGridSize = ShopVars.GetInstance().gridSize;
+            GridSizeUpdate();
+        }
     }
 
     public void StartRowSelection(TileController startTile)
@@ -157,6 +227,13 @@ public class GridController : MonoBehaviour
                 {
                     hasSelectionChanged = true;
                 }
+            } else
+            {
+                lineSelection.UpdateRowLine(new Vector2(), new Vector2());
+                if (previousTileLine.Length != truckPath.Count)
+                    hasSelectionChanged = true;
+                currentTileLine.Clear();
+
             }
         }
 
