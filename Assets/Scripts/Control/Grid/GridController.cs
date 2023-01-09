@@ -105,6 +105,11 @@ public class GridController : MonoBehaviour
                 {
                     totalHeight = tilePosition.y + GridUtils.TILES_HEIGHT;
                 }
+                
+                var spriteRChilds = newTileController.gameObject.GetComponentsInChildren<SpriteRenderer>();
+                foreach(SpriteRenderer spriteR in spriteRChilds){
+                    spriteR.sortingOrder = -(int)(tilePosition.y*10);
+                }
             }
         }
 
