@@ -7,7 +7,7 @@ public class SpecCard : MonoBehaviour
 {
     private const float ANIMATIONS_SPEED = 0.2f;
     public const float HIDDEN_POS_X_MARGIN = 10;
-    public const float IDLE_POS_X_MARGIN = 15;
+    public const float IDLE_POS_X_MARGIN = 5;
     
     [SerializeField]
     private TMP_Text clientText;
@@ -70,7 +70,7 @@ public class SpecCard : MonoBehaviour
         if (!IsLeaving)
         {
             RectTransform parentTransform = (RectTransform)transform.parent;
-            targetPosX = -rectTransform.sizeDelta.x / 2f - IDLE_POS_X_MARGIN;
+            targetPosX = -rectTransform.sizeDelta.x / 2f + IDLE_POS_X_MARGIN;
         }
     }
 

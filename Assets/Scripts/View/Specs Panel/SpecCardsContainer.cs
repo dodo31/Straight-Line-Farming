@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SpecCardsContainer : MonoBehaviour
 {
-    private const float PADDING_TOP = 15;
-    private const float CARD_SPACING = 15;
+    private const float PADDING_TOP = SpecCard.IDLE_POS_X_MARGIN;
+    private const float CARD_SPACING = 5;
     
     [SerializeField]
     private PlantsDescription plantsDescription;
@@ -59,7 +59,7 @@ public class SpecCardsContainer : MonoBehaviour
 
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
 
-        specCard.OrderTargetPosX = -cardSize.x / 2 - SpecCard.IDLE_POS_X_MARGIN;
+        specCard.OrderTargetPosX = -cardSize.x / 2 + SpecCard.IDLE_POS_X_MARGIN;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)
         {
