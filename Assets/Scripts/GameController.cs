@@ -106,10 +106,24 @@ public class GameController : MonoBehaviour
                     economyController.UseMoney(100);
                 }
                 gridController.EndRowSelection(selectedAction);
+                if(gridController.currentTileLine.First() is FarmTileController tile)
+                    UpdateTruckSortingOrder(tile);
                 compostArea.AcceptWastes();
                 isDraggingFromTile = false;
             }
         }
+    }
+
+    private void UpdateTruckSortingOrder(FarmTileController tile)
+    {
+        Vector2Int nextTileCoord = GridUtils.CoordDirectionToCoordDelta(tile.Tile.Coord, gridController.truck.currentDirection);
+        //Debug.Log(tile.Tile.Coord + "->" + nextTileCoord);
+
+        var nextTileController = gridController.GetTileController(gridController.grid.GetTile(nextTileCoord));
+        int orderTile = tile.GetComponentInChildren<SpriteRenderer>().sortingOrder;
+        int orderNextTile = nextTileController.GetComponentInChildren<SpriteRenderer>().sortingOrder;
+
+        gridController.truck.GetComponentInChildren<SpriteRenderer>().sortingOrder = Mathf.Max(orderTile, orderNextTile) + 51;
     }
 
     private void Handle_OnTruckOverTile(FarmTileController tile)
@@ -117,14 +131,17 @@ public class GameController : MonoBehaviour
         switch (gridController.GridState)
         {
             case GridStates.FARMING:
+                UpdateTruckSortingOrder(tile);
                 if (selectedAction is UserSowAction sowAction)
                 {
                     PlantDescription plantDescription = plantsDescription.GetDescription(sowAction.PlantType);
 
-                    economyController.UseMoney(plantDescription.price - ShopVars.GetInstance().seedPromo * 10);
-                    gridController.SowPlant(sowAction.PlantType, plantDescription.GridSprite, tile);
                     if (tile.GetCurrentPlant() == null)
+                    {
+                        economyController.UseMoney(plantDescription.price - ShopVars.GetInstance().seedPromo * 10);
                         SoundPlayer.PlaySound(SoundPlayer.SoundType.SOW);
+                    }
+                    gridController.SowPlant(sowAction.PlantType, plantDescription.GridSprite, tile);
                 }
                 else if (selectedAction is UserCollectAction collectAction)
                 {

@@ -17,6 +17,7 @@ public class FarmTileController : TileController
             plant.transform.SetParent(transform, false);
             plant.SetPlantType(plantType);
             plant.SetPlantSprite(plantSprite);
+            plant.GetComponent<SpriteRenderer>().sortingOrder = this.GetComponentInChildren<SpriteRenderer>().sortingOrder + 50;
         }
     }
 
