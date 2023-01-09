@@ -231,8 +231,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridController: {fileID: 673113590}
+  specsController: {fileID: 154875907}
+  economyController: {fileID: 154875908}
   actionPanel: {fileID: 1330908368}
   compostArea: {fileID: 541645191}
+  plantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
   graphicRaycaster: {fileID: 515386284}
 --- !u!114 &154875907
 MonoBehaviour:
@@ -246,8 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af9dc55744f8834c8808ce9ed103be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  specPanelsContainer: {fileID: 2082553995}
+  specCardsContainer: {fileID: 2082553995}
   specGenerator: {fileID: 11400000, guid: 2f8fa9768ef0b01478a131e0334cd292, type: 2}
+  visibleSpecAmount: 3
 --- !u!114 &154875908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2564,7 +2568,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2082553993}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 

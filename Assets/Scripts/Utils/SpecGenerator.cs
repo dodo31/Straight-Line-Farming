@@ -3,6 +3,7 @@ using UnityEngine;
 public class SpecGenerator : ScriptableObject
 {
     public NameGenerator nameGenerator;
+    public NameGenerator surnameGenerator;
     public Sprite[] sprites;
     public int[] unlockTimes;
     public int[] basePrices;
@@ -15,7 +16,7 @@ public class SpecGenerator : ScriptableObject
     public float maxAmountAtEnd;
     public Spec GenerateSpec(int commandID)
     {
-        string clientName = nameGenerator.GenName();
+        string clientName = nameGenerator.GenName() + " " + surnameGenerator.GenName();
         string spritePath = "";
         int deadline = baseDeadline;
         int gain = 0;

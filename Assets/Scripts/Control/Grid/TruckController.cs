@@ -83,20 +83,8 @@ public class TruckController : MonoBehaviour
         OnTravelUpdated?.Invoke();
     }
 
-    public void SowRow(Vector2 startPosition, Vector2 endPosition)
+    public void StartTravelRow(Vector2 startPosition, Vector2 endPosition)
     {
-        StartTravelRow(startPosition, endPosition);
-    }
-
-    public void CollectRow(Vector2 startPosition, Vector2 endPosition)
-    {
-        StartTravelRow(startPosition, endPosition);
-    }
-
-    private void StartTravelRow(Vector2 startPosition, Vector2 endPosition)
-    {
-        Economy.GetInstance().UseMoney(100);
-
         truckRenderer.enabled = true;
 
         Vector2 direction = (endPosition - startPosition).normalized;

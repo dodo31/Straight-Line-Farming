@@ -42,6 +42,7 @@ public class GridController : MonoBehaviour
     private PlantCount[] currentPathPlants;
 
     public event Action<FarmTileController> OnTruckOverTile;
+    public event Action<List<Vector2Int>> OnTruckTravelCompleted;
 
     protected void Awake()
     {
@@ -114,6 +115,11 @@ public class GridController : MonoBehaviour
 
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
+    
+    protected void Update()
+    {
+        
+    }
 
     public void StartRowSelection(TileController startTile)
     {
@@ -121,14 +127,20 @@ public class GridController : MonoBehaviour
         dragStartTile = startTile;
     }
 
-    public void UpdateRowSelection(GraphicRaycaster raycaster, UserAction currentAction)
+    public bool UpdateRowSelection(GraphicRaycaster raycaster, UserAction currentAction)
     {
+        bool hasSelectionChanged = false;
+
         if (TrySelectTile(raycaster, out TileController endTile))
         {
             Vector2Int startCoord = dragStartTile.Tile.Coord;
             Vector2Int endCoord = endTile.Tile.Coord;
             List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
+            currentPathPlants = PlantCountsFromPath(truckPath);
+
+            TileController[] previousTileLine = currentTileLine.ToArray();
             currentTileLine.Clear();
+
             if (truckPath.Count >= 2)
             {
                 foreach (Vector2Int tileCoord in truckPath)
@@ -140,30 +152,39 @@ public class GridController : MonoBehaviour
                 Vector2 startTilePosition = currentTileLine.First().transform.position;
                 Vector2 endTilePosition = currentTileLine.Last().transform.position;
                 lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
+
+                if (!previousTileLine.SequenceEqual(currentTileLine.ToArray()))
+                {
+                    hasSelectionChanged = true;
+                }
             }
         }
+
         lineSelection.UpdateSelectionLine();
+
+        return hasSelectionChanged;
     }
 
     public PlantCount[] PlantCountsFromPath(List<Vector2Int> truckPath)
     {
         int[] amounts = new int[4];
+
         for (int i = 0; i < truckPath.Count; i++)
         {
             TileController tileController = GetTileController(grid.GetTile(truckPath[i]));
             if (tileController is FarmTileController farmTileController)
             {
                 PlantController plant = farmTileController.GetCurrentPlant();
-                
-                //Debug.Log(plant);
-                
+
                 if (plant != null)
                 {
                     amounts[(int)plant.GetPlantType()]++;
                 }
             }
         }
+
         List<PlantCount> plantCounts = new();
+
         for (int i = 0; i < amounts.Length; i++)
         {
             if (amounts[i] > 0)
@@ -172,12 +193,14 @@ public class GridController : MonoBehaviour
                 plantCounts.Add(plantCount);
             }
         }
+
         return plantCounts.ToArray();
     }
 
     public static bool IsPlantCountArrayEnough(PlantCount[] harvested, PlantCount[] spec, out PlantCount[] remainder)
     {
         List<PlantCount> remainderList = new();
+
         for (int i = 0; i < spec.Length; i++)
         {
             bool found = false;
@@ -200,15 +223,16 @@ public class GridController : MonoBehaviour
                     }
                 }
             }
+
             if (!found)
             {
                 remainder = null;
                 return false;
             }
         }
+
         remainder = remainderList.ToArray();
         return true;
-
     }
 
     public void EndRowSelection(UserAction currentAction)
@@ -220,9 +244,10 @@ public class GridController : MonoBehaviour
             Vector2 startTilePosition = currentTileLine.First().transform.position;
             Vector2 endTilePosition = currentTileLine.Last().transform.position;
             List<Vector2Int> truckPath = GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
+
             currentPathPlants = PlantCountsFromPath(truckPath);
 
-            truck.SowRow(startTilePosition, endTilePosition);
+            truck.StartTravelRow(startTilePosition, endTilePosition);
             gridState = GridStates.FARMING;
         }
     }
@@ -283,7 +308,7 @@ public class GridController : MonoBehaviour
         {
             case GridStates.FARMING:
                 Vector2 truckStartPosition = truck.CurrentStartPosition;
-                FarmTileController truckedTile = TindTruckedTile(truckStartPosition);
+                FarmTileController truckedTile = FindTruckedTile(truckStartPosition);
 
                 if (truckedTile != null)
                 {
@@ -293,7 +318,7 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private FarmTileController TindTruckedTile(Vector2 truckStartPosition)
+    private FarmTileController FindTruckedTile(Vector2 truckStartPosition)
     {
         float truckPreviousDistance = Vector2.Distance(truckStartPosition, truck.PreviousTravelPosition);
         float truckCurrentDistance = Vector2.Distance(truckStartPosition, truck.CurrentTravelPosition);
@@ -305,13 +330,10 @@ public class GridController : MonoBehaviour
         }) as FarmTileController;
     }
 
-    public void SowPlant(PlantTypes plantType, FarmTileController targetTile)
+    public void SowPlant(PlantTypes plantType, Sprite plantSprite, FarmTileController targetTile)
     {
-        PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
-
-        Economy.GetInstance().UseMoney(plantDescription.price);
         PlantController newPlant = Instantiate(plantPrefab);
-        targetTile.SowPlant(newPlant, plantType, plantDescription.GridSprite);
+        targetTile.SowPlant(newPlant, plantType, plantSprite);
     }
 
     public void CollectPlant(FarmTileController targetTile)
@@ -351,33 +373,6 @@ public class GridController : MonoBehaviour
         return tiles.FirstOrDefault(tileController => tileController.Tile == tile);
     }
 
-    public SpecCard[] SpecCardsToValidate(List<Vector2Int> truckPath, out PlantCount[] garbage)
-    {
-        PlantCount[] plantCounts = PlantCountsFromPath(truckPath);
-        return SpecCardsToValidate(plantCounts, out garbage);
-    }
-
-    public SpecCard[] SpecCardsToValidate(PlantCount[] plantCounts, out PlantCount[] garbage)
-    {
-        List<SpecCard> cardsToValidate = new();
-        SpecCard[] specCards = SpecsController.GetInstance().GetContainer().GetSpecCards();
-        garbage = plantCounts;
-
-        foreach (SpecCard specCard in specCards)
-        {
-            PlantCount[] cardPlantCount = specCard.Spec.RequiredPlantCounts;
-            bool enough = IsPlantCountArrayEnough(plantCounts, cardPlantCount, out PlantCount[] remainder);
-
-            if (enough)
-            {
-                cardsToValidate.Add(specCard);
-                plantCounts = remainder;
-                garbage = plantCounts;
-            }
-        }
-        return cardsToValidate.ToArray();
-    }
-
     private void Handle_OnTruckTravelUpdated()
     {
         RefreshLineFarming();
@@ -385,13 +380,11 @@ public class GridController : MonoBehaviour
 
     private void Handle_OnTruckTravelCompleted()
     {
-        SpecCard[] specCards = SpecCardsToValidate(currentPathPlants, out _);
+        Vector2 startTilePosition = currentTileLine.First().transform.position;
+        Vector2 endTilePosition = currentTileLine.Last().transform.position;
+        List<Vector2Int> truckPath = GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
 
-        foreach (SpecCard specCard in specCards)
-        {
-            specCard.Validate();
-        }
-
+        OnTruckTravelCompleted?.Invoke(truckPath);
         gridState = GridStates.IDLE;
     }
 
@@ -412,4 +405,5 @@ public class GridController : MonoBehaviour
     }
 
     public GridStates GridState { get => gridState; }
+    public PlantCount[] CurrentPathPlants { get => currentPathPlants; }
 }
