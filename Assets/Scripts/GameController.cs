@@ -58,12 +58,11 @@ public class GameController : MonoBehaviour
         else
         {
             UserAction selectedAction = actionPanel.GetSelectedAction();
-
             bool hasSelectionChanged = gridController.UpdateRowSelection(graphicRaycaster, selectedAction);
 
             if (hasSelectionChanged)
             {
-                SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
+                SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out PlantCount[] plantsGarbage);
 
                 foreach (SpecCard specCard in specsController.GetSpecCards())
                 {
@@ -75,6 +74,21 @@ public class GameController : MonoBehaviour
                     {
                         specCard.SetAsNormal();
                     }
+                }
+
+                if (plantsGarbage.Length > 0)
+                {
+                    compostArea.OpenBin();
+
+                    for (int i = 0; i < plantsGarbage.Length; i++)
+                    {
+                        PlantCount wasteCount = plantsGarbage[i];
+                        compostArea.AddWaste(i, wasteCount.Type, wasteCount.Count);
+                    }
+                }
+                else
+                {
+                    compostArea.RejectWastes();
                 }
             }
 
@@ -109,16 +123,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // private void Handle_LineSelectionChanged()
-    // {
-    //     SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
-
-    //     foreach (SpecCard specCard in specCards)
-    //     {
-    //         specCard.Preview();
-    //     }
-    // }
-
     private void Handle_OnTruckTravelCompleted(List<Vector2Int> truckPath)
     {
         SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
@@ -128,6 +132,8 @@ public class GameController : MonoBehaviour
             economyController.GainMoney(specCard.Spec.Gain);
             specCard.Validate();
         }
+        
+        compostArea.AcceptWastes();
     }
 
     public SpecCard[] SpecCardsToValidate(List<Vector2Int> truckPath, out PlantCount[] garbage)

@@ -18,7 +18,7 @@ public class CompostArea : MonoBehaviour
     {
         bin.OnWasteReceivingComplete += Handle_OnWasteReceivingComplete;
 
-        StartCoroutine(Test());
+        // StartCoroutine(Test());
     }
 
     private IEnumerator Test()
