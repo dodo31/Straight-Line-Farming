@@ -107,17 +107,16 @@ public class SpecCard : MonoBehaviour
         }
     }
 
-    // public void UpdateOrderPosY()
-    // {
-    //     float deltaY = orderTargetPosY - transform.position.y;
-    //     float deltaSign = Math.Sign(deltaY);
-    //     float distance = Math.Abs(deltaY);
+    public void UpdateOrderPosY()
+    {
+        // float deltaY = orderTargetPosY - transform.position.y;
+        // float deltaSign = Math.Sign(deltaY);
 
-    //     if (distance > 0.5f)
-    //     {
-    //         transform.position = new Vector2(transform.position.x, transform.position.y + (deltaSign * distance) * 0.5f);
-    //     }
-    // }
+        // if (Math.Abs(deltaY) > 0.5f)
+        // {
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, orderTargetPosY);
+        // }
+    }
 
     public IEnumerator Translate(Vector2 interval, CardPreviewStates transitionState, CardPreviewStates endState)
     {
