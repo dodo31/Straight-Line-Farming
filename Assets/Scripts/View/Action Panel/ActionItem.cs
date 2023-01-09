@@ -12,7 +12,9 @@ public class ActionItem : MonoBehaviour
     private Image iconImage;
 
     [SerializeField]
-    private TMP_Text titleText;
+    private TMP_Text priceValueText;
+    [SerializeField]
+    private TMP_Text priceUnitText;
 
     [SerializeField]
     private Image backgroundImage;
@@ -62,7 +64,8 @@ public class ActionItem : MonoBehaviour
     public void SetUnavailable()
     {
         itemButton.interactable = false;
-        titleText.color = new Color(1, 1, 1, 0.5f);
+        priceValueText.color = new Color(0, 0, 0, 0.5f);
+        priceUnitText.color = new Color(0, 0, 0, 0.5f);
         iconImage.color = new Color(1, 1, 1, 0.5f);
         isAvailable = false;
     }
@@ -70,7 +73,8 @@ public class ActionItem : MonoBehaviour
     public void SetAvailable()
     {
         itemButton.interactable = true;
-        titleText.color = Color.white;
+        priceValueText.color = Color.black;
+        priceUnitText.color = Color.black;
         iconImage.color = Color.white;
         isAvailable = true;
     }
@@ -104,9 +108,9 @@ public class ActionItem : MonoBehaviour
         iconImage.sprite = icon;
     }
 
-    public void SetTile(string text)
+    public void SetPrice(int price)
     {
-        titleText.text = text;
+        priceValueText.text = price.ToString();
     }
 
     public void SetBackgroundColor(Color color)

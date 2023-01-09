@@ -46,7 +46,7 @@ public class ActionPanel : MonoBehaviour
 
             ActionItem plantSowItem = Instantiate(ActionItemPrefab);
             plantSowItem.name = $"{plantDescription.Name} Spawn Item";
-            plantSowItem.SetTile(plantDescription.Name);
+            plantSowItem.SetPrice(plantDescription.price);
             plantSowItem.SetIcon(plantDescription.UiSprite);
 
             plantSowItem.transform.SetParent(transform);
