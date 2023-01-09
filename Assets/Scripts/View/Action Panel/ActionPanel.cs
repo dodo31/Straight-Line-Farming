@@ -11,11 +11,14 @@ public class ActionPanel : MonoBehaviour
 
     private ActionItem[] actionItems;
 
-    protected void Start()
+    protected void Awake()
     {
         AddSowButtons();
         actionItems = GetComponentsInChildren<ActionItem>(true);
+    }
 
+    protected void Start()
+    {
         foreach (ActionItem actionItem in actionItems)
         {
             actionItem.OnClicked += Handle_OnItemClicked;
@@ -25,10 +28,10 @@ public class ActionPanel : MonoBehaviour
         {
             ActionItem firstItem = actionItems.First();
             ActionItem lastItem = actionItems.Last();
-            
+
             SelectItem(firstItem);
             firstItem.SetAvailable();
-            
+
             lastItem.SetTargetAction(new UserCollectAction());
             lastItem.SetAvailable();
             lastItem.Unselect();

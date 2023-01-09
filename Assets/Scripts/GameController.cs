@@ -25,11 +25,14 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private GraphicRaycaster graphicRaycaster;
+    
+    private UserAction selectedAction;
 
     private bool isDraggingFromTile;
 
     protected void Awake()
     {
+        selectedAction = null;
         isDraggingFromTile = false;
 
         gridController.OnTruckOverTile += Handle_OnTruckOverTile;
@@ -40,6 +43,8 @@ public class GameController : MonoBehaviour
 
     protected void Start()
     {
+        selectedAction = actionPanel.GetSelectedAction();
+        
         economyController.GainMoney(1000);
     }
     protected void Update()
@@ -57,7 +62,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            UserAction selectedAction = actionPanel.GetSelectedAction();
+            selectedAction = actionPanel.GetSelectedAction();
             bool hasSelectionChanged = gridController.UpdateRowSelection(graphicRaycaster, selectedAction);
 
             if (hasSelectionChanged)
@@ -90,8 +95,6 @@ public class GameController : MonoBehaviour
 
     private void Handle_OnTruckOverTile(FarmTileController tile)
     {
-        UserAction selectedAction = actionPanel.GetSelectedAction();
-
         switch (gridController.GridState)
         {
             case GridStates.FARMING:
