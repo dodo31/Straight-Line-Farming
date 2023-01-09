@@ -109,13 +109,13 @@ public class SpecCard : MonoBehaviour
 
     public void UpdateOrderPosY()
     {
-        // float deltaY = orderTargetPosY - transform.position.y;
-        // float deltaSign = Math.Sign(deltaY);
+        float deltaY = orderTargetPosY - rectTransform.anchoredPosition.y;
 
-        // if (Math.Abs(deltaY) > 0.5f)
-        // {
-            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, orderTargetPosY);
-        // }
+        if (Math.Abs(deltaY) > 0.5f)
+        {
+            float newPosY = rectTransform.anchoredPosition.y + deltaY * 0.01f;
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newPosY);
+        }
     }
 
     public IEnumerator Translate(Vector2 interval, CardPreviewStates transitionState, CardPreviewStates endState)
@@ -139,6 +139,9 @@ public class SpecCard : MonoBehaviour
     public void Validate()
     {
         Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
+
+        Debug.Log(gameObject);
+
         DestroyImmediate(gameObject);
     }
 

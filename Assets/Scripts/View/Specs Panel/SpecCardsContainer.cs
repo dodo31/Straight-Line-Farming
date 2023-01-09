@@ -22,19 +22,11 @@ public class SpecCardsContainer : MonoBehaviour
     {
         SpecCard[] specCards = GetSpecCards();
 
-        float curentPosY = 0;
-
         for (int i = 0; i < specCards.Length; i++)
         {
-            SpecCard specCard = specCards[0];
-
+            SpecCard specCard = specCards[i];
             specCard.OrderTargetPosY = CreateCardPosY(specCard);
             specCard.UpdateOrderPosY();
-
-            RectTransform cardTransform = ((RectTransform)specCard.transform);
-            Vector2 cardSize = cardTransform.sizeDelta;
-
-            curentPosY += cardSize.y + 15;
         }
     }
 
@@ -62,12 +54,20 @@ public class SpecCardsContainer : MonoBehaviour
 
     private float CreateCardPosY(SpecCard specCard)
     {
-        Vector2 anchorPosition = rectTransform.anchoredPosition;
-
         RectTransform cardTransform = ((RectTransform)specCard.transform);
         Vector2 cardSize = cardTransform.sizeDelta;
 
-        return -cardSize.y / 2 - anchorPosition.y - (cardSize.y + 15) * specCard.transform.GetSiblingIndex();
+        int cardIndex = specCard.transform.GetSiblingIndex();
+
+        if (cardIndex == 0)
+        {
+            return rectTransform.anchoredPosition.y + cardSize.y / 2;
+        }
+        else
+        {
+            RectTransform previousCardTransform = (RectTransform)transform.GetChild(cardIndex - 1);
+            return previousCardTransform.anchoredPosition.y - previousCardTransform.sizeDelta.y;
+        }
     }
 
     private void AddCountIndicatorToPanel(SpecCard card, PlantTypes plantType, int plantCount)
