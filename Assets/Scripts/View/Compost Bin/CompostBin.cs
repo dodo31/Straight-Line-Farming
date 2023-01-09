@@ -26,12 +26,6 @@ public class CompostBin : MonoBehaviour
         binAnimator.ResetTrigger("CLOSE");
         binAnimator.ResetTrigger("RECEIVE_WASTES");
         binAnimator.SetTrigger("OPEN");
-
-        // Debug.Log("Open");
-
-        // binAnimator.SetBool("OPEN_BOOL", true);
-        // binAnimator.SetBool("CLOSE_BOOL", false);
-        // binAnimator.SetBool("RECEIVE_WASTES_BOOL", false);
     }
 
     public void Close()
@@ -39,12 +33,6 @@ public class CompostBin : MonoBehaviour
         binAnimator.ResetTrigger("OPEN");
         binAnimator.ResetTrigger("RECEIVE_WASTES");
         binAnimator.SetTrigger("CLOSE");
-
-        // Debug.Log("Close");
-
-        // binAnimator.SetBool("OPEN_BOOL", false);
-        // binAnimator.SetBool("CLOSE_BOOL", true);
-        // binAnimator.SetBool("RECEIVE_WASTES_BOOL", false);
     }
 
     public void ReceiveWastes()
@@ -52,11 +40,5 @@ public class CompostBin : MonoBehaviour
         binAnimator.ResetTrigger("OPEN");
         binAnimator.ResetTrigger("CLOSE");
         binAnimator.SetTrigger("RECEIVE_WASTES");
-
-        // Debug.Log("ReceiveWastes");
-
-        // binAnimator.SetBool("OPEN_BOOL", false);
-        // binAnimator.SetBool("CLOSE_BOOL", false);
-        // binAnimator.SetBool("RECEIVE_WASTES_BOOL", true);
     }
 }

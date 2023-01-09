@@ -18,9 +18,6 @@ public class NameGenerator : ScriptableObject
                 {
                     map[CharToInt(name, j), CharToInt(name, j + 1), CharToInt(name, j + 2)]++;
                 }
-            } else
-            {
-                Debug.Log($"{name} at pos {i} is not ok at all");
             }
         }
     }
