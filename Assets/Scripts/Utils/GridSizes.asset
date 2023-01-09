@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: GridSizes
   m_EditorClassIdentifier: 
   gridSizes:
-  - AAAAAAAAA
-  - AAAACAAAA
-  - AACCBCCAA
-  - ADBB-BBEA
-  - ADB---BEA
-  - ADB---BEA
-  - ADDBBBEEA
-  - AAADEEAAA
-  - AAAAAAAAA
+  - AAAAFAAAA
+  - AAFFCFFAA
+  - GFCCBCCFH
+  - GDBB-BBEH
+  - GDB---BEH
+  - GDB---BEH
+  - GDDBBBEEH
+  - AGGDEEHHA
+  - AAAGHHAAA
