@@ -169,6 +169,8 @@ public class GameController : MonoBehaviour
         if (economyController.GetMoney() < 0)
         {
             ShopVars.GetInstance().lives--;
+            Shaker.CameraShaker.Shake();
+
             SoundPlayer.PlaySound(SoundPlayer.SoundType.ANGRY);
             economyController.SetMoney(300);
         }

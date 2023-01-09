@@ -10,6 +10,10 @@ public class WinMenuController : MenuController
     [SerializeField]
     private TMP_Text dayCountTextShadow;
 
+    public void Start()
+    {
+        SetDayCount(SceneController.daysToWin);
+    }
     public void SetDayCount(int dayCount)
     {
         dayCountText.text = $"I won in {dayCount.ToString()} days !";

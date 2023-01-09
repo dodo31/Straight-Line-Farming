@@ -67,6 +67,7 @@ public class SpecCard : MonoBehaviour
         {
             SoundPlayer.PlaySound(SoundPlayer.SoundType.ANGRY);
             Validate();
+            Shaker.CameraShaker.Shake();
             ShopVars.GetInstance().lives--;
         }
     }
