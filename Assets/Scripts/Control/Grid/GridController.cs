@@ -89,11 +89,12 @@ public class GridController : MonoBehaviour
                     newTileController = Instantiate(farmTilePrefab);
                     tile.Type = TileTypes.Farm;
                 }
-                else if(gridChar == 'C' || gridChar == 'D' || gridChar == 'E')
+                else if (gridChar == 'C' || gridChar == 'D' || gridChar == 'E')
                 {
                     newTileController = Instantiate(borderTilePrefab);
                     tile.Type = TileTypes.Border;
-                } else
+                }
+                else
                 {
                     newTileController = Instantiate(emptyTilePrefab);
                     tile.Type = TileTypes.Empty;
@@ -117,9 +118,11 @@ public class GridController : MonoBehaviour
                 }
 
                 var spriteRChilds = newTileController.gameObject.GetComponentsInChildren<SpriteRenderer>();
-                foreach (SpriteRenderer spriteR in spriteRChilds)
+
+                for (int i = 0; i < spriteRChilds.Length; i++)
                 {
-                    spriteR.sortingOrder = -(int)(tilePosition.y * 10);
+                    SpriteRenderer spriteR = spriteRChilds[i];
+                    spriteR.sortingOrder = -(int)(tilePosition.y * 10) - i;
                 }
             }
         }
@@ -172,7 +175,8 @@ public class GridController : MonoBehaviour
                     {
                         newTileController = Instantiate(farmTilePrefab);
                         tile.Type = TileTypes.Farm;
-                    } else
+                    }
+                    else
                     {
                         newTileController = Instantiate(borderTilePrefab);
                         tile.Type = TileTypes.Border;

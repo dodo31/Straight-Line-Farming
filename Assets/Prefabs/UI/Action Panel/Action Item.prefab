@@ -748,8 +748,10 @@ MonoBehaviour:
   iconImage: {fileID: 1300335542966519825}
   priceValueText: {fileID: 7677791158530834092}
   priceUnitText: {fileID: 8874245625196020081}
+  priceBackgroundImage: {fileID: 2365456157799172240}
   backgroundImage: {fileID: 8645953261973711432}
-  selectionBackgroundImage: {fileID: 2381687088556079128}
+  inactiveSprite: {fileID: 0}
+  selectedSprite: {fileID: 0}
   isAvailable: 1
 --- !u!114 &741735774403623500
 MonoBehaviour:

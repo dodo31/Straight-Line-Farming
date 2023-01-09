@@ -4,9 +4,14 @@ using UnityEngine;
 public class ActionPanel : MonoBehaviour
 {
     [SerializeField]
-    private Sprite sowBackgroundSprite;
+    private Sprite sowBackgroundSpriteInactive;
     [SerializeField]
-    private Sprite collectBackgroundSprite;
+    private Sprite collectBackgroundSpriteInactive;
+
+    [SerializeField]
+    private Sprite sowBackgroundSpriteSelected;
+    [SerializeField]
+    private Sprite collectBackgroundSpriteSelected;
 
     [SerializeField]
     private ActionItem ActionItemPrefab;
@@ -54,7 +59,7 @@ public class ActionPanel : MonoBehaviour
             plantSowItem.name = $"{plantDescription.Name} Spawn Item";
             plantSowItem.SetPrice(plantDescription.price);
             plantSowItem.SetIcon(plantDescription.UiSprite);
-            plantSowItem.SetBackgroundSprite(sowBackgroundSprite);
+            plantSowItem.SetStateSprites(sowBackgroundSpriteInactive, sowBackgroundSpriteSelected);
 
             plantSowItem.transform.SetParent(transform, false);
             plantSowItem.transform.SetSiblingIndex(i);
@@ -66,7 +71,7 @@ public class ActionPanel : MonoBehaviour
     }
     public void Update()
     {
-        if(ShopVars.GetInstance().seedPromo != lastPromo)
+        if (ShopVars.GetInstance().seedPromo != lastPromo)
         {
             lastPromo = ShopVars.GetInstance().seedPromo;
             UpdateSowButtons();
