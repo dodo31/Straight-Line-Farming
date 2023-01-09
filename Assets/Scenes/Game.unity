@@ -134,6 +134,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -632,7 +640,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: -40
+  m_Spacing: 6
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1829,7 +1837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantPrefab: {fileID: 7380731905300747263, guid: 230b7f9985792984f987c937506dd910, type: 3}
   borderTilePrefab: {fileID: -2290271807699257245, guid: 0487a7c67d268374183452210231af5d, type: 3}
-  emptyTilePrefab: {fileID: 0}
+  emptyTilePrefab: {fileID: -2290271807699257245, guid: dc0faa77f82c76245933e756dedc2716, type: 3}
   farmTilePrefab: {fileID: -5586102709607090521, guid: e54226f6b9115a84e8749f59d3ee2d20, type: 3}
   plantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
   gridSizes: {fileID: 11400000, guid: 991c4bb5dd5525b478594bed6dcbabad, type: 2}
@@ -1924,6 +1932,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2331,6 +2347,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2725,6 +2749,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2895,6 +2927,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3405,8 +3445,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4095101914dd98e49ae81ee3d2b4e05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sowBackgroundSprite: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
-  collectBackgroundSprite: {fileID: 21300000, guid: 68668f444aa5aba4abde2b537ae86441, type: 3}
+  sowBackgroundSpriteInactive: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+  collectBackgroundSpriteInactive: {fileID: 21300000, guid: 68668f444aa5aba4abde2b537ae86441, type: 3}
+  sowBackgroundSpriteSelected: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
+  collectBackgroundSpriteSelected: {fileID: 21300000, guid: c4a5ccf1395f05844aa731c055b06b62, type: 3}
   ActionItemPrefab: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
   PlantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
 --- !u!224 &1448635479 stripped
@@ -3655,6 +3697,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -4170,6 +4220,14 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: inactiveSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9bb22f1419963d941ba94e5dbc4d95ab, type: 3}
+    - target: {fileID: -2588848340906512813, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: selectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d618ca05d437d6d45abecc46b4f6fad4, type: 3}
     - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
