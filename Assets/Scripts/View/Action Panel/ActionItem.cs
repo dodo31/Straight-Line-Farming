@@ -17,6 +17,9 @@ public class ActionItem : MonoBehaviour
     private TMP_Text priceUnitText;
 
     [SerializeField]
+    private Image priceBackgroundImage;
+
+    [SerializeField]
     private Image backgroundImage;
 
     [SerializeField]
@@ -102,12 +105,14 @@ public class ActionItem : MonoBehaviour
     public void Unselect()
     {
         backgroundImage.sprite = inactiveSprite;
+        priceBackgroundImage.color = Color.white;
         isSelected = false;
     }
 
     public void Select()
     {
         backgroundImage.sprite = selectedSprite;
+        priceBackgroundImage.color = new Color(237 / 255f, 183 / 255f, 10 / 255f);
         isSelected = true;
     }
 
