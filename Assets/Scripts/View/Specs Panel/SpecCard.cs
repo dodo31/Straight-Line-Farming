@@ -131,7 +131,7 @@ public class SpecCard : MonoBehaviour
     {
         plantCounIndicator.transform.SetParent(plantCountIndicatorContainer);
         plantCounIndicator.SetPlantType(plantDescription.Type);
-        plantCounIndicator.SetPlantIcon(plantDescription.GridSprite);
+        plantCounIndicator.SetPlantIcon(plantDescription.UiSprite);
         plantCounIndicator.SetPlantCount(plantCount);
     }
 

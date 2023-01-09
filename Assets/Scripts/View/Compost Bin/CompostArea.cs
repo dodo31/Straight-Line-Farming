@@ -20,6 +20,7 @@ public class CompostArea : MonoBehaviour
     {
         if (plantsGarbage.Length > 0)
         {
+            RejectWastes();
             OpenBin();
 
             for (int i = 0; i < plantsGarbage.Length; i++)
