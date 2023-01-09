@@ -63,6 +63,11 @@ public class SpecCard : MonoBehaviour
     {
         spec.DecreaseDeadline();
         SetDeadline(spec.Deadline);
+        if(spec.Deadline <= 0)
+        {
+            Validate();
+            ShopVars.GetInstance().lives--;
+        }
     }
 
     public void ResetDeadline()
