@@ -16,7 +16,6 @@ public class Lives : MonoBehaviour
             {
                 lives[i].enabled = i < lastLives;
             }
-            Debug.Log(lastLives);
         }
     }
 }
