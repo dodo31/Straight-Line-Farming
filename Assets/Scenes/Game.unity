@@ -4662,7 +4662,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2082553994}
   - component: {fileID: 2082553995}
-  - component: {fileID: 2082553996}
   m_Layer: 5
   m_Name: Spec Panels Container
   m_TagString: Untagged
@@ -4705,32 +4704,6 @@ MonoBehaviour:
   plantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
   specCardPrefab: {fileID: 1378027179096100120, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
   plantCountIndicatorPrefab: {fileID: 4786305017035806045, guid: 19bc049759e9a674791bfeba2ce1c9dc, type: 3}
---- !u!114 &2082553996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082553993}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 5
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1001 &2113703967
 PrefabInstance:
   m_ObjectHideFlags: 0
