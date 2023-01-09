@@ -217,7 +217,7 @@ public class GridController : MonoBehaviour
 
     public void StartRowSelection(TileController startTile)
     {
-        lineSelection.StartSelection();
+        lineSelection.StartSelection(startTile.transform.position);
         dragStartTile = startTile;
     }
 
@@ -232,15 +232,17 @@ public class GridController : MonoBehaviour
             Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
 
             List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, selectionDirection, false);
-            currentPathPlants = PlantCountsFromPath(truckPath);
+            
 
             truck.SetDirection(selectionDirection);
 
             TileController[] previousTileLine = currentTileLine.ToArray();
             currentTileLine.Clear();
+            
 
-            if (truckPath.Count >= 2)
+            if (GetTotalTruckPath(startCoord, endCoord, selectionDirection, true).Count >= 1 && truckPath.Count >= 2)
             {
+                currentPathPlants = PlantCountsFromPath(truckPath);
                 foreach (Vector2Int tileCoord in truckPath)
                 {
                     TileController tile = GetTileController(grid.GetTile(tileCoord));
@@ -260,6 +262,8 @@ public class GridController : MonoBehaviour
             }
             else
             {
+                currentPathPlants = new PlantCount[0];
+
                 lineSelection.UpdateRowLine(new Vector2(), new Vector2());
 
                 if (previousTileLine.Length != truckPath.Count)
