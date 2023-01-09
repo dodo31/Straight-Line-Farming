@@ -30,6 +30,11 @@ public class EconomyController : MonoBehaviour
         economy.GainMoney(amount);
         economyPanel.SetAmount(economy.GetMoney());
     }
+    public void SetMoney(int amount)
+    {
+        economy.SetMoney(amount);
+        economyPanel.SetAmount(economy.GetMoney());
+    }
 
     public void UseMoney(int amount)
     {

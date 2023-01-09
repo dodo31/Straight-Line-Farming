@@ -105,7 +105,6 @@ public class GameController : MonoBehaviour
                 {
                     economyController.UseMoney(100);
                     specsController.DecreaseDeadlines();
-                    ShopVars.GetInstance().day++;
                 }
                 gridController.EndRowSelection(selectedAction);
                 isDraggingFromTile = false;
@@ -166,6 +165,14 @@ public class GameController : MonoBehaviour
                 SoundPlayer.PlaySound(SoundPlayer.SoundType.GLING);
             }
         }
+        ShopVars.GetInstance().day++;
+        if (economyController.GetMoney() < 0)
+        {
+            ShopVars.GetInstance().lives--;
+            SoundPlayer.PlaySound(SoundPlayer.SoundType.ANGRY);
+            economyController.SetMoney(300);
+        }
+
 
         compostArea.AcceptWastes();
     }
