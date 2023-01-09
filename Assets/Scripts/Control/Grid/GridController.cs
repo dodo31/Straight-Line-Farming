@@ -62,6 +62,7 @@ public class GridController : MonoBehaviour
 
         GenerateGrid();
         tiles = GetComponentsInChildren<TileController>();
+        PlantStartingWheat();
     }
 
     private void GenerateGrid()
@@ -78,7 +79,7 @@ public class GridController : MonoBehaviour
                 Tile tile = column[rowIndex];
                 TileController newTileController = null;
 
-                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B')
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' || gridSizes.gridSizes[rowIndex][columnIndex] == '-')
                 {
                     newTileController = Instantiate(farmTilePrefab);
                     tile.Type = TileTypes.Farm;
@@ -116,6 +117,28 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
     
+    private void PlantStartingWheat()
+    {
+        for (int columnIndex = 0; columnIndex < grid.Tiles.Count; columnIndex++)
+        {
+            List<Tile> column = grid.Tiles[columnIndex];
+
+            for (int rowIndex = 0; rowIndex < grid.Tiles.Count; rowIndex++)
+            {
+                Tile tile = column[rowIndex];
+
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == '-')
+                {
+                    PlantDescription plantDescription = plantsDescription.GetDescription(PlantTypes.Wheat);
+
+                    SowPlant(PlantTypes.Wheat, plantDescription.GridSprite, (FarmTileController) GetTileController(tile));
+
+                }
+
+            }
+        }
+    }
+
     public void GridSizeUpdate()
     {
         currentTileLine.Clear();
