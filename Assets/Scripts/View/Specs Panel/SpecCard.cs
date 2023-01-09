@@ -146,6 +146,8 @@ public class SpecCard : MonoBehaviour
     public void AddRequiredPlantCount(PlantDescription plantDescription, PlantCountIndicator plantCounIndicator, int plantCount)
     {
         plantCounIndicator.transform.SetParent(plantCountIndicatorContainer);
+        plantCounIndicator.transform.transform.localScale = Vector3.one;
+        
         plantCounIndicator.SetPlantType(plantDescription.Type);
         plantCounIndicator.SetPlantIcon(plantDescription.UiSprite);
         plantCounIndicator.SetPlantCount(plantCount);

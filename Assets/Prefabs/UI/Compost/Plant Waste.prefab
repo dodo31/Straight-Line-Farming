@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 8369980530523374983}
   - component: {fileID: 7386294312004921300}
   - component: {fileID: 2014369799627584993}
+  - component: {fileID: 3277327746444762404}
   m_Layer: 5
   m_Name: Plant Icon
   m_TagString: Untagged
@@ -191,6 +192,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3277327746444762404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9039801583480019018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &8268022047762478117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -324,3 +340,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3531528892330342810, guid: 91dd0a514bc7b8f468dd8326cf3f965d, type: 3}
   m_PrefabInstance: {fileID: 8268022047762478117}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7327644261012745505 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1660965828199373060, guid: 91dd0a514bc7b8f468dd8326cf3f965d, type: 3}
+  m_PrefabInstance: {fileID: 8268022047762478117}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5423541092431660956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7327644261012745505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
