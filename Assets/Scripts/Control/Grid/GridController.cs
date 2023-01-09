@@ -266,7 +266,6 @@ public class GridController : MonoBehaviour
 
         if (currentTile.Type == TileTypes.Empty || startCoord == endCoord)
         {
-            Debug.Log("oui");
             return new List<Vector2Int>();
         }
 
