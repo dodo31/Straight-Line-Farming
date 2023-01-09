@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Economy
 {
     private int money;
@@ -12,6 +14,10 @@ public class Economy
         return EconomyHolder.Instance;
     }
 
+    public void SetMoney(int amount)
+    {
+        money = amount;
+    }
     public void GainMoney(int amount)
     {
         money += amount;

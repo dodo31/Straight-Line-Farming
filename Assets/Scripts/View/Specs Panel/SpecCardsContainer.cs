@@ -45,6 +45,7 @@ public class SpecCardsContainer : MonoBehaviour
 
     public void AddSpecCard(Spec spec)
     {
+        SoundPlayer.PlaySound(SoundPlayer.SoundType.HELLO);
         SpecCard specCard = Instantiate(specCardPrefab);
         specCard.transform.SetParent(transform);
         spec.ResetDeadline();

@@ -89,6 +89,8 @@ public class TruckController : MonoBehaviour
     public void StartTravelRow(Vector2 startPosition, Vector2 endPosition)
     {
         truckRenderer.enabled = true;
+        SoundPlayer.PlaySound(SoundPlayer.SoundType.VROOM);
+
 
         Vector2 direction = (endPosition - startPosition).normalized;
         transform.position = startPosition - direction * 0.5f;
