@@ -11,6 +11,14 @@ public class EconomyController : MonoBehaviour
     {
         economy = Economy.GetInstance();
     }
+    public void Update()
+    {
+        if (ShopVars.GetInstance().moneyChange != 0)
+        {
+            GainMoney(ShopVars.GetInstance().moneyChange);
+            ShopVars.GetInstance().moneyChange = 0;
+        }
+    }
 
     public void GainMoney(int amount)
     {

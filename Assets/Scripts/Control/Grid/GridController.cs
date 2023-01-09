@@ -156,7 +156,7 @@ public class GridController : MonoBehaviour
                 {
                     var tileCon = GetTileController(tile);
                     
-                    Destroy(tileCon);
+                    Destroy(tileCon.gameObject);
                     newTileController = Instantiate(farmTilePrefab);
                     tile.Type = TileTypes.Farm;
 

@@ -10,6 +10,7 @@ public class ActionPanel : MonoBehaviour
     private PlantsDescription PlantsDescription;
 
     private ActionItem[] actionItems;
+    private int lastPromo = 0;
 
     protected void Awake()
     {
@@ -56,6 +57,23 @@ public class ActionPanel : MonoBehaviour
             plantSowItem.SetTargetAction(sowAction);
             plantSowItem.SetAvailable();
         }
+    }
+    public void Update()
+    {
+        if(ShopVars.GetInstance().seedPromo != lastPromo)
+        {
+            lastPromo = ShopVars.GetInstance().seedPromo;
+            UpdateSowButtons();
+        }
+    }
+    public void UpdateSowButtons()
+    {
+        ActionItem[] pop = this.GetComponentsInChildren<ActionItem>();
+        for (int i = 0; i < PlantsDescription.Descriptions.Count; i++)
+        {
+            pop[i].SetPrice(PlantsDescription.Descriptions[i].price - ShopVars.GetInstance().seedPromo * 10);
+        }
+
     }
 
     private void SelectItem(ActionItem targetItem)

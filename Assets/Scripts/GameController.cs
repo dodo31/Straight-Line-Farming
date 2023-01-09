@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
                 {
                     PlantDescription plantDescription = plantsDescription.GetDescription(sowAction.PlantType);
 
-                    economyController.UseMoney(plantDescription.price);
+                    economyController.UseMoney(plantDescription.price - ShopVars.GetInstance().seedPromo * 10);
                     gridController.SowPlant(sowAction.PlantType, plantDescription.GridSprite, tile);
                 }
                 else if (selectedAction is UserCollectAction collectAction)
