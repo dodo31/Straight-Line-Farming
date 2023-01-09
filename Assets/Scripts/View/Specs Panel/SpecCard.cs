@@ -88,7 +88,7 @@ public class SpecCard : MonoBehaviour
         if (!IsLeaving)
         {
             RectTransform parentTransform = (RectTransform)transform.parent;
-            targetPosX = IDLE_POS_X_MARGIN;
+            targetPosX = -IDLE_POS_X_MARGIN;
         }
     }
 
