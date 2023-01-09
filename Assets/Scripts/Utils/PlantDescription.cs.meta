@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/GameController.cs.meta
+guid: a5c712041b7477f4f9641e0d7404ac64
+========
+guid: 4692fa78c99818940a7db17604cb700b
+>>>>>>>> dev:Assets/Configuration/PlantDescription.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

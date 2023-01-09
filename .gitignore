@@ -24,8 +24,11 @@
 /[Aa]ssets/Plugins/Editor/JetBrains*
 
 # Visual Studio
-.vs/
+*.vs/
+.vscode/
 *.code-workspace
+*.vsconfig
+**/omnisharp.json
 
 # Gradle cache directory
 .gradle/
