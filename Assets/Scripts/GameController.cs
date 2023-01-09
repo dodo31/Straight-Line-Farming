@@ -105,6 +105,7 @@ public class GameController : MonoBehaviour
                 {
                     economyController.UseMoney(100);
                     specsController.DecreaseDeadlines();
+                    ShopVars.GetInstance().day++;
                 }
                 gridController.EndRowSelection(selectedAction);
                 isDraggingFromTile = false;
