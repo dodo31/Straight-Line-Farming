@@ -509,6 +509,58 @@ PrefabInstance:
       propertyPath: isAvailable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 523592482228846868, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002714087144072005, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677791158530834092, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
+      propertyPath: m_text
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8645953261973711436, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
       propertyPath: m_Name
       value: Action Item
@@ -1490,6 +1542,7 @@ MonoBehaviour:
   tilesContainer: {fileID: 871287553}
   lineSelection: {fileID: 893373685}
   truck: {fileID: 716122505227993795}
+  currentTileLine: []
 --- !u!1 &766419217
 GameObject:
   m_ObjectHideFlags: 0
