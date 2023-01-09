@@ -490,6 +490,7 @@ GameObject:
   - component: {fileID: 209466356}
   - component: {fileID: 209466355}
   - component: {fileID: 209466357}
+  - component: {fileID: 209466358}
   m_Layer: 5
   m_Name: Time Banner
   m_TagString: Untagged
@@ -569,6 +570,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 617886489}
+--- !u!114 &209466358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209466353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &271484987
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,7 +614,7 @@ RectTransform:
   m_GameObject: {fileID: 271484987}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1457736264}
@@ -613,8 +629,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: 0}
-  m_SizeDelta: {x: 80, y: 480}
+  m_AnchoredPosition: {x: 43.6, y: 0}
+  m_SizeDelta: {x: 80, y: 519.9729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &271484989
 MonoBehaviour:
@@ -655,7 +671,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 6
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1694,7 +1710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 93, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &541645191
@@ -2375,6 +2391,7 @@ GameObject:
   - component: {fileID: 766419218}
   - component: {fileID: 766419221}
   - component: {fileID: 766419220}
+  - component: {fileID: 766419222}
   m_Layer: 5
   m_Name: Bin Body
   m_TagString: Untagged
@@ -2440,6 +2457,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 766419217}
   m_CullTransparentMesh: 1
+--- !u!114 &766419222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766419217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &794574564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2869,6 +2901,7 @@ GameObject:
   - component: {fileID: 907273609}
   - component: {fileID: 907273612}
   - component: {fileID: 907273611}
+  - component: {fileID: 907273613}
   m_Layer: 5
   m_Name: Bin Lid
   m_TagString: Untagged
@@ -2934,6 +2967,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907273608}
   m_CullTransparentMesh: 1
+--- !u!114 &907273613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907273608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &910418081
 GameObject:
   m_ObjectHideFlags: 0
@@ -3202,6 +3250,26 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2931594052346005827, guid: 4425cea5ff07de24696f3ac6de80e2b2, type: 3}
   m_PrefabInstance: {fileID: 2931594052205770812}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &970594601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 241204530369537249, guid: 4425cea5ff07de24696f3ac6de80e2b2, type: 3}
+  m_PrefabInstance: {fileID: 2931594052205770812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &970594605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970594601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1073338397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3462,6 +3530,26 @@ LineRenderer:
   m_CorrespondingSourceObject: {fileID: 3635251649866834649, guid: 3beede82e4cc0204a83f21297c23b18d, type: 3}
   m_PrefabInstance: {fileID: 1117754438}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1138742931 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3291815449746623489, guid: 4425cea5ff07de24696f3ac6de80e2b2, type: 3}
+  m_PrefabInstance: {fileID: 2931594052205770812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1138742935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138742931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!224 &1205077676 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8645953261973711439, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
@@ -4360,6 +4448,26 @@ RectTransform:
   m_AnchoredPosition: {x: 172.5, y: 110.3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1888137132 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4256598136664633914, guid: 4425cea5ff07de24696f3ac6de80e2b2, type: 3}
+  m_PrefabInstance: {fileID: 2931594052205770812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1888137136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888137132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!224 &1902453142 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8645953261973711439, guid: a58e8705f26c11a4ebda2bd9e8ec59bc, type: 3}
@@ -4662,7 +4770,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2082553994}
   - component: {fileID: 2082553995}
-  - component: {fileID: 2082553996}
   m_Layer: 5
   m_Name: Spec Panels Container
   m_TagString: Untagged
@@ -4705,32 +4812,6 @@ MonoBehaviour:
   plantsDescription: {fileID: 11400000, guid: 7df06e6b496d41c4caf7a8b2ff36f4d8, type: 2}
   specCardPrefab: {fileID: 1378027179096100120, guid: 1bf7354d2b0ae1347967e962a3a50cc3, type: 3}
   plantCountIndicatorPrefab: {fileID: 4786305017035806045, guid: 19bc049759e9a674791bfeba2ce1c9dc, type: 3}
---- !u!114 &2082553996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082553993}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 5
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1001 &2113703967
 PrefabInstance:
   m_ObjectHideFlags: 0

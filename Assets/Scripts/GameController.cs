@@ -107,6 +107,7 @@ public class GameController : MonoBehaviour
                     specsController.DecreaseDeadlines();
                 }
                 gridController.EndRowSelection(selectedAction);
+                compostArea.AcceptWastes();
                 isDraggingFromTile = false;
             }
         }
@@ -129,7 +130,7 @@ public class GameController : MonoBehaviour
                 else if (selectedAction is UserCollectAction collectAction)
                 {
                     gridController.CollectPlant(tile);
-                    if(tile.GetCurrentPlant() != null)
+                    if (tile.GetCurrentPlant() != null)
                         switch (tile.GetCurrentPlant().plantType)
                         {
                             case PlantTypes.Wheat:
@@ -172,9 +173,6 @@ public class GameController : MonoBehaviour
             SoundPlayer.PlaySound(SoundPlayer.SoundType.ANGRY);
             economyController.SetMoney(300);
         }
-
-
-        compostArea.AcceptWastes();
     }
 
     public SpecCard[] SpecCardsToValidate(List<Vector2Int> truckPath, out PlantCount[] garbage)
