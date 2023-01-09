@@ -110,6 +110,11 @@ public class GridController : MonoBehaviour
 
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
+    
+    protected void Update()
+    {
+        
+    }
 
     public void StartRowSelection(TileController startTile)
     {

@@ -1,3 +1,6 @@
+using System.Net.Mail;
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +31,27 @@ public class SpecCard : MonoBehaviour
     [SerializeField]
     private Image backgroundImage;
 
+    [SerializeField]
+    private Animator cardAnimator;
+
+    private float basePosX;
+
+    [SerializeField]
+    private float previewOffsetX = 35;
+
+    private CardPreviewStates previewState;
+    private Coroutine previewCoroutine;
+
     private Spec spec;
+
+    private float orderTargetPosY;
+    private bool isOrderAnimating;
+
+    private void Awake()
+    {
+        previewCoroutine = null;
+        previewState = CardPreviewStates.IDLE;
+    }
 
     public void SetSpec(Spec spec)
     {
@@ -38,16 +61,72 @@ public class SpecCard : MonoBehaviour
         SetClientIcon(Resources.Load<Sprite>(spec.ClientSpritePath));
         SetDeadline(spec.Deadline);
         SetGain(spec.Gain);
+
+        basePosX = transform.position.x;
     }
 
     public void SetAsNormal()
     {
-        backgroundImage.color = Color.white;
+        if (previewState != CardPreviewStates.IDLE && previewState != CardPreviewStates.PREVIEW_TO_IDLE)
+        {
+            if (previewCoroutine != null)
+            {
+                StopCoroutine(previewCoroutine);
+            }
+
+            previewCoroutine = StartCoroutine(Translate(new Vector2(transform.position.x, basePosX), CardPreviewStates.PREVIEW_TO_IDLE, CardPreviewStates.IDLE));
+        }
+
+        // backgroundImage.color = Color.white;
+        // cardAnimator.ResetTrigger("PREVIEW");
+        // cardAnimator.SetTrigger("NORMAL");
     }
 
     public void SetAsPreview()
     {
-        backgroundImage.color = Color.yellow;
+        // backgroundImage.color = Color.yellow;
+        // cardAnimator.ResetTrigger("NORMAL");
+        // cardAnimator.SetTrigger("PREVIEW");
+
+        if (previewState != CardPreviewStates.PREVIEW && previewState != CardPreviewStates.IDLE_TO_PREVIEW)
+        {
+            if (previewCoroutine != null)
+            {
+                StopCoroutine(previewCoroutine);
+            }
+
+            previewCoroutine = StartCoroutine(Translate(new Vector2(transform.position.x, basePosX + previewOffsetX), CardPreviewStates.IDLE_TO_PREVIEW, CardPreviewStates.PREVIEW));
+        }
+    }
+
+    // public void UpdateOrderPosY()
+    // {
+    //     float deltaY = orderTargetPosY - transform.position.y;
+    //     float deltaSign = Math.Sign(deltaY);
+    //     float distance = Math.Abs(deltaY);
+        
+    //     if (distance > 0.5f)
+    //     {
+    //         transform.position = new Vector2(transform.position.x, transform.position.y + (deltaSign * distance) * 0.5f);
+    //     }
+    // }
+
+    public IEnumerator Translate(Vector2 interval, CardPreviewStates transitionState, CardPreviewStates endState)
+    {
+        previewState = transitionState;
+
+        int frameCount = 20;
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            float frameRatio = i / (frameCount * 1f);
+            float newPosX = Mathf.Lerp(interval.x, interval.y, frameRatio);
+            transform.position = new Vector2(newPosX, transform.position.y);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        previewState = endState;
     }
 
     public void Validate()
@@ -95,4 +174,5 @@ public class SpecCard : MonoBehaviour
     }
 
     public Spec Spec { get => spec; }
+    public float OrderTargetPosY { set => orderTargetPosY = value; }
 }
