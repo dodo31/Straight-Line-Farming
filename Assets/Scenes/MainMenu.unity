@@ -265,7 +265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FARM!
+  m_text: PLAY!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78e21cceea706d54a90d8a42c40e782d, type: 2}
   m_sharedMaterial: {fileID: -5032336540185202994, guid: 78e21cceea706d54a90d8a42c40e782d, type: 2}
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FARM!
+  m_text: PLAY!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78e21cceea706d54a90d8a42c40e782d, type: 2}
   m_sharedMaterial: {fileID: -5032336540185202994, guid: 78e21cceea706d54a90d8a42c40e782d, type: 2}
@@ -695,7 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42bba5899ab182f40aceae45adb066f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuScreen: {fileID: 886135089}
+  MenuScreen: {fileID: 886135089}
 --- !u!4 &1048452537
 Transform:
   m_ObjectHideFlags: 0

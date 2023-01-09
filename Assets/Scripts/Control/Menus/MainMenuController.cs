@@ -1,15 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuController : MonoBehaviour
+public class MainMenuController : MenuController
 {
-    public Screen MainMenuScreen;
-
-    protected void Awake()
-    {
-        MainMenuScreen.Toggle(true);
-    }
-
     public void StartGame()
     {
         Time.timeScale = 1;
