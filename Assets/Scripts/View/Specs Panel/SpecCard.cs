@@ -55,7 +55,7 @@ public class SpecCard : MonoBehaviour
         this.spec = spec;
 
         SetClientName(spec.ClientName);
-        SetClientIcon(Resources.Load<Sprite>(spec.ClientSpritePath));
+        SetClientIcon(spec.ClientSprite);
         SetDeadline(spec.Deadline);
         SetGain(spec.Gain);
     }

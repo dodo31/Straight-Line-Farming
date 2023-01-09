@@ -16,7 +16,7 @@ public class SpecGenerator : ScriptableObject
     public Spec GenerateSpec(int commandID)
     {
         string clientName = nameGenerator.GenName() + " " + surnameGenerator.GenName();
-        string spritePath = "";
+        Sprite sprite = sprites[0];
         int deadline = ShopVars.GetInstance().baseDays;
         int gain = 0;
         float minAmount = minAmountAtFirst + minAmountEvolution * commandID;
@@ -91,7 +91,7 @@ public class SpecGenerator : ScriptableObject
         }
         gain += (difAmount - 1) * 80 + amount * amount * 10 + 120;
         //Debug.Log($" : {gain}$");
-        Spec spec = new(clientName, spritePath, deadline, gain);
+        Spec spec = new(clientName, sprite, deadline, gain);
         for(int food = 0; food < amountOfFood.Length; food++)
         {
             if (amountOfFood[food] > 0)
