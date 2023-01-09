@@ -33,6 +33,8 @@ public class GridController : MonoBehaviour
 
     private Grid grid;
     private GridStates gridState;
+    
+    private int oldGridSize;
 
     private TileController[] tiles;
 
@@ -106,10 +108,11 @@ public class GridController : MonoBehaviour
                 {
                     totalHeight = tilePosition.y + GridUtils.TILES_HEIGHT;
                 }
-                
+
                 var spriteRChilds = newTileController.gameObject.GetComponentsInChildren<SpriteRenderer>();
-                foreach(SpriteRenderer spriteR in spriteRChilds){
-                    spriteR.sortingOrder = -(int)(tilePosition.y*10);
+                foreach (SpriteRenderer spriteR in spriteRChilds)
+                {
+                    spriteR.sortingOrder = -(int)(tilePosition.y * 10);
                 }
             }
         }
@@ -177,10 +180,9 @@ public class GridController : MonoBehaviour
         }
     }
 
-    private int oldGridSize;
     public void Update()
     {
-        if(tiles.Any(tile => tile == null))
+        if (tiles.Any(tile => tile == null))
         {
             tiles = GetComponentsInChildren<TileController>();
         }
@@ -205,8 +207,12 @@ public class GridController : MonoBehaviour
         {
             Vector2Int startCoord = dragStartTile.Tile.Coord;
             Vector2Int endCoord = endTile.Tile.Coord;
-            List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, false);
+            Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+
+            List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, selectionDirection, false);
             currentPathPlants = PlantCountsFromPath(truckPath);
+            
+            truck.SetDirection(selectionDirection);
 
             TileController[] previousTileLine = currentTileLine.ToArray();
             currentTileLine.Clear();
@@ -227,13 +233,17 @@ public class GridController : MonoBehaviour
                 {
                     hasSelectionChanged = true;
                 }
-            } else
+            }
+            else
             {
                 lineSelection.UpdateRowLine(new Vector2(), new Vector2());
-                if (previousTileLine.Length != truckPath.Count)
-                    hasSelectionChanged = true;
-                currentTileLine.Clear();
 
+                if (previousTileLine.Length != truckPath.Count)
+                {
+                    hasSelectionChanged = true;
+                }
+
+                currentTileLine.Clear();
             }
         }
 
@@ -320,7 +330,12 @@ public class GridController : MonoBehaviour
         {
             Vector2 startTilePosition = currentTileLine.First().transform.position;
             Vector2 endTilePosition = currentTileLine.Last().transform.position;
-            List<Vector2Int> truckPath = GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
+
+            Vector2Int startCoord = currentTileLine.First().Tile.Coord;
+            Vector2Int endCoord = currentTileLine.Last().Tile.Coord;
+            Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+
+            List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, selectionDirection, false);
 
             currentPathPlants = PlantCountsFromPath(truckPath);
 
@@ -329,9 +344,8 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public List<Vector2Int> GetTotalTruckPath(Vector2Int startCoord, Vector2Int endCoord, bool onlyOneDirection = false)
+    public List<Vector2Int> GetTotalTruckPath(Vector2Int startCoord, Vector2Int endCoord, Directions selectionDirection, bool onlyOneDirection = false)
     {
-        Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
         Tile currentTile = dragStartTile.Tile;
 
         if (currentTile.Type == TileTypes.Empty || startCoord == endCoord)
@@ -459,7 +473,12 @@ public class GridController : MonoBehaviour
     {
         Vector2 startTilePosition = currentTileLine.First().transform.position;
         Vector2 endTilePosition = currentTileLine.Last().transform.position;
-        List<Vector2Int> truckPath = GetTotalTruckPath(currentTileLine.First().Tile.Coord, currentTileLine.Last().Tile.Coord, false);
+
+        Vector2Int startCoord = currentTileLine.First().Tile.Coord;
+        Vector2Int endCoord = currentTileLine.Last().Tile.Coord;
+        Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
+
+        List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, selectionDirection, false);
 
         OnTruckTravelCompleted?.Invoke(truckPath);
         gridState = GridStates.IDLE;

@@ -114,6 +114,11 @@ public class ActionItem : MonoBehaviour
         iconImage.sprite = icon;
     }
 
+    public void SetBackgroundSprite(Sprite backgroundSprite)
+    {
+        backgroundImage.sprite = backgroundSprite;
+    }
+
     public void SetPrice(int price)
     {
         priceValueText.text = price.ToString();

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SpecCardsContainer : MonoBehaviour
 {
-    private const float PADDING_TOP = 15;
-    private const float CARD_SPACING = 15;
+    private const float PADDING_TOP = SpecCard.IDLE_POS_X_MARGIN;
+    private const float CARD_SPACING = 5;
     
     [SerializeField]
     private PlantsDescription plantsDescription;
@@ -49,18 +49,14 @@ public class SpecCardsContainer : MonoBehaviour
         specCard.transform.SetParent(transform);
         spec.ResetDeadline();
         specCard.SetSpec(spec);
-
-        Vector2 anchorPosition = rectTransform.anchoredPosition;
-
+        
         RectTransform cardTransform = ((RectTransform)specCard.transform);
-        Vector2 cardSize = cardTransform.sizeDelta;
 
-        float cardPosX = cardSize.x / 2 + SpecCard.HIDDEN_POS_X_MARGIN;
+        float cardPosX = SpecCard.HIDDEN_POS_X_MARGIN;
         float cardPosY = CreateCardPosY(specCard);
-
+        
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
-
-        specCard.OrderTargetPosX = -cardSize.x / 2 - SpecCard.IDLE_POS_X_MARGIN;
+        specCard.OrderTargetPosX = -SpecCard.IDLE_POS_X_MARGIN;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)
         {
@@ -70,14 +66,11 @@ public class SpecCardsContainer : MonoBehaviour
 
     private float CreateCardPosY(SpecCard specCard)
     {
-        RectTransform cardTransform = ((RectTransform)specCard.transform);
-        Vector2 cardSize = cardTransform.sizeDelta;
-
         int cardIndex = specCard.transform.GetSiblingIndex();
 
         if (cardIndex == 0)
         {
-            return rectTransform.anchoredPosition.y + cardSize.y / 2 - PADDING_TOP;
+            return rectTransform.anchoredPosition.y - PADDING_TOP;
         }
         else
         {
