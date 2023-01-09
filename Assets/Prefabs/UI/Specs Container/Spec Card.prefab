@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 743273353792381426}
   - component: {fileID: 958009200248696245}
   - component: {fileID: 4010376711883329064}
+  - component: {fileID: 3943218562031639857}
   m_Layer: 5
   m_Name: Spec Description
   m_TagString: Untagged
@@ -78,6 +79,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3943218562031639857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330837830137828205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.4}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1378027179096100124
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientText: {fileID: 2479548980151549783}
-  clientImage: {fileID: 5180576390639488482}
+  clientImage: {fileID: 5469773504001223845}
   plantCountIndicatorContainer: {fileID: 6429511423794549059}
   deadlineValueText: {fileID: 8513658335339567692}
   deadlineUnitText: {fileID: 4805922335676111913}
@@ -619,7 +635,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 29b8bfbfdff91d7459981ab3d67eb350, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4

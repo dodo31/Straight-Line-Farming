@@ -55,7 +55,7 @@ public class SpecCardsContainer : MonoBehaviour
         float cardPosY = CreateCardPosY(specCard);
         
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
-        specCard.OrderTargetPosX = SpecCard.IDLE_POS_X_MARGIN;
+        specCard.OrderTargetPosX = -SpecCard.IDLE_POS_X_MARGIN;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)
         {
