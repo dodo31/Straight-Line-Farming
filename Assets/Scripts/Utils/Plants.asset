@@ -17,23 +17,23 @@ MonoBehaviour:
     Type: 0
     Sprite: {fileID: 21300000, guid: f4573a4a4d5df2a43a0bd4cd54c51a85, type: 3}
     GridSprite: {fileID: 21300000, guid: e2dab3465fd48a849a1a4261b8bc9c63, type: 3}
-    UiSprite: {fileID: 0}
+    UiSprite: {fileID: 21300000, guid: c193e1d245d207f4fbd43279fce51475, type: 3}
     price: 50
   - Name: Corn
     Type: 1
     Sprite: {fileID: 21300000, guid: 5f28994bb4d364246ab0a658c70f5fd8, type: 3}
     GridSprite: {fileID: 21300000, guid: 1f645606256a5a94289832ec59cc8b05, type: 3}
-    UiSprite: {fileID: 0}
+    UiSprite: {fileID: 21300000, guid: 625cef30c8c018842943d93e7541a88f, type: 3}
     price: 70
   - Name: Pumpkin
     Type: 2
     Sprite: {fileID: 21300000, guid: e0224354c64f4d440981e681851815dd, type: 3}
     GridSprite: {fileID: 21300000, guid: 836acfe3c6f333641b5ee76f84b07e0a, type: 3}
-    UiSprite: {fileID: 0}
+    UiSprite: {fileID: 21300000, guid: 97f29e9de15e5bc42ba624e65c4b819d, type: 3}
     price: 100
   - Name: Chilli
     Type: 3
     Sprite: {fileID: 21300000, guid: f66bce4046cd30c4fabd438fe0c6268c, type: 3}
     GridSprite: {fileID: 21300000, guid: e2dab3465fd48a849a1a4261b8bc9c63, type: 3}
-    UiSprite: {fileID: 0}
+    UiSprite: {fileID: 21300000, guid: 3e21148124dfd83439960ede6b3c60c3, type: 3}
     price: 150
