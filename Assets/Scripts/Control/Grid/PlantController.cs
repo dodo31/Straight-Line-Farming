@@ -18,7 +18,7 @@ public class PlantController : MonoBehaviour
     [SerializeField]
     private float ejectionStrength = 30f;
 
-    private PlantTypes plantType;
+    public PlantTypes plantType;
 
     [SerializeField]
     private SpriteRenderer plantRenderer;

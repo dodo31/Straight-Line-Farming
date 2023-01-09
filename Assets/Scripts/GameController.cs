@@ -123,10 +123,28 @@ public class GameController : MonoBehaviour
 
                     economyController.UseMoney(plantDescription.price - ShopVars.GetInstance().seedPromo * 10);
                     gridController.SowPlant(sowAction.PlantType, plantDescription.GridSprite, tile);
+                    if (tile.GetCurrentPlant() == null)
+                        SoundPlayer.PlaySound(SoundPlayer.SoundType.SOW);
                 }
                 else if (selectedAction is UserCollectAction collectAction)
                 {
                     gridController.CollectPlant(tile);
+                    if(tile.GetCurrentPlant() != null)
+                        switch (tile.GetCurrentPlant().plantType)
+                        {
+                            case PlantTypes.Wheat:
+                                SoundPlayer.PlaySound(SoundPlayer.SoundType.WHEAT);
+                                break;
+                            case PlantTypes.Corn:
+                                SoundPlayer.PlaySound(SoundPlayer.SoundType.CORN);
+                                break;
+                            case PlantTypes.Pumpkin:
+                                SoundPlayer.PlaySound(SoundPlayer.SoundType.PUMPKIN);
+                                break;
+                            case PlantTypes.Chilli:
+                                SoundPlayer.PlaySound(SoundPlayer.SoundType.CHILLI);
+                                break;
+                        }
                 }
                 break;
         }
@@ -143,6 +161,8 @@ public class GameController : MonoBehaviour
             {
                 economyController.GainMoney(specCard.Spec.Gain);
                 specCard.Validate();
+                SoundPlayer.PlaySound(SoundPlayer.SoundType.THANKS);
+                SoundPlayer.PlaySound(SoundPlayer.SoundType.GLING);
             }
         }
 

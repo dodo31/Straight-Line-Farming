@@ -65,6 +65,7 @@ public class SpecCard : MonoBehaviour
         SetDeadline(spec.Deadline);
         if(spec.Deadline <= 0)
         {
+            SoundPlayer.PlaySound(SoundPlayer.SoundType.ANGRY);
             Validate();
             ShopVars.GetInstance().lives--;
         }
