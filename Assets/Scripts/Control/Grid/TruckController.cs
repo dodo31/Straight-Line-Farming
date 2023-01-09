@@ -4,6 +4,9 @@ using UnityEngine;
 public class TruckController : MonoBehaviour
 {
     [SerializeField]
+    private TruckSpritePack spritePack;
+
+    [SerializeField]
     private SpriteRenderer truckRenderer;
 
     [SerializeField]
@@ -88,7 +91,6 @@ public class TruckController : MonoBehaviour
         truckRenderer.enabled = true;
 
         Vector2 direction = (endPosition - startPosition).normalized;
-
         transform.position = startPosition - direction * 0.5f;
 
         currentStartPosition = transform.position;
@@ -103,7 +105,13 @@ public class TruckController : MonoBehaviour
         truckRenderer.enabled = false;
         truckState = TruckStates.HIDDEN;
         OnTravelCompleted?.Invoke();
-       
+    }
+
+    public void SetDirection(Directions direction)
+    {
+        OrientedTruckSprite orientedTruckSprite = spritePack.GetSprite(direction);
+        truckRenderer.sprite = orientedTruckSprite.Sprite;
+        truckRenderer.flipX = orientedTruckSprite.Direction > 0;
     }
 
     public Vector2 TravelDirection
