@@ -37,7 +37,7 @@ public class GridController : MonoBehaviour
     private TileController[] tiles;
 
     private TileController dragStartTile;
-    private List<TileController> currentTileLine;
+    public List<TileController> currentTileLine;
 
     private PlantCount[] currentPathPlants;
 
@@ -157,6 +157,13 @@ public class GridController : MonoBehaviour
                 {
                     hasSelectionChanged = true;
                 }
+            } else
+            {
+                lineSelection.UpdateRowLine(new Vector2(), new Vector2());
+                if (previousTileLine.Length != truckPath.Count)
+                    hasSelectionChanged = true;
+                currentTileLine.Clear();
+
             }
         }
 
@@ -259,6 +266,7 @@ public class GridController : MonoBehaviour
 
         if (currentTile.Type == TileTypes.Empty || startCoord == endCoord)
         {
+            Debug.Log("oui");
             return new List<Vector2Int>();
         }
 

@@ -61,26 +61,36 @@ public class GameController : MonoBehaviour
 
             bool hasSelectionChanged = gridController.UpdateRowSelection(graphicRaycaster, selectedAction);
 
-            if (hasSelectionChanged)
+            if (selectedAction.ActionType == UserActionTypes.COLLECT)
             {
-                SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
+                if (hasSelectionChanged)
+                {
+                    SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
 
+                    foreach (SpecCard specCard in specsController.GetSpecCards())
+                    {
+                        if (specCards.Contains(specCard))
+                        {
+                            specCard.SetAsPreview();
+                        }
+                        else
+                        {
+                            specCard.SetAsNormal();
+                        }
+                    }
+                }
+            } else if(hasSelectionChanged)
+            {
                 foreach (SpecCard specCard in specsController.GetSpecCards())
                 {
-                    if (specCards.Contains(specCard))
-                    {
-                        specCard.SetAsPreview();
-                    }
-                    else
-                    {
-                        specCard.SetAsNormal();
-                    }
+                    specCard.SetAsNormal();
                 }
             }
 
             if (Input.GetMouseButtonUp(0))
             {
-                economyController.UseMoney(100);
+                if (gridController.currentTileLine.Count >= 2)
+                    economyController.UseMoney(100);
                 gridController.EndRowSelection(selectedAction);
                 isDraggingFromTile = false;
             }
@@ -121,12 +131,16 @@ public class GameController : MonoBehaviour
 
     private void Handle_OnTruckTravelCompleted(List<Vector2Int> truckPath)
     {
-        SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
-
-        foreach (SpecCard specCard in specCards)
+        UserAction action = actionPanel.GetSelectedAction();
+        if (action.ActionType == UserActionTypes.COLLECT)
         {
-            economyController.GainMoney(specCard.Spec.Gain);
-            specCard.Validate();
+            SpecCard[] specCards = SpecCardsToValidate(gridController.CurrentPathPlants, out _);
+
+            foreach (SpecCard specCard in specCards)
+            {
+                economyController.GainMoney(specCard.Spec.Gain);
+                specCard.Validate();
+            }
         }
     }
 

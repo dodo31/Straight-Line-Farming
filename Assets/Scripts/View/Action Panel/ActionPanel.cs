@@ -44,14 +44,14 @@ public class ActionPanel : MonoBehaviour
             ActionItem plantSowItem = Instantiate(ActionItemPrefab);
             plantSowItem.name = $"{plantDescription.Name} Spawn Item";
             plantSowItem.SetTile(plantDescription.Name);
-            plantSowItem.SetIcon(plantDescription.GridSprite);
+            plantSowItem.SetIcon(plantDescription.UiSprite);
 
             plantSowItem.transform.SetParent(transform);
             plantSowItem.transform.SetSiblingIndex(i);
 
             UserSowAction sowAction = new UserSowAction(plantDescription.Type);
             plantSowItem.SetTargetAction(sowAction);
-            plantSowItem.SetUnavailable();
+            plantSowItem.SetAvailable();
         }
     }
 

@@ -90,7 +90,7 @@ public class SpecGenerator : ScriptableObject
                 //Debug.Log((char)('A' + food));
             }
         }
-        gain += (difAmount - 1) * 80 + amount * amount * 10;
+        gain += (difAmount - 1) * 80 + amount * amount * 10 + 120;
         //Debug.Log($" : {gain}$");
         Spec spec = new(clientName, spritePath, deadline, gain);
         for(int food = 0; food < amountOfFood.Length; food++)
