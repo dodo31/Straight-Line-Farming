@@ -246,7 +246,13 @@ public class GridController : MonoBehaviour
                 }
 
                 currentTileLine.Clear();
+
+                UnselectAllTiles();
             }
+        }
+        else
+        {
+            UnselectAllTiles();
         }
 
         lineSelection.UpdateSelectionLine();
