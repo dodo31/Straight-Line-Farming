@@ -17,10 +17,16 @@ public class ActionItem : MonoBehaviour
     private TMP_Text priceUnitText;
 
     [SerializeField]
+    private Image priceBackgroundImage;
+
+    [SerializeField]
     private Image backgroundImage;
 
     [SerializeField]
-    private Image selectionBackgroundImage;
+    private Sprite inactiveSprite;
+
+    [SerializeField]
+    private Sprite selectedSprite;
 
     [SerializeField]
     private UserAction targetAction;
@@ -98,13 +104,15 @@ public class ActionItem : MonoBehaviour
 
     public void Unselect()
     {
-        selectionBackgroundImage.enabled = false;
+        backgroundImage.sprite = inactiveSprite;
+        priceBackgroundImage.color = Color.white;
         isSelected = false;
     }
 
     public void Select()
     {
-        selectionBackgroundImage.enabled = true;
+        backgroundImage.sprite = selectedSprite;
+        priceBackgroundImage.color = new Color(237 / 255f, 183 / 255f, 10 / 255f);
         isSelected = true;
     }
 
@@ -113,9 +121,10 @@ public class ActionItem : MonoBehaviour
         iconImage.sprite = icon;
     }
 
-    public void SetBackgroundSprite(Sprite backgroundSprite)
+    public void SetStateSprites(Sprite inactiveSprite, Sprite selectedSprite)
     {
-        backgroundImage.sprite = backgroundSprite;
+        this.inactiveSprite = inactiveSprite;
+        this.selectedSprite = selectedSprite;
     }
 
     public void SetPrice(int price)
