@@ -33,7 +33,7 @@ public class GridController : MonoBehaviour
 
     private Grid grid;
     private GridStates gridState;
-    
+
     private int oldGridSize;
 
     private TileController[] tiles;
@@ -119,7 +119,7 @@ public class GridController : MonoBehaviour
 
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
-    
+
     private void PlantStartingWheat()
     {
         for (int columnIndex = 0; columnIndex < grid.Tiles.Count; columnIndex++)
@@ -134,7 +134,7 @@ public class GridController : MonoBehaviour
                 {
                     PlantDescription plantDescription = plantsDescription.GetDescription(PlantTypes.Wheat);
 
-                    SowPlant(PlantTypes.Wheat, plantDescription.GridSprite, (FarmTileController) GetTileController(tile));
+                    SowPlant(PlantTypes.Wheat, plantDescription.GridSprite, (FarmTileController)GetTileController(tile));
 
                 }
 
@@ -158,7 +158,7 @@ public class GridController : MonoBehaviour
                 if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' + newGridSize)
                 {
                     var tileCon = GetTileController(tile);
-                    
+
                     Destroy(tileCon.gameObject);
                     newTileController = Instantiate(farmTilePrefab);
                     tile.Type = TileTypes.Farm;
@@ -203,7 +203,7 @@ public class GridController : MonoBehaviour
     {
         bool hasSelectionChanged = false;
 
-        if (TrySelectTile(raycaster, out TileController endTile))
+        if (TryHitTile(raycaster, out TileController endTile))
         {
             Vector2Int startCoord = dragStartTile.Tile.Coord;
             Vector2Int endCoord = endTile.Tile.Coord;
@@ -211,7 +211,7 @@ public class GridController : MonoBehaviour
 
             List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, selectionDirection, false);
             currentPathPlants = PlantCountsFromPath(truckPath);
-            
+
             truck.SetDirection(selectionDirection);
 
             TileController[] previousTileLine = currentTileLine.ToArray();
@@ -228,6 +228,8 @@ public class GridController : MonoBehaviour
                 Vector2 startTilePosition = currentTileLine.First().transform.position;
                 Vector2 endTilePosition = currentTileLine.Last().transform.position;
                 lineSelection.UpdateRowLine(startTilePosition, endTilePosition);
+
+                SelectTiles(currentTileLine);
 
                 if (!previousTileLine.SequenceEqual(currentTileLine.ToArray()))
                 {
@@ -325,6 +327,7 @@ public class GridController : MonoBehaviour
     public void EndRowSelection(UserAction currentAction)
     {
         lineSelection.EndSelection();
+        UnselectAllTiles();
 
         if (currentTileLine.Count > 0)
         {
@@ -432,13 +435,13 @@ public class GridController : MonoBehaviour
         targetTile.CollectPlant();
     }
 
-    public bool TrySelectTile(GraphicRaycaster graphicRaycaster, out TileController tile)
+    public bool TryHitTile(GraphicRaycaster graphicRaycaster, out TileController tile)
     {
         Vector2 selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return TrySelectTile(graphicRaycaster, selectedPosition, out tile);
+        return TryHitTile(graphicRaycaster, selectedPosition, out tile);
     }
 
-    private bool TrySelectTile(GraphicRaycaster graphicRaycaster, Vector2 position, out TileController tile)
+    private bool TryHitTile(GraphicRaycaster graphicRaycaster, Vector2 position, out TileController tile)
     {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
@@ -456,6 +459,24 @@ public class GridController : MonoBehaviour
         {
             tile = null;
             return false;
+        }
+    }
+
+    private void SelectTiles(IEnumerable<TileController> tilesToSelect)
+    {
+        UnselectAllTiles();
+
+        foreach (TileController tile in tilesToSelect)
+        {
+            tile.Select();
+        }
+    }
+
+    private void UnselectAllTiles()
+    {
+        foreach (TileController tile in tiles)
+        {
+            tile.Unselect();
         }
     }
 
