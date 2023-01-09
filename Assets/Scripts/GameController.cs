@@ -104,7 +104,6 @@ public class GameController : MonoBehaviour
                 if (gridController.currentTileLine.Count >= 2)
                 {
                     economyController.UseMoney(100);
-                    specsController.DecreaseDeadlines();
                 }
                 gridController.EndRowSelection(selectedAction);
                 isDraggingFromTile = false;
@@ -165,6 +164,7 @@ public class GameController : MonoBehaviour
                 SoundPlayer.PlaySound(SoundPlayer.SoundType.GLING);
             }
         }
+        specsController.DecreaseDeadlines();
         ShopVars.GetInstance().day++;
         if (economyController.GetMoney() < 0)
         {

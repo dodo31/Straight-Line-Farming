@@ -50,7 +50,7 @@ public class ShopPanel : MonoBehaviour
         shopPromos.SetPrice(shopPromoPrices[0]);
         shopSpecsAdd.SetPrice(shopSpecsAddPrices[0]);
         shopTimeAdd.SetPrice(shopTimeAddPrices[0]);
-        shopSizeAdd.SetPrice(shopTimeAddPrices[0]);
+        shopSizeAdd.SetPrice(shopSizeAddPrices[0]);
         shopLife.SetPrice(shopLifePrice);
         shopBackInTime.SetPrice(shopBackInTimePrice);
         shopTurn.SetPrice(shopTurnPrices[0]);
