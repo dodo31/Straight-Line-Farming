@@ -32,9 +32,9 @@ public class GridController : MonoBehaviour
     private LineSelectionController lineSelection;
 
     [SerializeField]
-    private TruckController truck;
+    public TruckController truck;
 
-    private Grid grid;
+    public Grid grid;
     private GridStates gridState;
 
     private int oldGridSize;
@@ -362,7 +362,7 @@ public class GridController : MonoBehaviour
             Vector2Int startCoord = currentTileLine.First().Tile.Coord;
             Vector2Int endCoord = currentTileLine.Last().Tile.Coord;
             Directions selectionDirection = GridUtils.CoordDeltaToDirection(startCoord, endCoord);
-
+            
             List<Vector2Int> truckPath = GetTotalTruckPath(startCoord, endCoord, selectionDirection, false);
 
             currentPathPlants = PlantCountsFromPath(truckPath);

@@ -109,8 +109,11 @@ public class TruckController : MonoBehaviour
         OnTravelCompleted?.Invoke();
     }
 
+    public Directions currentDirection = Directions.UP;
+
     public void SetDirection(Directions direction)
     {
+        currentDirection = direction;
         OrientedTruckSprite orientedTruckSprite = spritePack.GetSprite(direction);
         truckRenderer.sprite = orientedTruckSprite.Sprite;
         truckRenderer.flipX = orientedTruckSprite.Direction > 0;

@@ -49,7 +49,6 @@ public class SpecsController : MonoBehaviour
                 if (specID >= specGenerator.unlockTimes[food])
                 {
                     props[food]++;
-                    Debug.Log($"{specID} -> {food} : {props[food]}%");
                 }
             }
 
@@ -128,7 +127,7 @@ public class SpecsController : MonoBehaviour
                     //Debug.Log((char)('A' + food));
                 }
             }
-            gain += (difAmount - 1) * 80 + amount * amount * 10 + 120;
+            gain += (difAmount - 1) * 80 + amount * amount * 10 + 140;
             //Debug.Log($" : {gain}$");
             Spec spec = new(clientName, sprite, deadline, gain);
             for (int food = 0; food < amountOfFood.Length; food++)

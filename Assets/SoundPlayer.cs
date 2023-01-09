@@ -6,6 +6,8 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField]
     public AudioSource source;
     [SerializeField]
+    public AudioSource sourceLower;
+    [SerializeField]
     public AudioClip[] hello;
     [SerializeField]
     public AudioClip[] angry;
@@ -43,7 +45,14 @@ public class SoundPlayer : MonoBehaviour
     }
     private void PlaySoundLocal(SoundType type)
     {
-        source.PlayOneShot(GetSound(type));
+        if (LowerSound(type))
+        {
+            sourceLower.PlayOneShot(GetSound(type));
+        }
+        else
+        {
+            source.PlayOneShot(GetSound(type));
+        }
     }
 
     private AudioClip GetRandom(AudioClip[] clip)
@@ -64,6 +73,22 @@ public class SoundPlayer : MonoBehaviour
         SoundType.FARTING => GetRandom(farting),
         SoundType.THANKS => GetRandom(thanks),
         SoundType.GLING => GetRandom(gling),
+        _ => throw new System.NotImplementedException(),
+    };
+    private bool LowerSound(SoundType type) => type switch
+    {
+        SoundType.HELLO => false,
+        SoundType.ANGRY => false,
+        SoundType.VROOM => true,
+        SoundType.MEEP => false,
+        SoundType.SOW => true,
+        SoundType.CHILLI => true,
+        SoundType.WHEAT => true,
+        SoundType.PUMPKIN => true,
+        SoundType.CORN => true,
+        SoundType.FARTING => false,
+        SoundType.THANKS => false,
+        SoundType.GLING => true,
         _ => throw new System.NotImplementedException(),
     };
 }
