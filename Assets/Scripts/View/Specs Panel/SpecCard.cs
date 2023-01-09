@@ -63,13 +63,18 @@ public class SpecCard : MonoBehaviour
     {
         spec.DecreaseDeadline();
         SetDeadline(spec.Deadline);
-        if(spec.Deadline <= 0)
+        if (spec.Deadline <= 0)
         {
             SoundPlayer.PlaySound(SoundPlayer.SoundType.ANGRY);
             Validate();
             Shaker.CameraShaker.Shake();
             ShopVars.GetInstance().lives--;
         }
+    }
+    public void IncreaseDeadline()
+    {
+        spec.IncreaseDeadline();
+        SetDeadline(spec.Deadline);
     }
 
     public void ResetDeadline()
@@ -83,7 +88,7 @@ public class SpecCard : MonoBehaviour
         if (!IsLeaving)
         {
             RectTransform parentTransform = (RectTransform)transform.parent;
-            targetPosX = IDLE_POS_X_MARGIN;
+            targetPosX = -IDLE_POS_X_MARGIN;
         }
     }
 

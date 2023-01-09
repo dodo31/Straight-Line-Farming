@@ -106,7 +106,7 @@ public class GameController : MonoBehaviour
                     economyController.UseMoney(100);
                 }
                 gridController.EndRowSelection(selectedAction);
-                if(gridController.currentTileLine.First() is FarmTileController tile)
+                if(gridController.currentTileLine.Count != 0 && gridController.currentTileLine.First() is FarmTileController tile)
                     UpdateTruckSortingOrder(tile);
                 compostArea.AcceptWastes();
                 isDraggingFromTile = false;

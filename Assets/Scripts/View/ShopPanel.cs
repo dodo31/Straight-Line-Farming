@@ -43,7 +43,7 @@ public class ShopPanel : MonoBehaviour
         shopPromos.OnClicked += ShopPromosClicked;
         shopSpecsAdd.OnClicked += ShopSpecsAddClicked;
         shopTimeAdd.OnClicked += ShopTimeAddClicked;
-        shopSizeAdd.OnClicked += ShopTimeAddClicked;
+        shopSizeAdd.OnClicked += ShopSizeAddClicked;
         shopLife.OnClicked += ShopLifeClicked;
         shopBackInTime.OnClicked += ShopBackInTimeClicked;
         shopTurn.OnClicked += ShopTurnClicked;
@@ -105,6 +105,7 @@ public class ShopPanel : MonoBehaviour
         economyController.UseMoney(price);
         currentTimeAdd++;
         ShopVars.GetInstance().baseDays++;
+        SpecsController.GetInstance().IncreaseDeadlines();
         if (shopTimeAddPrices.Length > currentTimeAdd)
             shopTimeAdd.SetPrice(shopTimeAddPrices[currentTimeAdd]);
         else Destroy(shopTimeAdd.gameObject);

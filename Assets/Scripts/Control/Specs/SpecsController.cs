@@ -151,6 +151,14 @@ public class SpecsController : MonoBehaviour
             specCardsContainer.AddSpecCard(spec);
         }
     }
+    public void IncreaseDeadlines()
+    {
+        SpecCard[] specCards = GetSpecCards();
+        foreach (SpecCard specs in specCards)
+        {
+            specs.IncreaseDeadline();
+        }
+    }
     public void DecreaseDeadlines()
     {
         SpecCard[] specCards = GetSpecCards();
