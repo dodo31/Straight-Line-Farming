@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 705363758048732153, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4043437180351773100, guid: b8d14a1ab5ac3fa448a9c3efd6a4a178, type: 3}
       propertyPath: m_Name
       value: Border Tile
