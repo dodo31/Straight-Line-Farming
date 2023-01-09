@@ -76,20 +76,7 @@ public class GameController : MonoBehaviour
                     }
                 }
 
-                if (plantsGarbage.Length > 0)
-                {
-                    compostArea.OpenBin();
-
-                    for (int i = 0; i < plantsGarbage.Length; i++)
-                    {
-                        PlantCount wasteCount = plantsGarbage[i];
-                        compostArea.AddWaste(i, wasteCount.Type, wasteCount.Count);
-                    }
-                }
-                else
-                {
-                    compostArea.RejectWastes();
-                }
+                compostArea.Refresh(plantsGarbage);
             }
 
             if (Input.GetMouseButtonUp(0))

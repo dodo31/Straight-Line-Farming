@@ -16,12 +16,30 @@ public class CompostArea : MonoBehaviour
         bin.OnWasteReceivingComplete += Handle_OnWasteReceivingComplete;
     }
 
-    public void AddWaste(int slotIndex, PlantTypes plantType, int wasteCount)
+    public void Refresh(PlantCount[] plantsGarbage)
+    {
+        if (plantsGarbage.Length > 0)
+        {
+            OpenBin();
+
+            for (int i = 0; i < plantsGarbage.Length; i++)
+            {
+                PlantCount wasteCount = plantsGarbage[i];
+                AddWaste(i, wasteCount.Type, wasteCount.Count);
+            }
+        }
+        else
+        {
+            RejectWastes();
+        }
+    }
+
+    private void AddWaste(int slotIndex, PlantTypes plantType, int wasteCount)
     {
         wastesContainer.AddWaste(slotIndex, plantType, wasteCount);
     }
 
-    public void RejectWastes()
+    private void RejectWastes()
     {
         wastesContainer.RejectWastes();
         bin.Close();
@@ -33,7 +51,7 @@ public class CompostArea : MonoBehaviour
         bin.ReceiveWastes();
     }
 
-    public void OpenBin()
+    private void OpenBin()
     {
         bin.Open();
     }
