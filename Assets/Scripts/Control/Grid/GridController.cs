@@ -14,6 +14,9 @@ public class GridController : MonoBehaviour
     private TileController borderTilePrefab;
 
     [SerializeField]
+    private TileController emptyTilePrefab;
+
+    [SerializeField]
     private TileController farmTilePrefab;
 
     [SerializeField]
@@ -80,16 +83,20 @@ public class GridController : MonoBehaviour
             {
                 Tile tile = column[rowIndex];
                 TileController newTileController = null;
-
-                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' || gridSizes.gridSizes[rowIndex][columnIndex] == '-')
+                char gridChar = gridSizes.gridSizes[rowIndex][columnIndex];
+                if (gridChar == 'B' || gridChar == '-')
                 {
                     newTileController = Instantiate(farmTilePrefab);
                     tile.Type = TileTypes.Farm;
                 }
-                else
+                else if(gridChar == 'C' || gridChar == 'D' || gridChar == 'E')
                 {
                     newTileController = Instantiate(borderTilePrefab);
                     tile.Type = TileTypes.Border;
+                } else
+                {
+                    newTileController = Instantiate(emptyTilePrefab);
+                    tile.Type = TileTypes.Empty;
                 }
 
                 newTileController.transform.SetParent(tilesContainer);
@@ -155,13 +162,21 @@ public class GridController : MonoBehaviour
             {
                 Tile tile = column[rowIndex];
                 TileController newTileController = null;
-                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' + newGridSize)
+                char gridChar = gridSizes.gridSizes[rowIndex][columnIndex];
+                if (gridChar == 'B' + newGridSize || gridChar == 'E' + newGridSize)
                 {
                     var tileCon = GetTileController(tile);
 
                     Destroy(tileCon.gameObject);
-                    newTileController = Instantiate(farmTilePrefab);
-                    tile.Type = TileTypes.Farm;
+                    if (gridChar == 'B' + newGridSize)
+                    {
+                        newTileController = Instantiate(farmTilePrefab);
+                        tile.Type = TileTypes.Farm;
+                    } else
+                    {
+                        newTileController = Instantiate(borderTilePrefab);
+                        tile.Type = TileTypes.Border;
+                    }
 
                     newTileController.transform.SetParent(tilesContainer);
 
