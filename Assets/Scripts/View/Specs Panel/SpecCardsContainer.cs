@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class SpecCardsContainer : MonoBehaviour
 {
+    private const float PADDING_TOP = 15;
+    private const float CARD_SPACING = 15;
+    
     [SerializeField]
     private PlantsDescription plantsDescription;
 
@@ -51,12 +54,12 @@ public class SpecCardsContainer : MonoBehaviour
         RectTransform cardTransform = ((RectTransform)specCard.transform);
         Vector2 cardSize = cardTransform.sizeDelta;
 
-        float cardPosX = cardSize.x / 2 + 10;
+        float cardPosX = cardSize.x / 2 + SpecCard.HIDDEN_POS_X_MARGIN;
         float cardPosY = CreateCardPosY(specCard);
 
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
 
-        specCard.OrderTargetPosX = -cardSize.x / 2;
+        specCard.OrderTargetPosX = -cardSize.x / 2 - SpecCard.IDLE_POS_X_MARGIN;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)
         {
@@ -73,12 +76,12 @@ public class SpecCardsContainer : MonoBehaviour
 
         if (cardIndex == 0)
         {
-            return rectTransform.anchoredPosition.y + cardSize.y / 2;
+            return rectTransform.anchoredPosition.y + cardSize.y / 2 - PADDING_TOP;
         }
         else
         {
             RectTransform previousCardTransform = (RectTransform)transform.GetChild(cardIndex - 1);
-            return previousCardTransform.anchoredPosition.y - previousCardTransform.sizeDelta.y;
+            return previousCardTransform.anchoredPosition.y - previousCardTransform.sizeDelta.y - CARD_SPACING;
         }
     }
 
