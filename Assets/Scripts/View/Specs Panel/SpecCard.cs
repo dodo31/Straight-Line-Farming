@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class SpecCard : MonoBehaviour
 {
     [SerializeField]
+    private const float ANIMATIONS_SPEED = 0.25f;
+    
+    [SerializeField]
     private TMP_Text clientText;
 
     [SerializeField]
@@ -31,34 +34,17 @@ public class SpecCard : MonoBehaviour
     [SerializeField]
     private Image backgroundImage;
 
-    [SerializeField]
-    private Animator cardAnimator;
-
-    private RectTransform rectTransform;
-    private float basePosX;
-
-    [SerializeField]
-    private float previewOffsetX = 35;
-
-    private CardPreviewStates previewState;
-    private Coroutine previewCoroutine;
-
     private Spec spec;
 
-
-    private float orderTargetPosY;
-    private bool isOrderAnimating;
+    private RectTransform rectTransform;
+    private float targetPosX;
+    private float targetPosY;
 
     private void Awake()
     {
         rectTransform = (RectTransform)transform;
-        basePosX = rectTransform.anchoredPosition.x;
-
-        orderTargetPosY = 0;
-        isOrderAnimating = false;
-
-        previewCoroutine = null;
-        previewState = CardPreviewStates.IDLE;
+        targetPosX = 0;
+        targetPosY = 0;
     }
 
     public void SetSpec(Spec spec)
@@ -73,67 +59,36 @@ public class SpecCard : MonoBehaviour
 
     public void SetAsNormal()
     {
-        if (previewState != CardPreviewStates.IDLE && previewState != CardPreviewStates.PREVIEW_TO_IDLE)
-        {
-            if (previewCoroutine != null)
-            {
-                StopCoroutine(previewCoroutine);
-            }
-
-            float currentPosX = rectTransform.anchoredPosition.x;
-            previewCoroutine = StartCoroutine(Translate(new Vector2(currentPosX, basePosX), CardPreviewStates.PREVIEW_TO_IDLE, CardPreviewStates.IDLE));
-        }
-
-        // backgroundImage.color = Color.white;
-        // cardAnimator.ResetTrigger("PREVIEW");
-        // cardAnimator.SetTrigger("NORMAL");
+        RectTransform parentTransform = (RectTransform)transform.parent;
+        targetPosX = -rectTransform.sizeDelta.x / 2f;
     }
 
     public void SetAsPreview()
     {
-        // backgroundImage.color = Color.yellow;
-        // cardAnimator.ResetTrigger("NORMAL");
-        // cardAnimator.SetTrigger("PREVIEW");
+        RectTransform parentTransform = (RectTransform)transform.parent;
+        targetPosX = -rectTransform.sizeDelta.x / 2f - 35;
+    }
 
-        if (previewState != CardPreviewStates.PREVIEW && previewState != CardPreviewStates.IDLE_TO_PREVIEW)
+    public void UpdatePosX()
+    {
+        float deltaX = targetPosX - rectTransform.anchoredPosition.x;
+
+        if (Math.Abs(deltaX) > 0.5f)
         {
-            if (previewCoroutine != null)
-            {
-                StopCoroutine(previewCoroutine);
-            }
-
-            float currentPosX = rectTransform.anchoredPosition.x;
-            previewCoroutine = StartCoroutine(Translate(new Vector2(currentPosX, basePosX - previewOffsetX), CardPreviewStates.IDLE_TO_PREVIEW, CardPreviewStates.PREVIEW));
+            float newPosX = rectTransform.anchoredPosition.x + deltaX * ANIMATIONS_SPEED;
+            rectTransform.anchoredPosition = new Vector2(newPosX, rectTransform.anchoredPosition.y);
         }
     }
 
-    public void UpdateOrderPosY()
+    public void UpdatePosY()
     {
-        float deltaY = orderTargetPosY - rectTransform.anchoredPosition.y;
+        float deltaY = targetPosY - rectTransform.anchoredPosition.y;
 
         if (Math.Abs(deltaY) > 0.5f)
         {
-            float newPosY = rectTransform.anchoredPosition.y + deltaY * 0.01f;
+            float newPosY = rectTransform.anchoredPosition.y + deltaY * ANIMATIONS_SPEED;
             rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, newPosY);
         }
-    }
-
-    public IEnumerator Translate(Vector2 interval, CardPreviewStates transitionState, CardPreviewStates endState)
-    {
-        previewState = transitionState;
-
-        int frameCount = 20;
-
-        for (int i = 0; i < frameCount; i++)
-        {
-            float frameRatio = i / (frameCount * 1f);
-            float newPosX = Mathf.Lerp(interval.x, interval.y, frameRatio);
-            rectTransform.anchoredPosition = new Vector2(newPosX, rectTransform.anchoredPosition.y);
-
-            yield return new WaitForFixedUpdate();
-        }
-
-        previewState = endState;
     }
 
     public void Validate()
@@ -184,5 +139,7 @@ public class SpecCard : MonoBehaviour
     }
 
     public Spec Spec { get => spec; }
-    public float OrderTargetPosY { set => orderTargetPosY = value; }
+
+    public float OrderTargetPosX { set => targetPosX = value; }
+    public float TargetPosY { set => targetPosY = value; }
 }

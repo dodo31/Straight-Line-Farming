@@ -20,13 +20,18 @@ public class SpecCardsContainer : MonoBehaviour
 
     public void Update()
     {
-        SpecCard[] specCards = GetSpecCards();
-
-        for (int i = 0; i < specCards.Length; i++)
+        foreach (SpecCard specCard in GetSpecCards())
         {
-            SpecCard specCard = specCards[i];
-            specCard.OrderTargetPosY = CreateCardPosY(specCard);
-            specCard.UpdateOrderPosY();
+            specCard.TargetPosY = CreateCardPosY(specCard);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        foreach (SpecCard specCard in GetSpecCards())
+        {
+            specCard.UpdatePosX();
+            specCard.UpdatePosY();
         }
     }
 
@@ -41,10 +46,12 @@ public class SpecCardsContainer : MonoBehaviour
         RectTransform cardTransform = ((RectTransform)specCard.transform);
         Vector2 cardSize = cardTransform.sizeDelta;
 
-        float cardPosX = -cardSize.x / 2;
+        float cardPosX = cardSize.x / 2;
         float cardPosY = CreateCardPosY(specCard);
 
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
+        
+        specCard.OrderTargetPosX = -cardSize.x / 2;
 
         foreach (PlantCount plantCount in spec.RequiredPlantCounts)
         {
