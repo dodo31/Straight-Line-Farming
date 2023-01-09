@@ -34,6 +34,7 @@ public class SpecCard : MonoBehaviour
     [SerializeField]
     private Animator cardAnimator;
 
+    private RectTransform rectTransform;
     private float basePosX;
 
     [SerializeField]
@@ -44,11 +45,18 @@ public class SpecCard : MonoBehaviour
 
     private Spec spec;
 
+
     private float orderTargetPosY;
     private bool isOrderAnimating;
 
     private void Awake()
     {
+        rectTransform = (RectTransform)transform;
+        basePosX = rectTransform.anchoredPosition.x;
+
+        orderTargetPosY = 0;
+        isOrderAnimating = false;
+
         previewCoroutine = null;
         previewState = CardPreviewStates.IDLE;
     }
@@ -61,8 +69,6 @@ public class SpecCard : MonoBehaviour
         SetClientIcon(Resources.Load<Sprite>(spec.ClientSpritePath));
         SetDeadline(spec.Deadline);
         SetGain(spec.Gain);
-
-        basePosX = transform.position.x;
     }
 
     public void SetAsNormal()
@@ -74,7 +80,8 @@ public class SpecCard : MonoBehaviour
                 StopCoroutine(previewCoroutine);
             }
 
-            previewCoroutine = StartCoroutine(Translate(new Vector2(transform.position.x, basePosX), CardPreviewStates.PREVIEW_TO_IDLE, CardPreviewStates.IDLE));
+            float currentPosX = rectTransform.anchoredPosition.x;
+            previewCoroutine = StartCoroutine(Translate(new Vector2(currentPosX, basePosX), CardPreviewStates.PREVIEW_TO_IDLE, CardPreviewStates.IDLE));
         }
 
         // backgroundImage.color = Color.white;
@@ -95,7 +102,8 @@ public class SpecCard : MonoBehaviour
                 StopCoroutine(previewCoroutine);
             }
 
-            previewCoroutine = StartCoroutine(Translate(new Vector2(transform.position.x, basePosX + previewOffsetX), CardPreviewStates.IDLE_TO_PREVIEW, CardPreviewStates.PREVIEW));
+            float currentPosX = rectTransform.anchoredPosition.x;
+            previewCoroutine = StartCoroutine(Translate(new Vector2(currentPosX, basePosX - previewOffsetX), CardPreviewStates.IDLE_TO_PREVIEW, CardPreviewStates.PREVIEW));
         }
     }
 
@@ -104,7 +112,7 @@ public class SpecCard : MonoBehaviour
     //     float deltaY = orderTargetPosY - transform.position.y;
     //     float deltaSign = Math.Sign(deltaY);
     //     float distance = Math.Abs(deltaY);
-        
+
     //     if (distance > 0.5f)
     //     {
     //         transform.position = new Vector2(transform.position.x, transform.position.y + (deltaSign * distance) * 0.5f);
@@ -121,7 +129,7 @@ public class SpecCard : MonoBehaviour
         {
             float frameRatio = i / (frameCount * 1f);
             float newPosX = Mathf.Lerp(interval.x, interval.y, frameRatio);
-            transform.position = new Vector2(newPosX, transform.position.y);
+            rectTransform.anchoredPosition = new Vector2(newPosX, rectTransform.anchoredPosition.y);
 
             yield return new WaitForFixedUpdate();
         }

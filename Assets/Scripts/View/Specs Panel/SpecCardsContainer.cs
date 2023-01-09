@@ -44,7 +44,7 @@ public class SpecCardsContainer : MonoBehaviour
         Vector2 cardSize = cardTransform.sizeDelta;
         
         float cardPosX = -cardSize.x / 2;
-        float cardPosY = cardSize.y / 2 - anchorPosition.y - (cardSize.y + 15) * specCard.transform.GetSiblingIndex();
+        float cardPosY = -cardSize.y / 2 - anchorPosition.y - (cardSize.y + 15) * specCard.transform.GetSiblingIndex();
         
         cardTransform.anchoredPosition = new Vector2(cardPosX, cardPosY);
 
