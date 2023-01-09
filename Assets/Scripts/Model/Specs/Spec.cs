@@ -30,6 +30,11 @@ public class Spec
         deadline--;
     }
 
+    public void ResetDeadline()
+    {
+        deadline = ShopVars.GetInstance().baseDays;
+    }
+
     public string ClientName { get => clientName; }
     public string ClientSpritePath { get => clientSpritePath; }
 

@@ -65,6 +65,12 @@ public class SpecCard : MonoBehaviour
         SetDeadline(spec.Deadline);
     }
 
+    public void ResetDeadline()
+    {
+        spec.ResetDeadline();
+        SetDeadline(spec.Deadline);
+    }
+
     public void SetAsNormal()
     {
         if (!IsLeaving)
@@ -139,6 +145,7 @@ public class SpecCard : MonoBehaviour
         plantCounIndicator.SetPlantIcon(plantDescription.UiSprite);
         plantCounIndicator.SetPlantCount(plantCount);
     }
+
     public void SetDeadline(int deadline)
     {
         deadlineValueText.text = deadline.ToString();

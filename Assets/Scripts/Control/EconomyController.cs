@@ -20,6 +20,11 @@ public class EconomyController : MonoBehaviour
         }
     }
 
+    public int GetMoney()
+    {
+        return economy.GetMoney();
+    }
+
     public void GainMoney(int amount)
     {
         economy.GainMoney(amount);

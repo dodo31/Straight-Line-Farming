@@ -3,7 +3,7 @@ using UnityEngine;
 public class GridUtils
 {
     public const float TILES_WIDTH = 1.0f;
-    public const float TILES_HEIGHT = 0.85f;
+    public const float TILES_HEIGHT = 0.9f;
 
     public static Vector2Int CoordDirectionToCoordDelta(Vector2Int startCoord, Directions direction)
     {

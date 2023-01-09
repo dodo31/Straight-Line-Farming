@@ -45,6 +45,7 @@ public class ActionItem : MonoBehaviour
     {
         itemButton.onClick.AddListener(() =>
         {
+            Debug.Log("oh");
             OnClicked?.Invoke(this);
         });
     }
@@ -77,6 +78,11 @@ public class ActionItem : MonoBehaviour
         priceUnitText.color = Color.black;
         iconImage.color = Color.white;
         isAvailable = true;
+    }
+    public void SetAvailable(bool available)
+    {
+        if (available) SetAvailable();
+        else SetUnavailable();
     }
 
     private void ToggleSelection(bool setSelected)

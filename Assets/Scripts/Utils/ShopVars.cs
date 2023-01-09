@@ -10,6 +10,7 @@ public class ShopVars : MonoBehaviour
     public int baseDays = 5;
     public int moneyChange = 0;
     public int seedPromo = 0;
+    public int lives = 3;
     public static ShopVars GetInstance()
     {
         return instance;

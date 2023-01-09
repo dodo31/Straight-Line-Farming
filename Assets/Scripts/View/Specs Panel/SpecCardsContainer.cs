@@ -47,6 +47,7 @@ public class SpecCardsContainer : MonoBehaviour
     {
         SpecCard specCard = Instantiate(specCardPrefab);
         specCard.transform.SetParent(transform);
+        spec.ResetDeadline();
         specCard.SetSpec(spec);
 
         Vector2 anchorPosition = rectTransform.anchoredPosition;
@@ -90,6 +91,26 @@ public class SpecCardsContainer : MonoBehaviour
         PlantDescription plantDescription = plantsDescription.GetDescription(plantType);
         PlantCountIndicator plantCounIndicator = Instantiate(plantCountIndicatorPrefab);
         card.AddRequiredPlantCount(plantDescription, plantCounIndicator, plantCount);
+    }
+
+    public void GoBackInTime()
+    {
+        var cards = GetSpecCards();
+        foreach (var card in cards)
+        {
+            card.ResetDeadline();
+        }
+    }
+
+    public int LowestDeadlineSpecCard()
+    {
+        int lowest = 10;
+        var cards = GetSpecCards();
+        foreach(var card in cards)
+        {
+            if(card.Spec.Deadline < lowest) lowest = card.Spec.Deadline;
+        }
+        return lowest;
     }
 
     public SpecCard[] GetSpecCards()
