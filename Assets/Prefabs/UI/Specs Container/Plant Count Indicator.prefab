@@ -173,8 +173,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12.519891, y: -12.519995}
-  m_SizeDelta: {x: -15.1609, y: -15.1609}
+  m_AnchoredPosition: {x: 10.05, y: -10.05}
+  m_SizeDelta: {x: -20.1, y: -20.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &248326201924210314
 CanvasRenderer:
@@ -301,7 +301,6 @@ GameObject:
   - component: {fileID: 7389363104282793041}
   - component: {fileID: 3836299319428307224}
   - component: {fileID: 72216082231188485}
-  - component: {fileID: 8516003455205700474}
   - component: {fileID: 4786305017035806045}
   m_Layer: 5
   m_Name: Plant Count Indicator
@@ -370,20 +369,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8516003455205700474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3657332796069973016}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AspectMode: 2
-  m_AspectRatio: 1
 --- !u!114 &4786305017035806045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,7 +527,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
