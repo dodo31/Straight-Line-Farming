@@ -30,6 +30,10 @@ public class Spec
     {
         deadline--;
     }
+    public void IncreaseDeadline()
+    {
+        deadline++;
+    }
 
     public void ResetDeadline()
     {

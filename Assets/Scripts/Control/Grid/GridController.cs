@@ -190,10 +190,13 @@ public class GridController : MonoBehaviour
                     newTileController.SetTile(tile);
 
                     var spriteRChilds = newTileController.gameObject.GetComponentsInChildren<SpriteRenderer>();
-                    foreach (SpriteRenderer spriteR in spriteRChilds)
+
+                    for (int i = 0; i < spriteRChilds.Length; i++)
                     {
-                        spriteR.sortingOrder = -(int)(tilePosition.y * 10);
+                        SpriteRenderer spriteR = spriteRChilds[i];
+                        spriteR.sortingOrder = -(int)(tilePosition.y * 10) - i;
                     }
+
                 }
             }
         }
@@ -313,16 +316,16 @@ public class GridController : MonoBehaviour
 
     public static bool IsPlantCountArrayEnough(PlantCount[] harvested, PlantCount[] spec, out PlantCount[] remainder)
     {
-        List<PlantCount> remainderList = new();
-
+        List<PlantCount> remainderList = new(harvested);
+        
         for (int i = 0; i < spec.Length; i++)
         {
             bool found = false;
-            for (int j = 0; j < harvested.Length; j++)
+            for (int j = 0; j < remainderList.Count && !found; j++)
             {
-                if (spec[i].Type == harvested[j].Type)
+                if (spec[i].Type == remainderList[j].Type)
                 {
-                    if (spec[i].Count > harvested[j].Count)
+                    if (spec[i].Count > remainderList[j].Count)
                     {
                         remainder = null;
                         return false;
@@ -330,9 +333,12 @@ public class GridController : MonoBehaviour
                     else
                     {
                         found = true;
-                        if (spec[i].Count < harvested[j].Count)
+                        if (spec[i].Count < remainderList[j].Count)
                         {
-                            remainderList.Add(new PlantCount(spec[i].Type, harvested[j].Count - spec[i].Count));
+                            remainderList[j] = new PlantCount(spec[i].Type, remainderList[j].Count - spec[i].Count);
+                        } else if (spec[i].Count == remainderList[j].Count)
+                        {
+                            remainderList.RemoveAt(j);
                         }
                     }
                 }
