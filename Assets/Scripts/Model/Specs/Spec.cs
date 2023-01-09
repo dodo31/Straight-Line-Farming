@@ -1,19 +1,20 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Spec
 {
     private string clientName;
-    private string clientSpritePath;
+    private Sprite clientSprite;
 
     private List<PlantCount> requiredPlantCounts;
 
     private int deadline;
     private int gain;
 
-    public Spec(string clientName, string clientSpritePath, int deadline, int gain)
+    public Spec(string clientName, Sprite sprite, int deadline, int gain)
     {
         this.clientName = clientName;
-        this.clientSpritePath = clientSpritePath;
+        this.clientSprite = sprite;
 
         requiredPlantCounts = new List<PlantCount>();
 
@@ -36,7 +37,7 @@ public class Spec
     }
 
     public string ClientName { get => clientName; }
-    public string ClientSpritePath { get => clientSpritePath; }
+    public Sprite ClientSprite { get => clientSprite; }
 
     public PlantCount[] RequiredPlantCounts
     {
