@@ -116,9 +116,56 @@ public class GridController : MonoBehaviour
         tilesContainer.position = tilesContainer.position - new Vector3(totalWidth, totalHeight, 0) * 0.5f;
     }
     
-    protected void Update()
+    public void GridSizeUpdate()
     {
-        
+        currentTileLine.Clear();
+        int newGridSize = ShopVars.GetInstance().gridSize;
+
+        for (int columnIndex = 0; columnIndex < grid.Tiles.Count; columnIndex++)
+        {
+            List<Tile> column = grid.Tiles[columnIndex];
+
+            for (int rowIndex = 0; rowIndex < grid.Tiles.Count; rowIndex++)
+            {
+                Tile tile = column[rowIndex];
+                TileController newTileController = null;
+                if (gridSizes.gridSizes[rowIndex][columnIndex] == 'B' + newGridSize)
+                {
+                    var tileCon = GetTileController(tile);
+                    
+                    Destroy(tileCon);
+                    newTileController = Instantiate(farmTilePrefab);
+                    tile.Type = TileTypes.Farm;
+
+                    newTileController.transform.SetParent(tilesContainer);
+
+                    Vector2 tilePosition = GridUtils.CoordToScreenPosition(tile.Coord);
+                    newTileController.transform.localPosition = tilePosition;
+
+                    newTileController.SetTile(tile);
+
+                    var spriteRChilds = newTileController.gameObject.GetComponentsInChildren<SpriteRenderer>();
+                    foreach (SpriteRenderer spriteR in spriteRChilds)
+                    {
+                        spriteR.sortingOrder = -(int)(tilePosition.y * 10);
+                    }
+                }
+            }
+        }
+    }
+
+    private int oldGridSize;
+    public void Update()
+    {
+        if(tiles.Any(tile => tile == null))
+        {
+            tiles = GetComponentsInChildren<TileController>();
+        }
+        if (ShopVars.GetInstance().gridSize > oldGridSize)
+        {
+            oldGridSize = ShopVars.GetInstance().gridSize;
+            GridSizeUpdate();
+        }
     }
 
     public void StartRowSelection(TileController startTile)

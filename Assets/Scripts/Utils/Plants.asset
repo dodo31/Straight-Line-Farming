@@ -34,6 +34,6 @@ MonoBehaviour:
   - Name: Chilli
     Type: 3
     Sprite: {fileID: 21300000, guid: f66bce4046cd30c4fabd438fe0c6268c, type: 3}
-    GridSprite: {fileID: 21300000, guid: e2dab3465fd48a849a1a4261b8bc9c63, type: 3}
+    GridSprite: {fileID: 21300000, guid: 160d4f2a859113442bd2fa37901fc6dc, type: 3}
     UiSprite: {fileID: 21300000, guid: 3e21148124dfd83439960ede6b3c60c3, type: 3}
     price: 150

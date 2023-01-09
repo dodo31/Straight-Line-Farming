@@ -97,7 +97,10 @@ public class GameController : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 if (gridController.currentTileLine.Count >= 2)
+                {
                     economyController.UseMoney(100);
+                    specsController.DecreaseDeadlines();
+                }
                 gridController.EndRowSelection(selectedAction);
                 isDraggingFromTile = false;
             }

@@ -7,7 +7,6 @@ public class SpecGenerator : ScriptableObject
     public Sprite[] sprites;
     public int[] unlockTimes;
     public int[] basePrices;
-    public int baseDeadline;
     public float minAmountAtFirst;
     public float minAmountEvolution;
     public float minAmountAtEnd;
@@ -18,7 +17,7 @@ public class SpecGenerator : ScriptableObject
     {
         string clientName = nameGenerator.GenName() + " " + surnameGenerator.GenName();
         string spritePath = "";
-        int deadline = baseDeadline;
+        int deadline = ShopVars.GetInstance().baseDays;
         int gain = 0;
         float minAmount = minAmountAtFirst + minAmountEvolution * commandID;
         float maxAmount = maxAmountAtFirst + maxAmountEvolution * commandID;

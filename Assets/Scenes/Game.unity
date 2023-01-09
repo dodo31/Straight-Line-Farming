@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 154875906}
   - component: {fileID: 154875907}
   - component: {fileID: 154875908}
+  - component: {fileID: 154875909}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -251,7 +252,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specCardsContainer: {fileID: 2082553995}
   specGenerator: {fileID: 11400000, guid: 2f8fa9768ef0b01478a131e0334cd292, type: 2}
-  visibleSpecAmount: 3
 --- !u!114 &154875908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +265,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   economyPanel: {fileID: 1261384013}
+--- !u!114 &154875909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154875904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d421329a952b545ac270ea7f8277d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibleSpecAmount: 1
+  gridSize: 0
+  baseDays: 5
 --- !u!1 &164483700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,6 +1505,7 @@ MonoBehaviour:
   tilesContainer: {fileID: 871287553}
   lineSelection: {fileID: 893373685}
   truck: {fileID: 716122505227993795}
+  currentTileLine: []
 --- !u!1 &766419217
 GameObject:
   m_ObjectHideFlags: 0

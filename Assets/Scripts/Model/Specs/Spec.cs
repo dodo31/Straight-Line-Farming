@@ -25,6 +25,10 @@ public class Spec
     {
         requiredPlantCounts.Add(plantCount);
     }
+    public void DecreaseDeadline()
+    {
+        deadline--;
+    }
 
     public string ClientName { get => clientName; }
     public string ClientSpritePath { get => clientSpritePath; }
