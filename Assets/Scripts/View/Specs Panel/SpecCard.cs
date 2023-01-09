@@ -128,8 +128,6 @@ public class SpecCard : MonoBehaviour
 
     public void Validate()
     {
-        Debug.Log($"Panel was validated! {spec.ClientName} is happy!");
-
         targetPosX = rectTransform.sizeDelta.x + SpecCard.HIDDEN_POS_X_MARGIN;
         cardState = SpecCardStates.LEAVING;
     }

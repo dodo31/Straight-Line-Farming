@@ -30,7 +30,6 @@ public abstract class TileController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        Debug.Log("OK");
         SetHovered();
     }
 
