@@ -97,4 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b96c4980a175c48b549613967af711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  growFrameCount: 12
+  ejectionFrameCount: 15
+  ejectionAngleRange: 30
+  ejectionStrength: 0.16
   plantRenderer: {fileID: 66669137683765034}
