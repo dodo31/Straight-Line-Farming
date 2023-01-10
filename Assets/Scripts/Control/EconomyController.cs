@@ -9,7 +9,10 @@ public class EconomyController : MonoBehaviour
 
     protected void Awake()
     {
+        Economy.EconomyHolder.Instance = new Economy();
+
         economy = Economy.GetInstance();
+
     }
     public void Update()
     {
