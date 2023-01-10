@@ -61,6 +61,7 @@ public class SpecCard : MonoBehaviour
     }
     public void DecreaseDeadline()
     {
+        if (cardState != SpecCardStates.IDLE) return;
         spec.DecreaseDeadline();
         SetDeadline(spec.Deadline);
         if (spec.Deadline <= 0)
