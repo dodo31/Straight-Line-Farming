@@ -4,7 +4,7 @@ public class Economy
 {
     private int money;
 
-    private Economy()
+    public Economy()
     {
         money = 0;
     }
@@ -33,7 +33,7 @@ public class Economy
         return money;
     }
 
-    private static class EconomyHolder
+    public static class EconomyHolder
     {
         public static Economy Instance = new Economy();
     }
