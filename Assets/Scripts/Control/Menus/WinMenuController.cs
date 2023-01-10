@@ -16,7 +16,7 @@ public class WinMenuController : MenuController
     }
     public void SetDayCount(int dayCount)
     {
-        dayCountText.text = $"I won in {dayCount.ToString()} days !";
+        dayCountText.text = $"I won in {dayCount.ToString()} days!";
         dayCountTextShadow.text = dayCountText.text;
     }
 }

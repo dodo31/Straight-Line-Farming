@@ -4,7 +4,7 @@ public class SpecBase
 {
     private Queue<Spec> specs;
 
-    private SpecBase()
+    public SpecBase()
     {
         specs = new Queue<Spec>();
     }
@@ -24,8 +24,8 @@ public class SpecBase
         return specs.Dequeue();
     }
     
-    private static class SpecBaseHolder
+    public static class SpecBaseHolder
     {
-        public static SpecBase Instance = new SpecBase();
+        public static SpecBase Instance;
     }
 }

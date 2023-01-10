@@ -22,6 +22,7 @@ public class SpecsController : MonoBehaviour
     protected void Awake()
     {
         instance = this;
+        SpecBase.SpecBaseHolder.Instance = new SpecBase();
         specBase = SpecBase.GetInstance();
     }
     protected void Start()

@@ -9,15 +9,17 @@ public class LineSelectionController : MonoBehaviour
     private LineRenderer rowLine;
 
     private Vector2 screenStartPosition;
+    private bool useTilePos = true;
 
     protected void Awake()
     {
         screenStartPosition = Vector2.zero;
     }
 
-    public void StartSelection()
+    public void StartSelection(Vector2 startPosition)
     {
-        screenStartPosition = Input.mousePosition;
+        if(useTilePos)screenStartPosition = startPosition;
+        else        screenStartPosition = Input.mousePosition;
 
         userLine.enabled = true;
     }
@@ -26,7 +28,7 @@ public class LineSelectionController : MonoBehaviour
     {
         Vector2 screenEndPosition = Input.mousePosition;
 
-        Vector2 startPositionCamera = Camera.main.ScreenToWorldPoint(screenStartPosition);
+        Vector2 startPositionCamera = useTilePos? screenStartPosition:Camera.main.ScreenToWorldPoint(screenStartPosition);
         Vector2 endPositionCamera = Camera.main.ScreenToWorldPoint(screenEndPosition);
 
         userLine.SetPosition(0, startPositionCamera);
